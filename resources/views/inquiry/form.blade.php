@@ -16,16 +16,15 @@
             <!-- ナビゲーション -->
             <nav class="nav">
                 <ul class="flex gap-8 justify-center items-center w-full">
-                    <li><a href="/view/login" class="hover:text-red-500">HOME</a></li>
+                    <li><a href="/" class="hover:text-red-500">HOME</a></li>
                     <li><a href="#TaxMinutes" class="hover:text-red-500">Tax Minutes&reg;️</a></li>
                     <li><a href="#TaxBarabout" class="hover:text-red-500">TaxBar</a></li>
                     <li><a href="/view/prohibited" class="hover:text-red-500">禁止事項</a></li>
-                    <li><a href="/inquiry" class="hover:text-red-500">問合せ</a></li>
                     <li><a href="/view/hachimantaishi" class="hover:text-red-500">八幡平市</a></li>
                     <li><a href="/pricing" class="hover:text-red-500">料金表</a></li>
-                    <li><a href="/faqs" class="hover:text-red-500">よくある質問</a></li>
+                    <li><a href="/faq" class="hover:text-red-500">よくある質問</a></li>
                     <li><a href="register/select" class="hover:text-red-500">登録フォーム</a></li>
-                    <li><a href="#dash" class="hover:text-red-500">ログイン</a></li>
+                    <li><a href="/login" class="hover:text-red-500">ログイン</a></li>
                 </ul>
             </nav>
         </div>

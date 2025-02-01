@@ -21,4 +21,19 @@ class RegisterController extends Controller
     {
         return view('auth.register_individual');
     }
+
+    public function register(Request $request)
+{
+    if ($request->query('success')) {
+        // ここでユーザーをデータベースに登録
+        return redirect()->route('dashboard')->with('success', '登録が完了しました！');
+    }
+
+    if ($request->query('canceled')) {
+        return back()->with('error', '決済がキャンセルされました。');
+    }
+
+    return view('auth.register_tax_expert');
+}
+
 }

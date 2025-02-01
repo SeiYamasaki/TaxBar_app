@@ -6,6 +6,7 @@ use App\Http\Controllers\PricingController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('taxbarviews.login');
@@ -19,18 +20,19 @@ Route::get('/view/prohibited', function () {
 Route::get('/inquiry', [InquiryController::class, 'showForm'])->name('inquiry.form');
 Route::post('/inquiry/confirm', [InquiryController::class, 'confirm'])->name('inquiry.confirm');
 Route::post('/inquiry/send', [InquiryController::class, 'sendInquiry'])->name('inquiry.send');
+Route::post('/stripe-payment', [PaymentController::class, 'createPayment'])->name('stripe.payment');
 
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing.index');  // ✅ 誰でも見れるようにする
 
 Route::get('/faq', [FaqController::class, 'index'])->name('faqs.index');
 
-Route::get('/register/select', function () {//登録フォーム
+Route::get('/register/select', function () { //登録フォーム
     return view('auth.register_select');
 })->name('register.select');
 
-Route::get('/register/tax-expert', [RegisterController::class, 'showTaxExpertRegister'])->name('register.tax_expert');//登録フォーム
-Route::get('/register/company', [RegisterController::class, 'showCompanyRegister'])->name('register.company');//登録フォーム
-Route::get('/register/individual', [RegisterController::class, 'showIndividualRegister'])->name('register.individual');//登録フォーム
+Route::get('/register/tax-expert', [RegisterController::class, 'showTaxExpertRegister'])->name('register.tax_expert'); //登録フォーム
+Route::get('/register/company', [RegisterController::class, 'showCompanyRegister'])->name('register.company'); //登録フォーム
+Route::get('/register/individual', [RegisterController::class, 'showIndividualRegister'])->name('register.individual'); //登録フォーム
 
 Route::get('/dashboard', function () {
     return view('dashboard');

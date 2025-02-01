@@ -29,7 +29,7 @@
                 {{-- <li><a href="/view/hachimantaishi">八幡平市</a></li> --}}
                 <li><a href="/faq">よくある質問</a></li>
                 <li><a href="/pricing">料金表</a></li>
-                <li><a href="register/select">登録フォーム</a></li>
+                <li><a href="/register/select">登録フォーム</a></li>
                 <li><a href="/login">ログイン</a></li>
             </ul>
         </nav>

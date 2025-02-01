@@ -122,7 +122,7 @@
                                 <label for="additional_photos">その他の写真</label>
                                 <input type="file" class="form-control" id="additional_photos"
                                     name="additional_photos[]" accept="image/*" multiple>
-                                <div id="preview_additional_photos" class="mt-2 d-flex flex-wrap border p-2 rounded" >
+                                <div id="preview_additional_photos" class="mt-2 d-flex flex-wrap border p-2 rounded">
                                 </div>
                             </div>
                             <!-- パスワード -->
@@ -130,9 +130,31 @@
                                 <label for="password">パスワード</label>
                                 <input type="password" class="form-control" name="password" required>
                             </div>
+                            {{-- ストライプ --}}
+                            <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                                @csrf
 
-                            <!-- 登録ボタン -->
-                            <button type="submit" class="btn btn-primary mt-3 w-100">登録</button>
+                                <!-- 既存の入力フィールド（省略） -->
+
+                                <!-- 料金プランの選択 -->
+                                <div class="form-group">
+                                    <label for="plan">選択するプラン</label>
+                                    <select class="form-control" id="plan" name="plan" required>
+                                        @foreach (config('pricing.plans') as $key => $plan)
+                                            <option value="{{ $key }}" data-price="{{ $plan['price'] }}">
+                                                {{ $plan['name'] }}（{{ number_format($plan['price']) }}円）
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- 決済ボタン -->
+                                <button id="payButton" class="btn btn-success w-100 mt-3">クレジットカードで支払う</button>
+
+                                <!-- 登録ボタン（決済後の登録） -->
+                                <button type="submit" class="btn btn-primary mt-3 w-100">登録</button>
+                            </form>
+
                         </form>
                     </div>
                 </div>
