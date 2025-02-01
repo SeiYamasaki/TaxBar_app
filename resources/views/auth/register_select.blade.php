@@ -12,10 +12,10 @@
                     <div class="col-md-4">
                         <div class="card shadow-lg border-0">
                             <div class="card-header bg-primary text-white text-center">
-                                <h4><i class="fas fa-user-tie"></i> 税理士その他の専門家</h4>
+                                <h4><i class="fas fa-user-tie"></i> 税理士･専門家(有料)</h4>
                             </div>
                             <div class="card-body text-center">
-                                <p class="text-muted">税理士、会計士、社労士などの専門家向けの登録です。</p>
+                                <p class="text-muted">会計士･税理士その他の専門家の登録</p>
                                 <a href="{{ route('register.tax_expert') }}" class="btn btn-primary btn-lg w-100">
                                     登録する
                                 </a>
@@ -27,10 +27,10 @@
                     <div class="col-md-4">
                         <div class="card shadow-lg border-0">
                             <div class="card-header bg-success text-white text-center">
-                                <h4><i class="fas fa-building"></i> 企業</h4>
+                                <h4><i class="fas fa-building"></i> 企業(無料)</h4>
                             </div>
                             <div class="card-body text-center">
-                                <p class="text-muted">法人または事業者向けの登録です。</p>
+                                <p class="text-muted">法人事業者向けの登録です。</p>
                                 <a href="{{ route('register.company') }}" class="btn btn-success btn-lg w-100">
                                     登録する
                                 </a>
@@ -42,7 +42,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-lg border-0">
                             <div class="card-header bg-info text-white text-center">
-                                <h4><i class="fas fa-user"></i> 個人</h4>
+                                <h4><i class="fas fa-user"></i> 個人(無料)</h4>
                             </div>
                             <div class="card-body text-center">
                                 <p class="text-muted">個人の方向けの登録です。</p>
