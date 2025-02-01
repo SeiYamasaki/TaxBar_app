@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->boolean('is_tax_accountant')->default(false); // 税理士フラグ
+            $table->string('tax_registration_number')->nullable()->unique(); // 税理士登録番号
+            $table->string('office_name')->nullable(); // 事務所名
+            $table->string('profile_image')->nullable(); // プロフィール画像
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

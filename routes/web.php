@@ -7,6 +7,8 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\VideoController;
+
 
 Route::get('/', function () {
     return view('taxbarviews.login');
@@ -42,6 +44,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    // 動画一覧ページ（GET /videos）
+    Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
+
+    // 動画アップロード（POST /videos）
+    Route::post('/videos', [VideoController::class, 'store'])->name('videos.store');
+
+    // 動画削除（DELETE /videos/{video}）
+    Route::delete('/videos/{video}', [VideoController::class, 'destroy'])->name('videos.destroy');
 });
 
 require __DIR__ . '/auth.php';
