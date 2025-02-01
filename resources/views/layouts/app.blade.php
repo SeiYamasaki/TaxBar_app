@@ -114,6 +114,8 @@
             }
         });
     </script>
+    @stack('scripts')
+    {{-- 料金表のスクリプト --}}
 </body>
 
 </html>
