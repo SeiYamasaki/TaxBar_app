@@ -7,7 +7,7 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\TaxVideoController;
+use App\Http\Controllers\VideoController;
 
 
 Route::get('/', function () {
@@ -17,6 +17,10 @@ Route::get('/', function () {
 Route::get('/taxvideos', function () {
     return view('taxminivideos.index');
 });
+
+Route::get('/taxminivideos', [VideoController::class, 'index'])->name('taxminivideos.index');
+
+
 
 Route::get('/view/hachimantaishi', function () {
     return view('taxbarviews.hachimantaishi');

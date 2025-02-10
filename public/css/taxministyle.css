@@ -1,0 +1,258 @@
+/* 全体リセット */
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    /* 横スクロールを防止 */
+}
+
+/* ヘッダー全体 */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    /* ヘッダーの高さ */
+    background: black;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    /* 垂直方向の中央揃え */
+    justify-content: center;
+    /* 水平方向の中央揃え */
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ロゴ */
+.logo {
+    position: absolute;
+    left: 20px;
+    /* 左端に配置 */
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+}
+
+/* ナビゲーションメニュー */
+.nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    /* 均等配置の基準 */
+}
+
+.nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    gap: 80px;
+    /* メニュー間のスペースを調整 */
+}
+
+.nav ul li {
+    text-align: center;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0.5rem;
+    transition: color 0.3s;
+}
+
+.nav ul li a:hover {
+    color: red;
+    text-decoration: underline;
+}
+
+.title {
+    color: red;
+    /* 文字色を赤に設定 */
+    text-align: center;
+    /* テキストを中央揃え */
+    font-size: 24px;
+    /* フォントサイズを設定 */
+    font-weight: bold;
+    /* 太字に設定 */
+    margin: 20px auto;
+    /* 上下の余白を設定し、左右中央揃え */
+    line-height: 1.6;
+    /* 行間を調整 */
+}
+
+/* 読み物スタイル */
+.read {
+    display: block;
+    /* ブロック要素として扱う */
+    width: 50%;
+    /* 横幅を50%に制限 */
+    margin: 20px auto;
+    /* 上下に余白を追加し、左右を自動で中央揃え */
+    text-align: left;
+    /* テキストを左揃え */
+    padding: 10px;
+    /* 内側の余白を設定 */
+    font-size: 20px;
+    /* フォントサイズを指定 */
+    font-weight: normal;
+    /* 太字を解除 */
+    color: #333;
+    /* テキスト色 */
+    background-color: #f9f9f9;
+    /* 背景色を設定 */
+    border: 1px solid #ddd;
+    /* 境界線を設定 */
+    border-radius: 5px;
+    /* 角を丸める */
+    box-sizing: border-box;
+    /* パディングとボーダーを幅に含める */
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .header {
+        height: 50px;
+        /* ヘッダーの高さを調整 */
+    }
+
+    .logo img {
+        height: 40px;
+        /* ロゴサイズを小さく */
+    }
+
+    .nav ul {
+        gap: 15px;
+        /* メニュー間隔を狭める */
+    }
+
+    .nav ul li a {
+        font-size: 14px;
+        /* フォントサイズを小さく */
+    }
+
+    .read {
+        width: 90%;
+        /* コンテンツ幅を広げる */
+        font-size: 16px;
+        /* テキストサイズを小さく */
+    }
+
+    /* 📌 GIF を画面の中央に配置 */
+    .gif-container {
+        position: fixed;
+        /* ✅ 画面の中央に固定 */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* ✅ 完全に中央に配置 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        /* 必要に応じて調整 */
+        height: 100%;
+    }
+
+    /* 📌 GIF のスタイル（サイズ固定） */
+    .gif-item {
+        width: 120px;
+        /* ✅ サイズを適用 */
+        height: 120px;
+        object-fit: contain;
+        background: transparent;
+        box-shadow: none;
+        display: block;
+    }
+
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0px;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 50px auto 0;
+    /* 上 50px、左右 auto、下 0 */
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 15px 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 a {
+    color: #fff;
+    text-decoration: none;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.video-card {
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.video-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.video-card h3 {
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 30px;
+}
