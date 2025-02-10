@@ -2,20 +2,20 @@
 
 @section('content')
     {{-- <div class="max-w-md mx-auto bg-white p-8 border border-gray-300 rounded-lg shadow-md"> --}}
-    <div
-        class="bg-white border border-gray-300 rounded-lg shadow-md w-128 h-128 flex flex-col justify-center items-center p-8">
+    <<div
+        class="bg-white border border-gray-300 rounded-lg shadow-md w-3/4 max-w-3xl h-128 flex flex-col justify-center items-center p-8">
 
-        <!-- ✅ ロゴ画像を追加 -->
+        <!-- ✅ ロゴ画像 -->
         <div class="flex justify-center mb-5">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-40 w-auto">
         </div>
 
-        <!-- ✅ ゴールド系のタイトルに変更 -->
+        <!-- ✅ ゴールド系のタイトル -->
         <h1 class="text-2xl font-bold text-center text-yellow-600 mb-6">🔑 ログイン</h1>
 
         <!-- エラーメッセージ表示 -->
         @if ($errors->any())
-            <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+            <div class="bg-red-100 text-red-700 p-4 rounded mb-4 w-full">
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>🚫 {{ $error }}</li>
@@ -24,8 +24,8 @@
             </div>
         @endif
 
-        <!-- ログインフォーム -->
-        <form method="POST" action="{{ route('login') }}">
+        <!-- ✅ フォーム全体の幅を親要素に合わせる -->
+        <form method="POST" action="{{ route('login') }}" class="w-full max-w-lg">
             @csrf
 
             <div class="mb-4">
@@ -55,10 +55,12 @@
             </button>
         </form>
 
-        <!-- 登録へのリンク -->
+        <!-- ✅ 登録リンク -->
         <p class="text-center text-gray-800 mt-4">
-            アカウントをお持ちでないですか？ <a href="{{ route('register') }}" class="text-yellow-600 hover:underline">登録する</a>
+            アカウントをお持ちでないですか？
+            <a href="{{ route('register') }}" class="text-yellow-600 hover:underline">登録する</a>
         </p>
-    </div>
+        </div>
 
-@endsection
+
+    @endsection
