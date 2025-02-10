@@ -17,7 +17,7 @@
             <nav class="nav">
                 <ul class="flex gap-8 justify-center items-center w-full">
                     <li><a href="/" class="hover:text-red-500">HOME</a></li>
-                    <li><a href="#TaxMinutes" class="hover:text-red-500">Tax Minutes&reg;️</a></li>
+                    <li><a href="/taxvideos" class="hover:text-red-500">Tax Minutes&reg;️</a></li>
                     <li><a href="#TaxBarabout" class="hover:text-red-500">TaxBar</a></li>
                     <li><a href="/view/prohibited" class="hover:text-red-500">禁止事項</a></li>
                     <li><a href="/view/hachimantaishi" class="hover:text-red-500">八幡平市</a></li>

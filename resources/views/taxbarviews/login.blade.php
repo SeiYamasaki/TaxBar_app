@@ -21,7 +21,7 @@
         <!-- ナビゲーション -->
         <nav class="nav">
             <ul>
-                <li><a href="#TaxMinutes">Tax Minutes&reg</a></li>
+                <li><a href="/taxvideos">Tax Minutes&reg</a></li>
                 <li><a href="#TaxBarabout">テーマ</a></li>
                 <li><a href="/view/prohibited">禁止事項</a></li>
                 <li><a href="/inquiry">問合せ</a></li>

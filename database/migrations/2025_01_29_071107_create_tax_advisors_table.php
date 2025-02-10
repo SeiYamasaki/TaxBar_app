@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('tax_advisors', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // 税理士の名前
-            $table->string('email'); // 税理士のメール            
+            $table->string('email')->unique(); // メールアドレス (一意制約)
+            $table->boolean('is_tax_accountant')->default(true); // 税理士フラグ
             $table->timestamps();
+            $table->softDeletes(); // ソフトデリート機能
         });
     }
 
