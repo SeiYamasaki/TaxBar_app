@@ -41,41 +41,40 @@
         <div class="container">
             <h2>動画一覧</h2>
             <div class="video-grid">
-
-                <!-- 📌 ダミー動画 1 -->
+                <!-- 📌 ダミーリール動画 1（9:12） -->
                 <div class="video-card">
                     <a href="#">
-                        <video controls width="100%">
-                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        <video controls>
+                            <source src="https://samplelib.com/lib/preview/mp4/sample-5s.mp4" type="video/mp4">
                             お使いのブラウザは動画タグをサポートしていません。
                         </video>
-                        <h3>ダミー動画 1</h3>
+                        <h3>ダミーリール動画 1</h3>
                     </a>
                 </div>
 
-                <!-- 📌 ダミー動画 2 -->
+                <!-- 📌 ダミーリール動画 2（9:12） -->
                 <div class="video-card">
                     <a href="#">
-                        <video controls width="100%">
-                            <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                        <video controls>
+                            <source src="https://samplelib.com/lib/preview/mp4/sample-10s.mp4" type="video/mp4">
                             お使いのブラウザは動画タグをサポートしていません。
                         </video>
-                        <h3>ダミー動画 2</h3>
+                        <h3>ダミーリール動画 2</h3>
                     </a>
                 </div>
 
-                <!-- 📌 ダミー動画 3 -->
+                <!-- 📌 ダミーリール動画 3（9:12） -->
                 <div class="video-card">
                     <a href="#">
-                        <video controls width="100%">
-                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        <video controls>
+                            <source src="https://samplelib.com/lib/preview/mp4/sample-15s.mp4" type="video/mp4">
                             お使いのブラウザは動画タグをサポートしていません。
                         </video>
-                        <h3>ダミー動画 3</h3>
+                        <h3>ダミーリール動画 3</h3>
                     </a>
                 </div>
-
             </div>
+
 
             <!-- ページネーション -->
             <div class="pagination">

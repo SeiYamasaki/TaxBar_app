@@ -108,10 +108,39 @@ main {
     transform: scale(1.05);
 }
 
-.video-card video,
-.video-card img {
+/* 動画カードのデザイン修正 */
+.video-card {
+    background: #fff;
+    padding: 5px;  /* 余白を削減 */
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    max-width: 400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 動画サイズを 9:12 に完全固定 */
+.video-card video {
     width: 100%;
+    height: auto;
+    aspect-ratio: 9 / 12; /* 9:12 に統一 */
     border-radius: 5px;
+    object-fit: cover; /* 余白を削減し、全体にフィット */
+}
+
+/* 余白の影響を受けないよう調整 */
+.video-card a {
+    width: 100%;
+}
+
+.video-card h3 {
+    margin-top: 5px;  /* タイトルの余白を減らす */
+    font-size: 1rem;
 }
 
 /* ページネーション */
