@@ -23,7 +23,7 @@
         /* FAQ全体のコンテナ */
         .faq-wrapper {
             width: 100%;
-            max-width: 900px;
+            max-width: 1200px;
             background: white;
             padding: 20px;
             border-radius: 10px;
