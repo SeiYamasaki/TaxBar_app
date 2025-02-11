@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasColumn('users', 'is_tax_accountant')) { // 既にカラムがある場合は追加しない
+        if (Schema::hasTable('users')) { // テーブルが存在するか確認
             Schema::table('users', function (Blueprint $table) {
-                $table->boolean('is_tax_accountant')->default(false)->after('email');
+                if (!Schema::hasColumn('users', 'is_tax_accountant')) { // カラムが存在しない場合のみ追加
+                    $table->boolean('is_tax_accountant')->default(false)->after('email');
+                }
             });
         }
     }
@@ -23,7 +25,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (Schema::hasColumn('users', 'is_tax_accountant')) { // カラムがある場合のみ削除
+        if (Schema::hasTable('users') && Schema::hasColumn('users', 'is_tax_accountant')) { // カラムがある場合のみ削除
             Schema::table('users', function (Blueprint $table) {
                 $table->dropColumn('is_tax_accountant');
             });
