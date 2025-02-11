@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="TaxBar®️は八幡平市から始まりました｡">
-    <title>TaxBar®️八幡平市</title>
+    <title>TaxBar®️ | 八幡平市</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 

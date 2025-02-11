@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaxBar&regお問合わせフォーム</title>
+    <title>TaxBar&reg | お問合わせフォーム</title>
     @vite(['resources/css/app.css'])
 </head>
 

@@ -50,9 +50,12 @@
                 <a href="{{ route('password.request') }}" class="text-yellow-600 hover:underline">パスワードを忘れた?</a>
             </div>
 
-            <button type="submit" class="w-full bg-red-400 text-black py-2 rounded hover:bg-yellow-700 transition">
+            <button type="submit"
+                class="w-full bg-blue-500 text-white text-sm py-1 px-2 rounded hover:bg-blue-600 transition">
                 🚀 ログイン
             </button>
+
+
         </form>
 
         <!-- ✅ 登録リンク -->
