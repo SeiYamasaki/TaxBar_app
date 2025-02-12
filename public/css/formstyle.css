@@ -79,12 +79,27 @@ html {
     text-decoration: underline;
 }
 
+/* 中央ロゴ */
+.center-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 150px auto 30px;
+    /* 上下の間隔を調整 */
+}
+
+.center-logo img {
+    max-width: 200px;
+    /* ロゴサイズを適切に */
+    height: auto;
+}
+
 /* お問い合わせフォーム */
 .container {
     max-width: 700px;
     width: 90%;
     /* 画面サイズに応じて自動調整 */
-    margin: 100px auto 40px;
+    margin: 20px auto 40px;
     padding: 25px;
     background: white;
     border-radius: 12px;

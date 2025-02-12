@@ -31,6 +31,11 @@
         </nav>
     </header>
 
+    <!-- 中央ロゴ -->
+    <div class="center-logo">
+        <img src="{{ asset('images/logotoumei.png') }}" alt="中央ロゴ">
+    </div>
+
     <!-- お問い合わせフォーム -->
     <div class="container">
         <div class="form-wrapper">
