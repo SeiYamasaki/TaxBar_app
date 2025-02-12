@@ -123,7 +123,7 @@
             <div class="guest-item">
                 <h2 class="x2txt">黒瀬公認会計士事務所</h2>
                 <div class="image-preview">
-                    <img src="{{ asset('images/guest_v3.png') }}" alt="ゲストの画像">
+                    <img src="{{ asset('images/guest_v3.jpg') }}" alt="ゲストの画像">
                 </div>
                 <!-- 📌 GIF をゲスト画像の下中央に配置（1つだけ） -->
                 <div class="gif-container">

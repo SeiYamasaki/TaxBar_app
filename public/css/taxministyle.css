@@ -19,9 +19,7 @@ html {
     z-index: 10;
     display: flex;
     align-items: center;
-    /* 垂直方向の中央揃え */
     justify-content: center;
-    /* 水平方向の中央揃え */
     padding: 0;
     box-sizing: border-box;
 }
@@ -30,7 +28,6 @@ html {
 .logo {
     position: absolute;
     left: 20px;
-    /* 左端に配置 */
 }
 
 .logo img {
@@ -50,7 +47,6 @@ html {
     padding: 0;
     margin: 0;
     gap: 80px;
-    /* メニュー間のスペースを調整 */
 }
 
 .nav ul li {
@@ -74,45 +70,29 @@ html {
 /* メインコンテンツ */
 main {
     margin-top: 80px;
-    /* 固定ヘッダーとの重なりを防ぐ */
     padding-bottom: 30px;
 }
 
 .container {
     width: 90%;
     max-width: 1200px;
-    /* 幅を少し広げてレイアウト改善 */
     margin: 0 auto;
 }
 
 /* 動画グリッド */
 .video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    /* 画面サイズに応じて最適化 */
-    gap: 120px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, auto);
+    gap: 40px;
     margin-top: 20px;
+    justify-content: center;
 }
 
-/* 動画カード */
-.video-card {
-    background: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-}
-
-.video-card:hover {
-    transform: scale(1.05);
-}
-
-/* 動画カードのデザイン修正 */
+/* 動画カードのデザイン */
 .video-card {
     background: #fff;
     padding: 5px;
-    /* 余白を削減 */
     border-radius: 8px;
     text-align: center;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
@@ -125,15 +105,17 @@ main {
     justify-content: center;
 }
 
+.video-card:hover {
+    transform: scale(1.05);
+}
+
 /* 動画サイズを 9:12 に完全固定 */
 .video-card video {
     width: 100%;
     height: auto;
     aspect-ratio: 9 / 12;
-    /* 9:12 に統一 */
     border-radius: 5px;
     object-fit: cover;
-    /* 余白を削減し、全体にフィット */
 }
 
 /* 余白の影響を受けないよう調整 */
@@ -143,15 +125,35 @@ main {
 
 .video-card h3 {
     margin-top: 5px;
-    /* タイトルの余白を減らす */
     font-size: 1rem;
 }
 
-/* ページネーション */
+/* ページネーションのスタイル */
 .pagination {
-    margin-top: 20px;
+    margin-top: 30px;
     text-align: center;
+    display: flex;
+    justify-content: center;
 }
+
+.pagination .page-item {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.pagination .page-link {
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    transition: background 0.3s;
+}
+
+.pagination .page-link:hover {
+    background: #f0f0f0;
+}
+
 
 /* フッター */
 footer {
@@ -162,6 +164,7 @@ footer {
     margin-top: 30px;
 }
 
+/* 都道府県リンク */
 .prefecture-links {
     display: flex;
     justify-content: center;
@@ -176,7 +179,6 @@ footer {
     margin: 10px 0;
     justify-content: center;
     max-width: 100%;
-    /*都道府県幅寄せ*/
 }
 
 .prefecture-links li {
@@ -192,7 +194,6 @@ footer {
     text-decoration: underline;
     color: white;
 }
-
 
 /* 📌 スマホ対応（ナビゲーションのレイアウト崩れを防ぐ） */
 @media (max-width: 768px) {
@@ -218,5 +219,9 @@ footer {
 
     .nav ul li a {
         font-size: 14px;
+    }
+
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
