@@ -156,7 +156,7 @@ html {
     /* 画面が小さいとき折り返す */
     gap: 20px;
     /* アイテムの間隔 */
-    padding: 20px;
+    padding: 10px;
     border: 3px solid red;
 }
 
@@ -170,7 +170,7 @@ html {
 /* ゲスト全体のコンテナ */
 .guest-container {
     text-align: center;
-    padding: 20px;
+    padding: 10px;
 }
 
 /* タイトル（中央揃え） */
@@ -183,7 +183,7 @@ html {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 60px;
+    gap: 120px;
     flex-wrap: wrap;
 }
 

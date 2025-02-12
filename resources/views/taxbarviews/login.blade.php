@@ -88,9 +88,9 @@
         <div class="guest-list">
             <!-- 1人目のゲスト -->
             <div class="guest-item">
-                <h2 class="x2txt">公認会計士◯◯◯◯</h2>
+                <h2 class="x2txt">酒井雄介税理士事務所</h2>
                 <div class="image-preview">
-                    <img src="{{ asset('images/guest_v1.jpg') }}" alt="ゲストの画像">
+                    <img src="{{ asset('images/guest_v5.png') }}" alt="ゲストの画像">
                 </div>
                 <!-- 📌 GIF をゲスト画像の下中央に配置（1つだけ） -->
                 <div class="gif-container">
@@ -100,9 +100,42 @@
 
             <!-- 2人目のゲスト -->
             <div class="guest-item">
-                <h2 class="x2txt">◯◯◯◯税理士</h2>
+                <h2 class="x2txt">公認会計士税理士 酒井雄介</h2>
                 <div class="image-preview">
-                    <img src="{{ asset('images/guest_v2.jpg') }}" alt="ゲストの画像">
+                    <img src="{{ asset('images/guest_v6.png') }}" alt="ゲストの画像">
+                </div>
+                <!-- 📌 GIF をゲスト画像の下中央に配置（1つだけ） -->
+                <div class="gif-container">
+                    <img src="{{ asset('images/robo2.gif') }}" alt="GIF2" class="gif-item">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="guest-container">
+        <div class="guest-title">
+            <h1 class="x2txt">☆今月のTaxBar&reg;イチオシのスペシャルゲスト☆</h1>
+            <h1 class="x2txt">！！資金調達Bar 2025年2月2日 PM20時～21時 要予約！！</h1>
+            <button class="guest-button">今すぐ予約する</button>
+        </div>
+
+        <div class="guest-list">
+            <!-- 3人目のゲスト -->
+            <div class="guest-item">
+                <h2 class="x2txt">黒瀬公認会計士事務所</h2>
+                <div class="image-preview">
+                    <img src="{{ asset('images/guest_v3.png') }}" alt="ゲストの画像">
+                </div>
+                <!-- 📌 GIF をゲスト画像の下中央に配置（1つだけ） -->
+                <div class="gif-container">
+                    <img src="{{ asset('images/robo1.gif') }}" alt="GIF1" class="gif-item">
+                </div>
+            </div>
+
+            <!-- 4人目のゲスト -->
+            <div class="guest-item">
+                <h2 class="x2txt">公認会計士税理士 黒瀬賢史</h2>
+                <div class="image-preview">
+                    <img src="{{ asset('images/guest_v4.png') }}" alt="ゲストの画像">
                 </div>
                 <!-- 📌 GIF をゲスト画像の下中央に配置（1つだけ） -->
                 <div class="gif-container">
