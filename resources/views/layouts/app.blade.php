@@ -17,6 +17,7 @@
 
     <!-- Styles -->
     <style>
+        
         /* ✅ 画面全体の中央配置を保証 */
         body {
             background: linear-gradient(to right, #4f92ff, #0052cc, #002766);

@@ -1,0 +1,230 @@
+/* 全体リセット */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* はみ出し防止 */
+}
+
+body,
+html {
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+    background: #f4f4f4;
+    overflow-x: hidden;
+}
+
+/* ヘッダー全体 */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background: black;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    /* 垂直方向の中央揃え */
+    justify-content: center;
+    /* 水平方向の中央揃え */
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ロゴ */
+.logo {
+    position: absolute;
+    left: 20px;
+    /* 左端に配置 */
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+}
+
+/* ナビゲーションメニュー */
+.nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    /* 均等配置の基準 */
+}
+
+.nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 80px;
+    /* メニュー間のスペースを調整 */
+}
+
+.nav ul li {
+    text-align: center;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0.5rem;
+    transition: color 0.3s;
+}
+
+.nav ul li a:hover {
+    color: red;
+    text-decoration: underline;
+}
+
+/* お問い合わせフォーム */
+.container {
+    max-width: 700px;
+    width: 90%;
+    /* 画面サイズに応じて自動調整 */
+    margin: 100px auto 40px;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-in-out;
+}
+
+.container:hover {
+    transform: scale(1.02);
+}
+
+.form-wrapper h1 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* フォームグループ */
+.form-group {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+/* フォーム入力欄 */
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 300px;
+}
+
+/* 送信ボタン */
+button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease, transform 0.2s ease-in-out;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #0056b3, #003f7f);
+    transform: translateY(-2px);
+}
+
+/* フッター */
+footer {
+    background: black;
+    color: #fff;
+    text-align: center;
+    padding: 60px 0;
+    margin-top: 150px;
+}
+
+.prefecture-links {
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.prefecture-links ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    justify-content: center;
+    max-width: 80%;
+    /*都道府県幅寄せ*/
+}
+
+.prefecture-links li {
+    margin: 5px;
+}
+
+.prefecture-links a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.prefecture-links a:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        /* モバイル時に調整 */
+        padding: 20px;
+    }
+
+    .form-wrapper h1 {
+        font-size: 22px;
+    }
+
+    input,
+    select,
+    textarea {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
