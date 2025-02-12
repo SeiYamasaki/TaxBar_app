@@ -257,3 +257,43 @@ html {
     box-shadow: none;
     /* 影を削除 */
 }
+
+/* フッター */
+footer {
+    background: black;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 30px;
+}
+
+.prefecture-links {
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.prefecture-links ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    justify-content: center;
+    max-width: 80%;
+    /*都道府県幅寄せ*/
+}
+
+.prefecture-links li {
+    margin: 5px;
+}
+
+.prefecture-links a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.prefecture-links a:hover {
+    text-decoration: underline;
+    color: white;
+}

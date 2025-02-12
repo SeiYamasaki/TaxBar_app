@@ -90,7 +90,7 @@ main {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     /* 画面サイズに応じて最適化 */
-    gap: 20px;
+    gap: 120px;
     margin-top: 20px;
 }
 
@@ -111,7 +111,8 @@ main {
 /* 動画カードのデザイン修正 */
 .video-card {
     background: #fff;
-    padding: 5px;  /* 余白を削減 */
+    padding: 5px;
+    /* 余白を削減 */
     border-radius: 8px;
     text-align: center;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
@@ -128,9 +129,11 @@ main {
 .video-card video {
     width: 100%;
     height: auto;
-    aspect-ratio: 9 / 12; /* 9:12 に統一 */
+    aspect-ratio: 9 / 12;
+    /* 9:12 に統一 */
     border-radius: 5px;
-    object-fit: cover; /* 余白を削減し、全体にフィット */
+    object-fit: cover;
+    /* 余白を削減し、全体にフィット */
 }
 
 /* 余白の影響を受けないよう調整 */
@@ -139,7 +142,8 @@ main {
 }
 
 .video-card h3 {
-    margin-top: 5px;  /* タイトルの余白を減らす */
+    margin-top: 5px;
+    /* タイトルの余白を減らす */
     font-size: 1rem;
 }
 
@@ -151,12 +155,44 @@ main {
 
 /* フッター */
 footer {
-    background: #333;
+    background: black;
     color: #fff;
     text-align: center;
     padding: 15px 0;
     margin-top: 30px;
 }
+
+.prefecture-links {
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.prefecture-links ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    justify-content: center;
+    max-width: 100%;
+    /*都道府県幅寄せ*/
+}
+
+.prefecture-links li {
+    margin: 5px;
+}
+
+.prefecture-links a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.prefecture-links a:hover {
+    text-decoration: underline;
+    color: white;
+}
+
 
 /* 📌 スマホ対応（ナビゲーションのレイアウト崩れを防ぐ） */
 @media (max-width: 768px) {
