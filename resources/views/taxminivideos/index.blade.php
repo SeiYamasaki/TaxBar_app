@@ -31,11 +31,17 @@
             </ul>
         </nav>
     </header>
-
+    <!-- 背景動画 -->
+    <div class="video-container">
+        <video autoplay muted loop>
+            <source src="{{ asset('videos/taxminivideoback.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
     <!-- メインコンテンツ -->
     <main>
         <div class="container">
-            <h2>動画一覧</h2>
+            <h2>TaxMinutes&reg動画一覧</h2>
             <div class="video-grid">
                 @for ($i = 1; $i <= 12; $i++)
                     <div class="video-card">

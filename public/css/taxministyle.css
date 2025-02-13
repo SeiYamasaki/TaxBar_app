@@ -8,6 +8,44 @@ html {
     overflow-x: hidden;
 }
 
+/* 背景動画コンテナ */
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+/* 背景動画 */
+.video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* メインコンテンツ */
+main {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+/* コンテンツの背景を半透明に */
+.container {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    display: inline-block;
+    max-width: 900px;
+    margin: auto;
+}
+
 /* ヘッダー全体 */
 .header {
     position: fixed;
@@ -128,31 +166,46 @@ main {
     font-size: 1rem;
 }
 
-/* ページネーションのスタイル */
+/* ページネーションのデザイン */
 .pagination {
-    margin-top: 30px;
-    text-align: center;
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin-top: 30px;
 }
 
+/* ページネーションの各アイテム */
 .pagination .page-item {
-    display: inline-block;
+    list-style: none;
     margin: 0 5px;
 }
 
-.pagination .page-link {
-    color: #333;
-    padding: 8px 12px;
+/* ページネーションのリンク */
+.pagination .page-item a,
+.pagination .page-item span {
+    color: white !important;  /* ページ番号を白く */
+    background: rgba(0, 0, 0, 0.6); /* 背景を半透明の黒 */
+    border: 1px solid white;  /* 白い枠線 */
+    padding: 10px 15px; /* クリックしやすいサイズに */
     border-radius: 5px;
+    font-size: 16px;
     text-decoration: none;
-    border: 1px solid #ddd;
-    transition: background 0.3s;
+    display: inline-block;
 }
 
-.pagination .page-link:hover {
-    background: #f0f0f0;
+/* ホバー時のデザイン */
+.pagination .page-item a:hover {
+    background: white;
+    color: black !important;
 }
+
+/* アクティブなページ */
+.pagination .page-item.active a {
+    background: white !important;
+    color: black !important;
+    border-color: white !important;
+}
+
 
 
 /* フッター */
