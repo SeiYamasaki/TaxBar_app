@@ -40,6 +40,11 @@
             margin-bottom: 20px;
         }
 
+        .info {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
         .logout-button {
             background-color: #e3342f;
             color: white;
@@ -60,6 +65,20 @@
     <div class="container">
         <div class="header">Dashboard</div>
         <div class="message">You're logged in!</div>
+
+        <div class="info">
+            <p><strong>名前:</strong> {{ auth()->user()->name }}</p>
+            <p><strong>メールアドレス:</strong> {{ auth()->user()->email }}</p>
+            <p><strong>事務所名:</strong> {{ auth()->user()->office_name ?? '未登録' }}</p>
+            <p><strong>郵便番号:</strong> {{ auth()->user()->postal_code ?? '未登録' }}</p>
+            <p><strong>都道府県:</strong> {{ auth()->user()->prefecture ?? '未登録' }}</p>
+            <p><strong>住所:</strong> {{ auth()->user()->address ?? '未登録' }}</p>
+            <p><strong>事務所電話番号:</strong> {{ auth()->user()->office_phone ?? '未登録' }}</p>
+            <p><strong>携帯電話番号:</strong> {{ auth()->user()->mobile_phone ?? '未登録' }}</p>
+            <p><strong>登録番号:</strong> {{ auth()->user()->tax_registration_number ?? '未登録' }}</p>
+            <p><strong>料金プラン:</strong> {{ auth()->user()->plan ?? '未登録' }}</p>
+        </div>
+
         <form id="logout-form" action="{{ route('logout') }}" method="POST">
             @csrf
             <button type="submit" class="logout-button">ログアウト</button>
