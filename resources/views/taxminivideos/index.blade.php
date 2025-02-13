@@ -43,7 +43,7 @@
         <div class="container">
             <h2>TaxMinutes&reg動画一覧</h2>
             <div class="video-grid">
-                @for ($i = 1; $i <= 12; $i++)
+                @for ($i = 1; $i <= 6; $i++)
                     <div class="video-card">
                         <a href="#">
                             <video controls>
