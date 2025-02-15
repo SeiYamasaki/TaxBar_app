@@ -258,19 +258,30 @@ html {
     /* 影を削除 */
 }
 
-/* フッター */
+/* ======= フッター ======= */
 footer {
     background: black;
     color: #fff;
     text-align: center;
-    padding: 15px 0;
-    margin-top: 30px;
+    padding: 30px 0;
+    /* 余白を適度に確保 */
+    width: 100%;
+    position: relative;
+    /* 固定せず、内容に応じて高さを調整 */
+    min-height: auto;
+    /* 高さをコンテンツに応じて可変に */
 }
 
+/* ======= 都道府県リンクエリア ======= */
 .prefecture-links {
     display: flex;
     justify-content: center;
-    padding: 0 20px;
+    flex-wrap: wrap;
+    padding: 15px 10px;
+    /* 余白を調整 */
+    max-width: 100%;
+    overflow: visible;
+    /* 非表示にならないように */
 }
 
 .prefecture-links ul {
@@ -278,19 +289,31 @@ footer {
     flex-wrap: wrap;
     list-style: none;
     padding: 0;
-    margin: 10px 0;
+    margin: 10px auto;
     justify-content: center;
-    max-width: 80%;
-    /*都道府県幅寄せ*/
+    max-width: 95%;
+    /* 横幅を確保 */
+}
+
+/* ======= 追加: フッターの高さを確保 ======= */
+.prefecture-links::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100px;
+    /* 追加の高さを確保 */
 }
 
 .prefecture-links li {
     margin: 5px;
+    white-space: nowrap;
+    /* 都道府県名が途中で折り返されないように */
 }
 
 .prefecture-links a {
     text-decoration: none;
     color: #007bff;
+    font-size: 14px;
 }
 
 .prefecture-links a:hover {
