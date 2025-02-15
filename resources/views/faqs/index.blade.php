@@ -54,7 +54,7 @@
 
     <!-- ページネーション -->
     <div class="pagination-container">
-        {{ $faqs->links() }}
+        {!! $faqs->links() !!}
     </div>
 
     <style>
@@ -229,11 +229,72 @@
             background: #ff4f7b;
         }
 
-        /* ページネーション */
+        /* ページネーションのスタイル */
         .pagination-container {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0 auto;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination li {
+            display: flex;
+            align-items: center;
+        }
+
+        /* 通常のページ番号 */
+        .pagination li a,
+        .pagination li span {
+            text-decoration: none;
+            color: #4a4a4a;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid #6c63ff;
+            transition: 0.3s;
+        }
+
+        .pagination li a:hover {
+            color: white;
+            background: #6c63ff;
+        }
+
+        /* 現在のページ */
+        .pagination .active span {
+            color: white;
+            background: #6c63ff;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        /* ページネーションの矢印 */
+        .pagination .prev a,
+        .pagination .next a {
+            font-size: 18px;
+            color: #6c63ff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #6c63ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination .prev a:hover,
+        .pagination .next a:hover {
+            background: #6c63ff;
+            color: white;
         }
     </style>
 @endsection

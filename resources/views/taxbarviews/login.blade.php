@@ -22,7 +22,7 @@
         <nav class="nav">
             <ul>
                 <li><a href="/taxminivideos">Tax Minutes&reg</a></li>
-                <li><a href="#TaxBarabout">テーマ</a></li>
+                <li><a href="/view/theme">テーマ</a></li>
                 <li><a href="/view/prohibited">禁止事項</a></li>
                 <li><a href="/inquiry">問合せ</a></li>
                 <li><a href="/view/hachimantaishi">八幡平市</a></li>

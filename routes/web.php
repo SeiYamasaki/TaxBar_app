@@ -8,6 +8,7 @@ use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\ThemeController;
 
 
 Route::get('/', function () {
@@ -32,7 +33,7 @@ Route::get('/inquiry', [InquiryController::class, 'showForm'])->name('inquiry.fo
 Route::post('/inquiry/confirm', [InquiryController::class, 'confirm'])->name('inquiry.confirm');
 Route::post('/inquiry/send', [InquiryController::class, 'sendInquiry'])->name('inquiry.send');
 Route::post('/stripe-payment', [PaymentController::class, 'createPayment'])->name('stripe.payment');
-
+Route::get('/view/theme', [ThemeController::class, 'show']); // テーマルート
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing.index');  // ✅ 誰でも見れるようにする
 
 Route::get('/faq', [FaqController::class, 'index'])->name('faqs.index');
