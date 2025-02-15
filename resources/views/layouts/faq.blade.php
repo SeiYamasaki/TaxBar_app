@@ -39,7 +39,7 @@
 </head>
 
 <body>
-
+    @yield('header')
     <div class="faq-wrapper">
         @yield('content')
     </div>
