@@ -54,7 +54,9 @@
 
     <!-- ページネーション -->
     <div class="pagination-container">
-        {!! $faqs->links() !!}
+        @if ($faqs->hasPages())
+            {{ $faqs->links('pagination::bootstrap-4') }}
+        @endif
     </div>
 
     <style>
