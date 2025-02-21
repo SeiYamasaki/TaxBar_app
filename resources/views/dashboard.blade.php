@@ -91,6 +91,7 @@
 </head>
 
 <body>
+    @include('components.header')
     <div class="container">
         <!-- ロゴの表示 -->
         <img src="/images/logotoumei.png" alt="ロゴ" class="logo">
