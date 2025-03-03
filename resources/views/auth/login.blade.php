@@ -2,7 +2,7 @@
 
 @section('content')
     {{-- <div class="max-w-md mx-auto bg-white p-8 border border-gray-300 rounded-lg shadow-md"> --}}
-    <<div
+        <div
         class="bg-white border border-gray-300 rounded-lg shadow-md w-3/4 max-w-3xl h-128 flex flex-col justify-center items-center p-8">
 
         <!-- ✅ ロゴ画像 -->

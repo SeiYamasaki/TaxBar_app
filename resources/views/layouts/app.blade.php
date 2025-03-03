@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'プラン一覧') }}</title>
+    <title>{{ config('app.name', 'TaxBar®️') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -22,7 +22,6 @@
         body {
             background: linear-gradient(to right, #4f92ff, #0052cc, #002766);
             min-height: 100vh;
-            display: flex;
             align-items: center;
             justify-content: center;
         }
@@ -44,22 +43,17 @@
     {{-- <!-- FontAwesome -->登録フォームのデザイン --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
-    <div class="container">
-        <!-- 💙 ヘッダーを削除し、独自のタイトルを表示 -->
-        <div class="header">
-            {{ config('app.name', 'プラン一覧') }}
-        </div>
+    @include('components.header')
 
-        <!-- 💙 メインコンテンツ -->
-        <main>
-            @yield('content')
-        </main>
-    </div>
+    <main>
+        @yield('content')
+    </main>
 
+    @include('components.footer')
     <!-- Scripts -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
