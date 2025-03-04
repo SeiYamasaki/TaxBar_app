@@ -164,7 +164,7 @@
     <!-- コンテンツエリア -->
     <main>
         <div class="container mx-auto px-10 py-20" style="max-width: 1261px;">
-            <div class="page-header">
+            <div>
                 <h1 class="page-title">テーマ</h1>
                 <p class="page-subtitle">お客様の興味や必要に応じた相談ルームに参加することができます</p>
             </div>
@@ -200,7 +200,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="theme-button">予約ボタン</p>
+                    <p class="theme-button">予約する</p>
                 </div>
 
                 <!-- テーマカード2 -->
@@ -210,7 +210,7 @@
                         <div class="theme-image">
                             IMAGE
                         </div>
-                        <h4 class="theme-subtitle text-gray-900">口コミ</h4>
+                        <h4 class="theme-subtitle text-gray-900">クチコミ<i class="fa-regular fa-comment"></i></h4>
                         <div class="theme-reviews" style="max-height: 100px; overflow-y: auto;">
                             <div class="review-item">
                                 <span class="text-gray-900">最高です！とても感謝しています。もっとお話を聞きたいです。</span>
@@ -233,7 +233,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="theme-button">予約ボタン</p>
+                    <p class="theme-button">予約する</p>
                 </div>
 
                 <!-- テーマカード3 -->
@@ -243,7 +243,7 @@
                         <div class="theme-image">
                             IMAGE
                         </div>
-                        <h4 class="theme-subtitle text-gray-900">口コミ</h4>
+                        <h4 class="theme-subtitle text-gray-900">クチコミ<i class="fa-regular fa-comment"></i></h4>
                         <div class="theme-reviews" style="max-height: 100px; overflow-y: auto;">
                             <div class="review-item">
                                 <span class="text-gray-900">最高です！とても感謝しています。もっとお話を聞きたいです。</span>
@@ -266,7 +266,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="theme-button">予約ボタン</p>
+                    <p class="theme-button">予約する</p>
                 </div>
 
                 <!-- テーマカード4 -->
@@ -276,7 +276,7 @@
                         <div class="theme-image">
                             IMAGE
                         </div>
-                        <h4 class="theme-subtitle text-gray-900">口コミ</h4>
+                        <h4 class="theme-subtitle text-gray-900">クチコミ<i class="fa-regular fa-comment"></i></h4>
                         <div class="theme-reviews" style="max-height: 100px; overflow-y: auto;">
                             <div class="review-item">
                                 <span class="text-gray-900">最高です！とても感謝しています。もっとお話を聞きたいです。</span>
@@ -299,7 +299,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="theme-button">予約ボタン</p>
+                    <p class="theme-button">予約する</p>
                 </div>
 
                 <!-- テーマカード5 -->
@@ -309,7 +309,7 @@
                         <div class="theme-image">
                             IMAGE
                         </div>
-                        <h4 class="theme-subtitle text-gray-900">口コミ</h4>
+                        <h4 class="theme-subtitle text-gray-900">クチコミ<i class="fa-regular fa-comment"></i></h4>
                         <div class="theme-reviews" style="max-height: 100px; overflow-y: auto;">
                             <div class="review-item">
                                 <span class="text-gray-900">最高です！とても感謝しています。もっとお話を聞きたいです。</span>
@@ -332,7 +332,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="theme-button">予約ボタン</p>
+                    <p class="theme-button">予約する</p>
                 </div>
 
                 <!-- テーマカード6 -->
@@ -342,7 +342,7 @@
                         <div class="theme-image">
                             IMAGE
                         </div>
-                        <h4 class="theme-subtitle text-gray-900">口コミ</h4>
+                        <h4 class="theme-subtitle text-gray-900">クチコミ<i class="fa-regular fa-comment"></i></h4>
                         <div class="theme-reviews" style="max-height: 100px; overflow-y: auto;">
                             <div class="review-item">
                                 <span class="text-gray-900">最高です！とても感謝しています。もっとお話を聞きたいです。</span>
@@ -365,7 +365,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="theme-button">予約ボタン</p>
+                    <p class="theme-button">予約する</p>
                 </div>
 
             <!-- ページネーション -->
