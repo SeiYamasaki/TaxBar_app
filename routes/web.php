@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\TaxMinutesVideoController;
 
 
 Route::get('/', function () {
@@ -19,9 +20,9 @@ Route::get('/taxvideos', function () {
     return view('taxminivideos.index');
 });
 
-Route::get('/taxminivideos', [VideoController::class, 'index'])->name('taxminivideos.index');
-
-
+Route::get('/taxminivideos', [TaxMinutesVideoController::class, 'index'])->name('taxminivideos.index');
+Route::get('/taxminivideos/prefecture/{prefecture}', [TaxMinutesVideoController::class, 'byPrefecture'])->name('taxminivideos.prefecture');
+Route::get('/taxminivideos/{video}', [TaxMinutesVideoController::class, 'show'])->name('taxminivideos.show');
 
 Route::get('/view/hachimantaishi', function () {
     return view('taxbarviews.hachimantaishi');
@@ -54,6 +55,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// 認証が必要なTaxMinutesビデオ管理ルート
+Route::middleware(['auth'])->group(function () {
+    Route::post('/taxminivideos', [TaxMinutesVideoController::class, 'store'])->name('taxminivideos.store');
+    Route::get('/taxminivideos/{video}/edit', [TaxMinutesVideoController::class, 'edit'])->name('taxminivideos.edit');
+    Route::put('/taxminivideos/{video}', [TaxMinutesVideoController::class, 'update'])->name('taxminivideos.update');
+    Route::delete('/taxminivideos/{video}', [TaxMinutesVideoController::class, 'destroy'])->name('taxminivideos.destroy');
 });
 
 require __DIR__ . '/auth.php';

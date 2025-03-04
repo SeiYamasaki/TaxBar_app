@@ -9,6 +9,13 @@
 </head>
 
 <body>
+    @include('components.header')
+
+        <!-- 中央ロゴ -->
+    <div class="center-logo">
+        <img src="{{ asset('images/logotoumei.png') }}" alt="中央ロゴ">
+    </div>
+
     <div class="container">
         <h1>お問い合わせ確認</h1>
 
