@@ -21,12 +21,14 @@
                             <li class="flex items-center">
                                 <a href="#"
                                     class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">沖野匠吾</a>
-                                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 ml-2 rounded-full w-10">
+                                <img src="{{ asset('images/logo.png') }}" alt="Logo"
+                                    class="h-10 ml-2 rounded-full w-10">
                             </li>
                             <li class="flex items-center">
                                 <a href="#"
                                     class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">大垣由騎</a>
-                                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 ml-2 rounded-full w-10">
+                                <img src="{{ asset('images/logo.png') }}" alt="Logo"
+                                    class="h-10 ml-2 rounded-full w-10">
                             </li>
                         </ul>
                     </li>
@@ -37,7 +39,8 @@
                                 <a href="#"
                                     class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">佐藤
                                     幸久</a>
-                                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 ml-2 rounded-full w-10">
+                                <img src="{{ asset('images/logo.png') }}" alt="Logo"
+                                    class="h-10 ml-2 rounded-full w-10">
                             </li>
                         </ul>
                     </li>
@@ -79,7 +82,8 @@
                                 <a href="#"
                                     class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">山崎
                                     聖</a>
-                                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 ml-2 rounded-full w-10">
+                                <img src="{{ asset('images/logo.png') }}" alt="Logo"
+                                    class="h-10 ml-2 rounded-full w-10">
                             </li>
                         </ul>
                     </li>
