@@ -15,10 +15,11 @@ use App\Http\Controllers\TaxMinutesVideoController;
 Route::get('/', function () {
     return view('taxbarviews.login');
 });
-
 Route::get('/taxvideos', function () {
     return view('taxminivideos.index');
 });
+
+Route::view('/themes/detail', 'themes.detail')->name('themes.detail');
 
 Route::get('/taxminivideos', [TaxMinutesVideoController::class, 'index'])->name('taxminivideos.index');
 Route::get('/taxminivideos/prefecture/{prefecture}', [TaxMinutesVideoController::class, 'byPrefecture'])->name('taxminivideos.prefecture');
@@ -35,6 +36,7 @@ Route::post('/inquiry/confirm', [InquiryController::class, 'confirm'])->name('in
 Route::post('/inquiry/send', [InquiryController::class, 'sendInquiry'])->name('inquiry.send');
 Route::post('/stripe-payment', [PaymentController::class, 'createPayment'])->name('stripe.payment');
 Route::get('/view/theme', [ThemeController::class, 'show']); // テーマルート
+
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing.index');  // ✅ 誰でも見れるようにする
 
 Route::get('/faq', [FaqController::class, 'index'])->name('faqs.index');

@@ -24,17 +24,17 @@
         <div class="container">
             <h2>TaxMinutes&reg動画一覧</h2>
             <div class="video-grid">
-                @for ($i = 1; $i <= 6; $i++)
+                @foreach ($videos as $video)
                     <div class="video-card">
-                        <a href="#">
+                        <a href="{{ route('taxminivideos.show', $video->id) }}">
                             <video controls>
-                                <source src="https://samplelib.com/lib/preview/mp4/sample-5s.mp4" type="video/mp4">
+                                <source src="{{ $video->video_url }}" type="video/mp4">
                                 お使いのブラウザは動画タグをサポートしていません。
                             </video>
-                            <h3>◯◯◯◯会計事務所 TaxMinutes&reg 動画 {{ $i }}</h3>
+                            <h3>{{ $video->title }}</h3>
                         </a>
                     </div>
-                @endfor
+                @endforeach
             </div>
 
             <!-- ページネーション -->
