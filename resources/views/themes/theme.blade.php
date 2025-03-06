@@ -10,77 +10,178 @@
     <!-- FontAwesomeの追加 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* テーマページ専用のスタイル */
-        .theme-grid {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
+        /* リセットとベーススタイル */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        @media (min-width: 640px) {
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* コンテナスタイル */
+        .custom-container {
+            width: 100%;
+            max-width: 1261px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 3rem;
+            padding-bottom: 5rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin-top: 5rem;
+        }
+
+        /* グリッドレイアウト */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            width: 100%;
+        }
+
+        @media (max-width: 1024px) {
             .theme-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        @media (min-width: 1024px) {
+        @media (max-width: 640px) {
             .theme-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(1, 1fr);
             }
         }
 
+        /* カードスタイル */
         .theme-card {
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 0.5rem;
-            overflow: hidden;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
+            padding: 15px;
+            width: 100%;
+            margin-bottom: 0;
+            height: 100%;
         }
 
-        .theme-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        }
-
-        .theme-card .card-image-container {
+        /* 画像コンテナ */
+        .theme-image-wrapper {
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            width: 100%;
+            height: 0;
+            padding-bottom: 70%;
             position: relative;
             overflow: hidden;
+            margin-bottom: 15px;
         }
 
-        .theme-card .card-image {
-            transition: transform 0.5s ease;
-        }
-
-        .theme-card:hover .card-image {
-            transform: scale(1.1);
-        }
-
-        .theme-tag {
+        .theme-image-wrapper img {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            padding: 4px 12px;
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            color: white;
-            font-size: 0.75rem;
-            font-weight: bold;
-            border-radius: 20px;
-            z-index: 1;
-            box-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 10px;
         }
 
-        .pagination-container {
+        /* テキストスタイル */
+        .theme-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .theme-subtitle {
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        /* レビューエリア */
+        .theme-reviews {
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            padding: 10px;
+            margin-bottom: 15px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .review-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-item span {
+            color: #333;
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        /* ボタンスタイル */
+        .theme-button {
+            background-color: #ff5a5f;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: auto auto 0 auto;
+            display: block;
+            text-align: center;
+            width: fit-content;
+        }
+
+        .theme-button:hover {
+            background-color: #ff3b40;
+        }
+
+        /* ヘッダー */
+        .page-title-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        /* ページネーション */
+        .pagination {
             display: flex;
             justify-content: center;
-            align-items: center;
             gap: 0.5rem;
-            margin: 2rem 0;
+            margin-top: 30px;
         }
 
         .pagination-item {
@@ -89,51 +190,24 @@
             justify-content: center;
             width: 40px;
             height: 40px;
+            border: 1px solid #ddd;
+            background-color: white;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
             border-radius: 50%;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.7);
-            color: #4b5563;
         }
 
-        .pagination-item:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
+        .pagination-item:hover,
         .pagination-item.active {
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            background-color: #333;
             color: white;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
-        .pagination-arrow {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.7);
-            color: #4b5563;
-            transition: all 0.3s ease;
-        }
-
-        .pagination-arrow:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .pagination-arrow.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .pagination-arrow.disabled:hover {
-            transform: none;
-            box-shadow: none;
+        /* はみ出し防止 */
+        main {
+            overflow-x: hidden;
+            width: 100%;
         }
     </style>
 </head>
@@ -152,149 +226,146 @@
 
     <!-- コンテンツエリア -->
     <main>
-        <div class="container mx-auto px-4 py-20">
-            <div class="bg-black bg-opacity-60 p-6 rounded-lg backdrop-blur-sm text-center text-white mb-10">
-                <h1 class="text-3xl sm:text-4xl font-bold mb-3">さまざまなテーマ</h1>
-                <p class="mt-2 text-lg opacity-90">目的に合わせて最適なテーマをお選びください</p>
+        <div class="custom-container">
+            <div class="page-title-container">
+                <h1 class="page-title">テーマ</h1>
+                <p class="page-subtitle">お客様の興味や必要に応じた相談ルームに参加することができます</p>
+                <a href="{{ route('themes.detail') }}" class="theme-button">詳細一覧はこちら</a>
             </div>
 
             <div class="theme-grid">
                 <!-- テーマカード1 -->
                 <div class="theme-card">
-                    <span class="theme-tag">人気</span>
-                    <div
-                        class="card-image-container h-48 w-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center overflow-hidden">
-                        <div class="card-image text-white text-4xl font-bold">
-                            <i class="fas fa-chart-line text-5xl mb-2"></i>
+                    <h3 class="theme-title">確定申告</h3>
+                    <div class="theme-image-wrapper">
+                        <img src="{{ asset('images/確定申告Bar.png') }}" alt="確定申告">
+                    </div>
+                    <h4 class="theme-subtitle">クチコミ<i class="fa-regular fa-comment"></i></h4>
+                    <div class="theme-reviews">
+                        <div class="review-item">
+                            <span>最高です！とても感謝しています。</span>
+                        </div>
+                        <div class="review-item">
+                            <span>このテーマは素晴らしいです！</span>
+                        </div>
+                        <div class="review-item">
+                            <span>確定申告の疑問が解決しました！</span>
                         </div>
                     </div>
-                    <div class="p-6 text-center">
-                        <h3 class="font-bold text-gray-800 text-xl mb-3">ビジネス分析</h3>
-                        <p class="text-gray-600 mb-4">事業分析に特化したテーマです。グラフやデータ表示に最適化されています。</p>
-                        <a href="#"
-                            class="group inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white py-2 px-6 rounded-full text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg">
-                            <span>詳細を見る</span>
-                            <i
-                                class="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
-                        </a>
-                    </div>
+                    <button class="theme-button">予約する</button>
                 </div>
 
                 <!-- テーマカード2 -->
                 <div class="theme-card">
-                    <span class="theme-tag">新着</span>
-                    <div
-                        class="card-image-container h-48 w-full bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center overflow-hidden">
-                        <div class="card-image text-white text-4xl font-bold">
-                            <i class="fas fa-leaf text-5xl mb-2"></i>
+                    <h3 class="theme-title">起業・法⼈化</h3>
+                    <div class="theme-image-wrapper">
+                        <img src="{{ asset('images/起業Bar.png') }}" alt="起業・法⼈化">
+                    </div>
+                    <h4 class="theme-subtitle">クチコミ<i class="fa-regular fa-comment"></i></h4>
+                    <div class="theme-reviews">
+                        <div class="review-item">
+                            <span>起業の相談ができて大変参考になりました。</span>
+                        </div>
+                        <div class="review-item">
+                            <span>法人化について詳しく教えていただきました。</span>
+                        </div>
+                        <div class="review-item">
+                            <span>専門的なアドバイスが役立ちました！</span>
                         </div>
                     </div>
-                    <div class="p-6 text-center">
-                        <h3 class="font-bold text-gray-800 text-xl mb-3">環境重視</h3>
-                        <p class="text-gray-600 mb-4">環境に配慮した事業のためのテーマです。持続可能性を強調したデザイン。</p>
-                        <a href="#"
-                            class="group inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white py-2 px-6 rounded-full text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg">
-                            <span>詳細を見る</span>
-                            <i
-                                class="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
-                        </a>
-                    </div>
+                    <button class="theme-button">予約する</button>
                 </div>
 
                 <!-- テーマカード3 -->
                 <div class="theme-card">
-                    <div
-                        class="card-image-container h-48 w-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center overflow-hidden">
-                        <div class="card-image text-white text-4xl font-bold">
-                            <i class="fas fa-store text-5xl mb-2"></i>
+                    <h3 class="theme-title">節税・資産運⽤</h3>
+                    <div class="theme-image-wrapper">
+                        <img src="{{ asset('images/節税Bar.png') }}" alt="節税・資産運⽤">
+                    </div>
+                    <h4 class="theme-subtitle">クチコミ<i class="fa-regular fa-comment"></i></h4>
+                    <div class="theme-reviews">
+                        <div class="review-item">
+                            <span>節税対策が具体的で助かりました。</span>
+                        </div>
+                        <div class="review-item">
+                            <span>資産運用の考え方が変わりました！</span>
+                        </div>
+                        <div class="review-item">
+                            <span>実践的なアドバイスに感謝します。</span>
                         </div>
                     </div>
-                    <div class="p-6 text-center">
-                        <h3 class="font-bold text-gray-800 text-xl mb-3">小売業向け</h3>
-                        <p class="text-gray-600 mb-4">小売業に最適化されたテーマです。商品管理や販売分析に便利な機能を搭載。</p>
-                        <a href="#"
-                            class="group inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-2 px-6 rounded-full text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg">
-                            <span>詳細を見る</span>
-                            <i
-                                class="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
-                        </a>
-                    </div>
+                    <button class="theme-button">予約する</button>
                 </div>
 
                 <!-- テーマカード4 -->
                 <div class="theme-card">
-                    <div
-                        class="card-image-container h-48 w-full bg-gradient-to-r from-red-500 to-orange-500 flex items-center justify-center overflow-hidden">
-                        <div class="card-image text-white text-4xl font-bold">
-                            <i class="fas fa-utensils text-5xl mb-2"></i>
+                    <h3 class="theme-title">副業・個⼈事業主</h3>
+                    <div class="theme-image-wrapper">
+                        <img src="{{ asset('images/副業Bar.png') }}" alt="副業・個⼈事業主">
+                    </div>
+                    <h4 class="theme-subtitle">クチコミ<i class="fa-regular fa-comment"></i></h4>
+                    <div class="theme-reviews">
+                        <div class="review-item">
+                            <span>副業を始める際の注意点が理解できました。</span>
+                        </div>
+                        <div class="review-item">
+                            <span>個人事業主としての税務が明確になりました。</span>
+                        </div>
+                        <div class="review-item">
+                            <span>具体的なアドバイスに感謝します！</span>
                         </div>
                     </div>
-                    <div class="p-6 text-center">
-                        <h3 class="font-bold text-gray-800 text-xl mb-3">飲食店向け</h3>
-                        <p class="text-gray-600 mb-4">飲食業に特化したテーマです。メニュー管理や顧客情報の分析に役立ちます。</p>
-                        <a href="#"
-                            class="group inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white py-2 px-6 rounded-full text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg">
-                            <span>詳細を見る</span>
-                            <i
-                                class="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
-                        </a>
-                    </div>
+                    <button class="theme-button">予約する</button>
                 </div>
 
                 <!-- テーマカード5 -->
                 <div class="theme-card">
-                    <div
-                        class="card-image-container h-48 w-full bg-gradient-to-r from-yellow-400 to-amber-500 flex items-center justify-center overflow-hidden">
-                        <div class="card-image text-white text-4xl font-bold">
-                            <i class="fas fa-building text-5xl mb-2"></i>
+                    <h3 class="theme-title">不動産・投資</h3>
+                    <div class="theme-image-wrapper">
+                        <img src="{{ asset('images/不動産Bar.png') }}" alt="不動産・投資">
+                    </div>
+                    <h4 class="theme-subtitle">クチコミ<i class="fa-regular fa-comment"></i></h4>
+                    <div class="theme-reviews">
+                        <div class="review-item">
+                            <span>不動産投資のリスクとリターンが理解できました。</span>
+                        </div>
+                        <div class="review-item">
+                            <span>投資の考え方が参考になりました。</span>
+                        </div>
+                        <div class="review-item">
+                            <span>実際の事例を含めた説明が良かったです。</span>
                         </div>
                     </div>
-                    <div class="p-6 text-center">
-                        <h3 class="font-bold text-gray-800 text-xl mb-3">不動産業向け</h3>
-                        <p class="text-gray-600 mb-4">不動産業のための専用テーマです。物件管理や契約管理に特化しています。</p>
-                        <a href="#"
-                            class="group inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 text-white py-2 px-6 rounded-full text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg">
-                            <span>詳細を見る</span>
-                            <i
-                                class="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
-                        </a>
-                    </div>
+                    <button class="theme-button">予約する</button>
                 </div>
 
                 <!-- テーマカード6 -->
                 <div class="theme-card">
-                    <div
-                        class="card-image-container h-48 w-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center overflow-hidden">
-                        <div class="card-image text-white text-4xl font-bold">
-                            <i class="fas fa-briefcase-medical text-5xl mb-2"></i>
+                    <h3 class="theme-title">海外・インバウンド</h3>
+                    <div class="theme-image-wrapper">
+                        <img src="{{ asset('images/海外TaxBar.png') }}" alt="海外・インバウンド">
+                    </div>
+                    <h4 class="theme-subtitle">クチコミ<i class="fa-regular fa-comment"></i></h4>
+                    <div class="theme-reviews">
+                        <div class="review-item">
+                            <span>海外取引の税務について詳しく教えていただきました。</span>
+                        </div>
+                        <div class="review-item">
+                            <span>インバウンド対応のポイントが参考になりました。</span>
+                        </div>
+                        <div class="review-item">
+                            <span>国際的な視点からのアドバイスが役立ちました。</span>
                         </div>
                     </div>
-                    <div class="p-6 text-center">
-                        <h3 class="font-bold text-gray-800 text-xl mb-3">医療機関向け</h3>
-                        <p class="text-gray-600 mb-4">医療機関向けのテーマです。患者管理や予約システムと連携可能です。</p>
-                        <a href="#"
-                            class="group inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white py-2 px-6 rounded-full text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg">
-                            <span>詳細を見る</span>
-                            <i
-                                class="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
-                        </a>
-                    </div>
+                    <button class="theme-button">予約する</button>
                 </div>
             </div>
 
-            <!-- ページネーション（改良版） -->
-            <div class="pagination-container">
-                <a href="#" class="pagination-arrow" aria-label="前のページ">
-                    <i class="fas fa-chevron-left"></i>
-                </a>
+            <!-- ページネーション -->
+            <div class="pagination">
                 <a href="#" class="pagination-item active">1</a>
                 <a href="#" class="pagination-item">2</a>
                 <a href="#" class="pagination-item">3</a>
-                <span class="text-white mx-1">...</span>
-                <a href="#" class="pagination-item">10</a>
-                <a href="#" class="pagination-arrow" aria-label="次のページ">
-                    <i class="fas fa-chevron-right"></i>
-                </a>
             </div>
         </div>
     </main>
