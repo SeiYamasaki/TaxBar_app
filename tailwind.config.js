@@ -20,6 +20,8 @@ export default {
         './resources/views/pricing/**/*.blade.php',
         './resources/views/livewire/**/*.blade.php',
         './resources/js/**/*.js',
+        './resources/css/**/*.css',
+        './resources/views/themes/**/*.blade.php',
     ],
 
     theme: {

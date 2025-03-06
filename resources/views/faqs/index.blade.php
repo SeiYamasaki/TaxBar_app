@@ -25,8 +25,8 @@
 
 @section('content')
     <div class="faq-header">
-        <h1 class="faq-title">📌 TaxBar&regFAQ</h1>
-        <p class="faq-subtitle">TaxBar&regに寄せられた質問を記載しています｡</p>
+        <h1 class="py-10 text-gray-800 text-3xl font-bold">📌 TaxBar&regFAQ</h1>
+        <p class="pb-10 text-gray-800 text-xl">TaxBar&regに寄せられた質問を記載しています｡</p>
     </div>
 
     <!-- 検索フォーム -->

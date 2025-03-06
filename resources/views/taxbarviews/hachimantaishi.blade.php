@@ -7,6 +7,7 @@
     <meta name="description" content="TaxBar®️は八幡平市から始まりました｡">
     <title>TaxBar®️ | 八幡平市</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -24,8 +25,8 @@
 
     <!-- 動画の下のコンテンツ -->
     <div class="content">
-        <h1 class="txt1">八幡平市初動｡</h1>
-        <p class="txt2">そこには物語があります｡</p>
+        <h1 class="py-10 text-gray-800 text-3xl font-bold">八幡平市初動｡</h1>
+        <p class="pb-10 text-gray-800 text-xl">そこには物語があります｡</p>
     </div>
     <!-- フッター -->
     @include('components.footer')
