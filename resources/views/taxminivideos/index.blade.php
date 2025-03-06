@@ -36,7 +36,6 @@
                     </div>
                 @endforeach
             </div>
-
             <!-- ページネーション -->
             <!-- ✅ ページネーション（適切に表示） -->
             <div class="pagination">

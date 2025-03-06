@@ -28,6 +28,11 @@
             /* Tailwind の rounded-t-lg を再現 */
         }
 
+        .video-container>div {
+            pointer-events: none;
+            /* オーバーレイがクリックイベントを受け取らない */
+        }
+
         /* フェードインアニメーション */
         .animate-fade-in {
             animation: fadeIn 0.5s ease-in-out;
@@ -129,6 +134,19 @@
 
     <!-- フッター -->
     @include('components.footer')
+
+    <script>
+        const video = document.querySelector('video');
+        const overlay = document.querySelector('.video-container > div');
+
+        video.addEventListener('play', () => {
+            overlay.style.display = 'none'; // 動画が再生されるとオーバーレイを非表示に
+        });
+
+        video.addEventListener('pause', () => {
+            overlay.style.display = 'flex'; // 動画が一時停止するとオーバーレイを表示
+        });
+    </script>
 </body>
 
 </html>
