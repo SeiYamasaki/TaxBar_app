@@ -296,9 +296,9 @@
         </div>
     </main>
 
-    <!-- フッター -->
-    @include('components.footer')
 </body>
 
+    <!-- フッター -->
+    @include('components.footer')
 
 </html>

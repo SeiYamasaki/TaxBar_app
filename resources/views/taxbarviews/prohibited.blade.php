@@ -7,6 +7,7 @@
     <meta name="description" content="TaxBar®️の利用規約及び禁止事項に関するページです。税理士及び一般利用者は必ずお読みください。">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/Prohibitedstyle.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>TaxBar®️ | 禁止事項</title>
 </head>
 

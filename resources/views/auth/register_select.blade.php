@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h2 class="text-center mb-4 text-white">アカウント登録の選択</h2>
+                <h2 class="text-center mb-4 text-white text-3xl">アカウント登録の選択</h2>
                 <p class="text-center text-white mb-5">登録するアカウントの種類を選択してください。</p>
 
                 <div class="row">

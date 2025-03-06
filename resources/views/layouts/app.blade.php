@@ -12,12 +12,15 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- <!-- Bootstrap 5 -->登録フォームのデザイン --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    {{-- <!-- FontAwesome -->登録フォームのデザイン --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <!-- Styles -->
     <style>
-        
         /* ✅ 画面全体の中央配置を保証 */
         body {
             background: linear-gradient(to right, #4f92ff, #0052cc, #002766);
@@ -38,12 +41,8 @@
 
     @stack('styles')
 
-    {{-- <!-- Bootstrap 5 -->登録フォームのデザイン --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    {{-- <!-- FontAwesome -->登録フォームのデザイン --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -54,6 +53,7 @@
     </main>
 
     @include('components.footer')
+    
     <!-- Scripts -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {

@@ -4,14 +4,14 @@
 
 @section('content')
     <div class="container mx-auto py-12">
-        <h1 class="text-4xl font-bold text-center mb-8">料金表／月払い</h1>
+        <h1 class="text-4xl font-bold text-center mb-8 text-white">料金表／月払い</h1>
         
 
         <!-- ユーザー名の表示 -->
         @if (Auth::check())
-            <p class="text-lg font-semibold">ようこそ、{{ Auth::user()->name }} さん！</p>
+            <p class="text-white text-lg font-semibold">ようこそ、{{ Auth::user()->name }} さん！</p>
         @else
-            <p class="text-lg font-semibold">ゲストとして閲覧中</p>
+            <p class="text-white text-lg font-semibold">ゲストとして閲覧中</p>
         @endif
 
         <!-- タブ切り替えボタン -->

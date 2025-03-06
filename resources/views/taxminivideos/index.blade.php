@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaxBar&reg | TaxMinutes&reg</title>
     <link rel="stylesheet" href="{{ asset('css/taxministyle.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
