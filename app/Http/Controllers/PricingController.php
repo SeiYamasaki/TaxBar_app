@@ -8,24 +8,62 @@ class PricingController extends Controller
 {
     public function index()
     {
+        // 法人向けプラン
         $corporatePlans = [
             [
-                'name' => 'ゴールドプラン',
-                'price' => 30000,
-                'features' => ['Bar開店', '月5回まで', "投銭機能有", "予約機能有", "スペシャルゲスト制度の適用無", "動画配信機能無"]
+                'name'                   => 'ゴールドプラン',
+                'monthlyFee'             => 50000,   // 月額
+                'contractDuration'       => '1年',    // 契約期間
+                'openTime'               => '40分',   // 開店時間/1回
+                'openCountPerMonth'      => '5回',    // 開店回数/月
+                'tipping'                => '有',     // 投銭機能
+                'specialGuest'           => '無',     // スペシャルゲスト適用
+                'taxMinutesPost'         => '通常投稿OK',                          // TaxMinutes投稿
+                'videoPostingPerMonth'   => '無',                                // 動画投稿/月
+                'marketingSupport'       => '無',                                // マーケティング支援
+                'aiTaxBarSupport'        => '有',                                // ※AI_TaxBar支援
+                'taxQASupport'           => '有',                                // ※税務Q&Aサポート
+                'pastHistoryReference'   => '最新1件のみ',                         // ※過去相談履歴の参照
+                'taxAdviceSupport'       => '簡易アドバイス',                       // ※税務アドバイス補助
+                'taxRevisionNotification'=> '無',                                // ※税制改正の自動通知
             ],
             [
-                'name' => 'プラチナプラン',
-                'price' => 50000,
-                'features' => ['Bar開店', '月9回まで', "投銭機能有", "予約機能有", "スペシャルゲスト制度の適用有", "動画配信機能無"]
+                'name'                   => 'プラチナプラン',
+                'monthlyFee'             => 70000,
+                'contractDuration'       => '1年',
+                'openTime'               => '60分',
+                'openCountPerMonth'      => '10回',
+                'tipping'                => '有',
+                'specialGuest'           => '有',
+                'taxMinutesPost'         => 'おすすめ枠（検索上位に表示）',
+                'videoPostingPerMonth'   => '5本まで',
+                'marketingSupport'       => '特集ページで紹介(期間限定)orSNS露出サポート',
+                'aiTaxBarSupport'        => '有',
+                'taxQASupport'           => '有',
+                'pastHistoryReference'   => '最新5件のみ',
+                'taxAdviceSupport'       => '簡易アドバイス',
+                'taxRevisionNotification'=> '標準通知',
             ],
             [
-                'name' => 'VIPプラン',
-                'price' => 100000,
-                'features' => ['Bar開店', '無制限', "投銭機能有", "予約機能有", "スペシャルゲスト制度の適用有", "動画配信機能無制限"]
+                'name'                   => 'VIPプラン',
+                'monthlyFee'             => 100000,
+                'contractDuration'       => '1年',
+                'openTime'               => '無制限',
+                'openCountPerMonth'      => '無制限',
+                'tipping'                => '有',
+                'specialGuest'           => '有',
+                'taxMinutesPost'         => 'ピン留め（トップページ固定）＋SNS拡散（X・Facebook・LINEで告知）',
+                'videoPostingPerMonth'   => '無制限＋プロモーションサポート付き',
+                'marketingSupport'       => '特集ページ(常掲載)で紹介＋SNS露出サポート',
+                'aiTaxBarSupport'        => '有',
+                'taxQASupport'           => '有',
+                'pastHistoryReference'   => '全履歴',
+                'taxAdviceSupport'       => '高度アドバイス',
+                'taxRevisionNotification'=> '「税理士の業務分野」に応じたカスタマイズ通知',
             ],
         ];
 
+        // 個人/法人/団体向けプラン（既存のまま例示）
         $individualPlans = [
             [
                 'name' => '個 人',
@@ -44,7 +82,7 @@ class PricingController extends Controller
             ]
         ];
 
-
-        return view('pricing.index', compact('corporatePlans', 'individualPlans')); // 変数を Blade に渡す
+        // Blade に渡す
+        return view('pricing.index', compact('corporatePlans', 'individualPlans'));
     }
 }
