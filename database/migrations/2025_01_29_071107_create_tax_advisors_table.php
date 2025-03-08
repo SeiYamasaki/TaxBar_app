@@ -27,7 +27,6 @@ return new class extends Migration
             $table->string('plan'); // 料金プラン
             $table->boolean('is_tax_accountant')->default(true); // 税理士フラグ
             $table->timestamps();
-            $table->softDeletes(); // ソフトデリート機能
         });
     }
 

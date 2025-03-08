@@ -45,11 +45,11 @@
                                     'TaxMinutes投稿' => 'taxMinutesPost',
                                     '動画投稿/月' => 'videoPostingPerMonth',
                                     'マーケティング支援' => 'marketingSupport',
-                                    'AI_TaxBar支援' => 'aiTaxBarSupport',
-                                    '税務Q&Aサポート' => 'taxQASupport',
-                                    '過去相談履歴の参照' => 'pastHistoryReference',
-                                    '税務アドバイス補助' => 'taxAdviceSupport',
-                                    '税制改正の自動通知' => 'taxRevisionNotification',
+                                    '※TaxBar®専門AI実装' => 'aiTaxBarSupport',
+                                    '※税務Q&A補助(税理士補助)' => 'taxQASupport',
+                                    '※相談履歴の参照(税理士補助)' => 'pastHistoryReference',
+                                    '※税務助言補助(税理士補助)' => 'taxAdviceSupport',
+                                    '※税制改正通知(税理士補助)' => 'taxRevisionNotification',
                                 ];
 
                                 $colors = [
