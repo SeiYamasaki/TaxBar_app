@@ -38,17 +38,55 @@
                 </div>
             @endif
 
+            <!-- ユーザー情報の表示 -->
             <div class="bg-gray-50 border-l-4 border-blue-500 p-6 rounded-lg mb-6">
                 <p class="py-1"><strong>名前:</strong> {{ auth()->user()->name }}</p>
                 <p class="py-1"><strong>メールアドレス:</strong> {{ auth()->user()->email }}</p>
-                <p class="py-1"><strong>事務所名:</strong> {{ auth()->user()->office_name ?? '未登録' }}</p>
-                <p class="py-1"><strong>郵便番号:</strong> {{ auth()->user()->postal_code ?? '未登録' }}</p>
-                <p class="py-1"><strong>都道府県:</strong> {{ auth()->user()->prefecture ?? '未登録' }}</p>
-                <p class="py-1"><strong>住所:</strong> {{ auth()->user()->address ?? '未登録' }}</p>
-                <p class="py-1"><strong>事務所電話番号:</strong> {{ auth()->user()->office_phone ?? '未登録' }}</p>
-                <p class="py-1"><strong>携帯電話番号:</strong> {{ auth()->user()->mobile_phone ?? '未登録' }}</p>
-                <p class="py-1"><strong>登録番号:</strong> {{ auth()->user()->tax_registration_number ?? '未登録' }}</p>
-                <p class="py-1"><strong>料金プラン:</strong> {{ auth()->user()->plan ?? '未登録' }}</p>
+                <p class="py-1"><strong>ユーザー種別:</strong>
+                    @switch(auth()->user()->role)
+                        @case('admin')
+                            管理者
+                        @break
+
+                        @case('tax_advisor')
+                            税理士
+                        @break
+
+                        @case('company')
+                            企業
+                        @break
+
+                        @case('individual')
+                            個人
+                        @break
+
+                        @default
+                            未設定
+                    @endswitch
+                </p>
+
+                @if (auth()->user()->role === 'tax_advisor' && auth()->user()->taxAdvisor)
+                    <!-- 税理士の場合の追加情報 -->
+                    <h3 class="font-bold mt-3 mb-2 border-b pb-1">税理士プロフィール</h3>
+                    <p class="py-1"><strong>事務所名:</strong> {{ auth()->user()->taxAdvisor->office_name ?? '未登録' }}</p>
+                    <p class="py-1"><strong>郵便番号:</strong> {{ auth()->user()->taxAdvisor->postal_code ?? '未登録' }}</p>
+                    <p class="py-1"><strong>都道府県:</strong> {{ auth()->user()->taxAdvisor->prefecture ?? '未登録' }}</p>
+                    <p class="py-1"><strong>住所:</strong> {{ auth()->user()->taxAdvisor->address ?? '未登録' }}</p>
+                    <p class="py-1"><strong>事務所電話番号:</strong> {{ auth()->user()->taxAdvisor->office_phone ?? '未登録' }}
+                    </p>
+                    <p class="py-1"><strong>携帯電話番号:</strong> {{ auth()->user()->taxAdvisor->mobile_phone ?? '未登録' }}
+                    </p>
+                    <p class="py-1"><strong>専門分野:</strong> {{ auth()->user()->taxAdvisor->specialty ?? '未登録' }}</p>
+                    @if (auth()->user()->taxAdvisor->subscriptionPlan)
+                        <p class="py-1"><strong>料金プラン:</strong>
+                            {{ auth()->user()->taxAdvisor->subscriptionPlan->name ?? '未登録' }}</p>
+                        <p class="py-1"><strong>プラン期間:</strong>
+                            {{ auth()->user()->taxAdvisor->subscription_start_date ? auth()->user()->taxAdvisor->subscription_start_date->format('Y年m月d日') : '未設定' }}
+                            から
+                            {{ auth()->user()->taxAdvisor->subscription_end_date ? auth()->user()->taxAdvisor->subscription_end_date->format('Y年m月d日') : '未設定' }}
+                        </p>
+                    @endif
+                @endif
             </div>
 
             <!-- Tax Minutes リール動画管理セクション -->
@@ -223,27 +261,29 @@
             </div>
 
             <!-- プロフィール写真の表示 -->
-            <div class="bg-gray-50 border-l-4 border-blue-500 p-6 rounded-lg mb-6">
-                <p class="mb-3"><strong>プロフィール写真:</strong></p>
-                <div class="flex justify-center">
-                    <img src="{{ auth()->user()->tax_accountant_photo ?? '/default-photo.png' }}" alt="プロフィール写真"
-                        class="max-w-xs rounded-lg shadow-md">
+            @if (auth()->user()->role === 'tax_advisor' && auth()->user()->taxAdvisor)
+                <div class="bg-gray-50 border-l-4 border-blue-500 p-6 rounded-lg mb-6">
+                    <p class="mb-3"><strong>プロフィール写真:</strong></p>
+                    <div class="flex justify-center">
+                        <img src="{{ auth()->user()->taxAdvisor->tax_accountant_photo ?? '/default-photo.png' }}"
+                            alt="プロフィール写真" class="max-w-xs rounded-lg shadow-md">
+                    </div>
                 </div>
-            </div>
 
-            <!-- その他の写真の表示 -->
-            <div class="bg-gray-50 border-l-4 border-blue-500 p-6 rounded-lg mb-6">
-                <p class="mb-3"><strong>その他の写真:</strong></p>
-                <div class="flex flex-wrap justify-center gap-4">
-                    @if (auth()->user()->additional_photos)
-                        @foreach (json_decode(auth()->user()->additional_photos, true) as $photo)
-                            <img src="{{ $photo }}" alt="追加写真" class="max-w-xs rounded-lg shadow-md">
-                        @endforeach
-                    @else
-                        <p>登録されていません</p>
-                    @endif
+                <!-- その他の写真の表示 -->
+                <div class="bg-gray-50 border-l-4 border-blue-500 p-6 rounded-lg mb-6">
+                    <p class="mb-3"><strong>その他の写真:</strong></p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        @if (auth()->user()->taxAdvisor && auth()->user()->taxAdvisor->additional_photos)
+                            @foreach (json_decode(auth()->user()->taxAdvisor->additional_photos, true) as $photo)
+                                <img src="{{ $photo }}" alt="追加写真" class="max-w-xs rounded-lg shadow-md">
+                            @endforeach
+                        @else
+                            <p>登録されていません</p>
+                        @endif
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <div class="flex justify-center">
                 <form id="logout-form" action="{{ route('logout') }}" method="POST">

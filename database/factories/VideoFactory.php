@@ -13,7 +13,7 @@ class VideoFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::where('is_tax_accountant', true)->inRandomOrder()->first()->id ?? 1,
+            'user_id' => User::where('role', 'tax_advisor')->inRandomOrder()->first()->id ?? 1,
             'title' => $this->faker->sentence(3),
             'video_path' => 'https://samplelib.com/lib/preview/mp4/sample-5s.mp4', // ダミー動画URL
         ];

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Video;
+use App\Models\SubscriptionPlan;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -20,11 +21,29 @@ class DatabaseSeeder extends Seeder
 
         // テーブルをトランケート（データ削除＆IDリセット）
         DB::table('videos')->truncate();
-        DB::table('users')->truncate();
         DB::table('tax_advisors')->truncate();
+        DB::table('subscription_plans')->truncate();
+        DB::table('users')->truncate();
 
         // 外部キー制約を再有効化
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        // サブスクリプションプランを作成
+        SubscriptionPlan::create([
+            'name' => 'ベーシック',
+            'description' => '基本機能のみのプラン',
+            'price' => 5000,
+            'duration_days' => 30,
+            'features' => ['基本機能'],
+        ]);
+
+        SubscriptionPlan::create([
+            'name' => 'プロフェッショナル',
+            'description' => '高度な機能を含むプラン',
+            'price' => 10000,
+            'duration_days' => 30,
+            'features' => ['基本機能', '詳細な分析', '優先サポート'],
+        ]);
 
         // 管理者アカウントを作成
         $admin = User::firstOrCreate(
@@ -32,10 +51,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Admin User',
                 'password' => Hash::make('adminpassword'),
-                'is_tax_accountant' => true,
-                'tax_registration_number' => 'TAX123456',
-                'office_name' => 'Admin Tax Office',
-                'profile_image' => null,
+                'role' => 'admin',
             ]
         );
 
@@ -45,10 +61,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Test Tax Accountant',
                 'password' => Hash::make('taxpassword'),
-                'is_tax_accountant' => true,
-                'tax_registration_number' => 'TAX654321',
-                'office_name' => 'Test Tax Office',
-                'profile_image' => null,
+                'role' => 'tax_advisor',
             ]
         );
 
@@ -58,10 +71,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Regular User',
                 'password' => Hash::make('userpassword'),
-                'is_tax_accountant' => false,
-                'tax_registration_number' => null,
-                'office_name' => null,
-                'profile_image' => null,
+                'role' => 'individual',
             ]
         );
 
