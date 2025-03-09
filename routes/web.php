@@ -10,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\TaxMinutesVideoController;
+use App\Http\Controllers\DashboardController;
 
 
 Route::get('/', function () {
@@ -46,12 +47,16 @@ Route::get('/register/select', function () { //登録フォーム
 })->name('register.select');
 
 Route::get('/register/tax-expert', [RegisterController::class, 'showTaxExpertRegister'])->name('register.tax_expert'); //登録フォーム
-Route::get('/register/company', [RegisterController::class, 'showCompanyRegister'])->name('register.company'); //登録フォーム
-Route::get('/register/individual', [RegisterController::class, 'showIndividualRegister'])->name('register.individual'); //登録フォーム
+Route::post('/register/tax-expert', [RegisterController::class, 'registerTaxExpert'])->name('register.tax_expert.post'); //登録処理
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/register/company', [RegisterController::class, 'showCompanyRegister'])->name('register.company'); //登録フォーム
+Route::post('/register/company', [RegisterController::class, 'registerCompany'])->name('register.company.post'); //登録処理
+
+Route::get('/register/individual', [RegisterController::class, 'showIndividualRegister'])->name('register.individual'); //登録フォーム
+Route::post('/register/individual', [RegisterController::class, 'registerIndividual'])->name('register.individual.post'); //登録処理
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

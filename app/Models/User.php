@@ -44,4 +44,44 @@ class User extends Authenticatable
     {
         return $this->hasOne(TaxAdvisor::class);
     }
+
+    /**
+     * 企業プロフィールを取得
+     */
+    public function company(): HasOne
+    {
+        return $this->hasOne(Company::class);
+    }
+
+    /**
+     * 個人プロフィールを取得
+     */
+    public function individual(): HasOne
+    {
+        return $this->hasOne(Individual::class);
+    }
+
+    /**
+     * ユーザーが企業であるかどうかを確認
+     */
+    public function isCompany(): bool
+    {
+        return $this->role === 'company';
+    }
+
+    /**
+     * ユーザーが個人であるかどうかを確認
+     */
+    public function isIndividual(): bool
+    {
+        return $this->role === 'individual';
+    }
+
+    /**
+     * ユーザーが管理者であるかどうかを確認
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
 }
