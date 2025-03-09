@@ -1,152 +1,53 @@
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $video->title }} - TaxBar®️</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    @vite('resources/css/app.css')
-    <style>
-        .video-container {
-            position: relative;
-            width: 100%;
-            max-width: 480px;
-            /* 動画の幅を少し広げる（9:16 の場合でも自然なサイズに） */
-            margin: 0 auto;
-            /* 中央揃え */
-        }
-
-        .video-container video {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 9 / 16;
-            /* 9:16 のアスペクト比を設定 */
-            object-fit: cover;
-            /* 動画がコンテナにフィットするように調整 */
-            border-radius: 0.5rem 0.5rem 0 0;
-            /* Tailwind の rounded-t-lg を再現 */
-        }
-
-        .video-container>div {
-            pointer-events: none;
-            /* オーバーレイがクリックイベントを受け取らない */
-        }
-
-        /* フェードインアニメーション */
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
-</head>
-
-<body class="bg-gray-100 font-sans">
-    <!-- ヘッダー -->
-    @include('components.header')
-
-    <!-- メインコンテンツ -->
-    <main class="container mt-12 mx-auto px-4 py-16 animate-fade-in">
-        <!-- 動画タイトル -->
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10 text-center">{{ $video->title }}</h1>
-
-        <!-- 動画と詳細情報のコンテナ -->
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-            <!-- 動画プレイヤー -->
-            <div class="lg:col-span-3 flex justify-center">
-                <div class="video-container bg-white rounded-lg shadow-lg overflow-hidden relative">
-                    <video controls class="w-full h-auto">
-                        <source src="{{ $video->video_url }}" type="video/mp4">
-                        お使いのブラウザは動画再生に対応していません。
-                    </video>
-                    <!-- 再生ボタンのオーバーレイ -->
-                    <div
-                        class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-20 transition-all duration-300">
-                        <svg class="w-12 h-12 text-white opacity-80" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 動画詳細情報 -->
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-lg shadow-lg p-8">
-                    <h2 class="text-lg font-semibold text-gray-800 mb-5 border-b-2 border-indigo-500 pb-3">動画詳細</h2>
-                    <div class="space-y-5 text-gray-700 text-base">
-                        <p class="flex items-center">
-                            <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10 10a4 4 0 100-8 4 4 0 000 8zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                            </svg>
-                            <span class="font-medium text-gray-900">投稿者:</span>
-                            <span>{{ $video->user->name }}</span>
-                        </p>
-                        <p class="flex items-center">
-                            <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M2 3h16a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V5a2 2 0 012-2zm1 2v10h14V5H3z" />
-                            </svg>
-                            <span class="font-medium text-gray-900">説明:</span>
-                            <span>{{ $video->description }}</span>
-                        </p>
-                        <p class="flex items-center">
-                            <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 2a8 8 0 100 16 8 8 0 000-16zM5.93 6.757a6 6 0 018.113 8.113L10 11.414l-4.07 3.456a6 6 0 01-8.113-8.113L10 8.586l4.07-3.456a6 6 0 01-8.14 8.14z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <span class="font-medium text-gray-900">都道府県:</span>
-                            <span>{{ $video->prefecture }}</span>
-                        </p>
-                        <p class="flex items-center">
-                            <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10 12a4 4 0 100-8 4 4 0 000 8zm0-10a6 6 0 016 6c0 2.22-1.21 4.16-3 5.2V15a1 1 0 01-1 1h-4a1 1 0 01-1-1v-1.8C5.21 12.16 4 10.22 4 8a6 6 0 016-6z" />
-                            </svg>
-                            <span class="font-medium text-gray-900">閲覧数:</span>
-                            <span>{{ $video->views }} 回</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- アクションボタン -->
-        <div class="mt-10 text-center">
-            <a href="{{ route('taxminivideos.index') }}"
-                class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all duration-300">
-                戻る
+<!-- ✅ ヘッダー -->
+<header class="bg-white bg-opacity-100 shadow-none fixed w-full top-0 left-0 z-50 min-h-[60px]">
+    <div class="container mx-auto sm:flex sm:justify-start lg:justify-between items-center px-6 py-4">
+        <!-- ✅ ロゴを左端に配置（スマホでも確実に左寄せ） -->
+        <div class="logo flex-shrink-0 ml-0 lg:ml-auto">
+            <a href="/">
+                <img src="{{ asset('images/logo.png') }}" alt="ロゴ" class="h-10">
             </a>
         </div>
-    </main>
 
-    <!-- フッター -->
-    @include('components.footer')
+        <!-- ✅ デスクトップナビゲーション（中央均等配置） -->
+        <nav class="hidden lg:flex flex-1 justify-center">
+            <ul class="flex space-x-8">
+                <li><a href="/" class="text-gray-700 hover:text-blue-500 text-lg">HOME</a></li>
+                <li><a href="/taxminivideos" class="text-gray-700 hover:text-blue-500 text-lg">Tax Minutes&reg;</a></li>
+                <li><a href="/view/theme" class="text-gray-700 hover:text-blue-500 text-lg">テーマ</a></li>
+                <li><a href="/view/prohibited" class="text-gray-700 hover:text-blue-500 text-lg">禁止事項</a></li>
+                <li><a href="/inquiry" class="text-gray-700 hover:text-blue-500 text-lg">問合せ</a></li>
+                <li><a href="/view/hachimantaishi" class="text-gray-700 hover:text-blue-500 text-lg">八幡平市</a></li>
+                <li><a href="/faq" class="text-gray-700 hover:text-blue-500 text-lg">よくある質問</a></li>
+                <li><a href="/pricing" class="text-gray-700 hover:text-blue-500 text-lg">料金表</a></li>
+                <li><a href="/register/select" class="text-gray-700 hover:text-blue-500 text-lg">登録フォーム</a></li>
+                <li><a href="/login" class="text-gray-700 hover:text-blue-500 text-lg">ログイン</a></li>
+            </ul>
+        </nav>
 
-    <script>
-        const video = document.querySelector('video');
-        const overlay = document.querySelector('.video-container > div');
+        <!-- ✅ ハンバーガーメニュー（スマホ用・一番右） -->
+        <div x-data="{ open: false }" class="relative lg:hidden ml-auto">
+            <button @click="open = !open" class="p-2 rounded-md focus:outline-none">
+                <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
 
-        video.addEventListener('play', () => {
-            overlay.style.display = 'none'; // 動画が再生されるとオーバーレイを非表示に
-        });
-
-        video.addEventListener('pause', () => {
-            overlay.style.display = 'flex'; // 動画が一時停止するとオーバーレイを表示
-        });
-    </script>
-</body>
-
-</html>
+            <nav x-show="open" @click.away="open = false" x-transition
+                class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg">
+                <ul class="flex flex-col space-y-2 p-4">
+                    <li><a href="/" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">HOME</a></li>
+                    <li><a href="/taxminivideos" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Tax Minutes&reg;</a></li>
+                    <li><a href="/view/theme" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">テーマ</a></li>
+                    <li><a href="/view/prohibited" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">禁止事項</a></li>
+                    <li><a href="/inquiry" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">問合せ</a></li>
+                    <li><a href="/view/hachimantaishi" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">八幡平市</a></li>
+                    <li><a href="/faq" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">よくある質問</a></li>
+                    <li><a href="/pricing" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">料金表</a></li>
+                    <li><a href="/register/select" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">登録フォーム</a></li>
+                    <li><a href="/login" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">ログイン</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>

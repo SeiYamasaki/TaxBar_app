@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaxBar®️ | テーマ</title>
+    <title>TaxBar® | テーマ</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -24,20 +24,15 @@
             color: #333;
         }
 
-        /* コンテナスタイル */
+        /* ✅ `.custom-container` の影響を最小限に */
         .custom-container {
-            width: 100%;
             max-width: 1261px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 10px;
-            padding-right: 10px;
-            padding-top: 3rem;
-            padding-bottom: 5rem;
+            margin: 0 auto;
+            padding: 3rem 10px 5rem;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
-            margin-top: 5rem;
         }
+        
 
         /* グリッドレイアウト */
         .theme-grid {
