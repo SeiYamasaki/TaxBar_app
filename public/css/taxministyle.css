@@ -5,7 +5,7 @@ html {
     padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
-    overflow-x: hidden;
+    overflow-x: hidden; /* 横スクロールを防止 */
 }
 
 /* 背景動画コンテナ */
@@ -26,6 +26,56 @@ html {
     object-fit: cover;
 }
 
+/* ヘッダー */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff; /* 完全な白 */
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px; /* 左右の余白 */
+}
+
+/* ロゴを左端に配置 */
+.header .logo {
+    margin-right: auto; /* 右の余白を確保 */
+}
+
+/* ナビゲーションメニューを中央均等配置 */
+.header .nav {
+    flex-grow: 1; /* ナビゲーションが中央配置されるように */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ナビゲーションのリスト */
+.header .nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0 auto; /* メニューを中央配置 */
+    gap: 40px;
+}
+
+/* ナビゲーションのリンク */
+.header .nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0.5rem;
+    transition: color 0.3s;
+}
+
+.header .nav ul li a:hover {
+    color: red;
+    text-decoration: underline;
+}
+
 /* メインコンテンツ */
 main {
     position: relative;
@@ -33,88 +83,19 @@ main {
     color: white;
     text-align: center;
     padding: 50px 20px;
+    margin-top: 80px;
+    padding-bottom: 30px;
 }
 
 /* コンテンツの背景を半透明に */
 .container {
-    background: rgba(0, 0, 0, 0.6);
+    background: transparent;
     padding: 20px;
     border-radius: 10px;
     backdrop-filter: blur(10px);
     display: inline-block;
     max-width: 900px;
     margin: auto;
-}
-
-/* ヘッダー全体 */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 65px;
-    background: black;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* ロゴ */
-.logo {
-    position: absolute;
-    left: 20px;
-}
-
-.logo img {
-    height: 50px;
-    width: auto;
-}
-
-/* ナビゲーションメニュー */
-.nav {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.nav ul {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    gap: 40px;
-}
-
-.nav ul li {
-    text-align: center;
-}
-
-.nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 0.5rem;
-    transition: color 0.3s;
-}
-
-.nav ul li a:hover {
-    color: red;
-    text-decoration: underline;
-}
-
-/* メインコンテンツ */
-main {
-    margin-top: 80px;
-    padding-bottom: 30px;
-}
-
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
 }
 
 /* 動画グリッド */
@@ -156,16 +137,6 @@ main {
     object-fit: cover;
 }
 
-/* 余白の影響を受けないよう調整 */
-.video-card a {
-    width: 100%;
-}
-
-.video-card h3 {
-    margin-top: 5px;
-    font-size: 1rem;
-}
-
 /* ページネーションのデザイン */
 .pagination {
     display: flex;
@@ -174,102 +145,18 @@ main {
     margin-top: 30px;
 }
 
-/* ページネーションの各アイテム */
-.pagination .page-item {
-    list-style: none;
-    margin: 0 5px;
-}
-
-/* ページネーションのリンク */
-.pagination .page-item a,
-.pagination .page-item span {
-    color: white !important;  /* ページ番号を白く */
-    background: rgba(0, 0, 0, 0.6); /* 背景を半透明の黒 */
-    border: 1px solid white;  /* 白い枠線 */
-    padding: 10px 15px; /* クリックしやすいサイズに */
-    border-radius: 5px;
-    font-size: 16px;
-    text-decoration: none;
-    display: inline-block;
-}
-
-/* ホバー時のデザイン */
-.pagination .page-item a:hover {
-    background: white;
-    color: black !important;
-}
-
-/* アクティブなページ */
-.pagination .page-item.active a {
-    background: white !important;
-    color: black !important;
-    border-color: white !important;
-}
-
-/* ======= フッター ======= */
+/* フッター */
 footer {
     background: black;
     color: #fff;
     text-align: center;
     padding: 30px 0;
-    /* 余白を適度に確保 */
     width: 100%;
     position: relative;
-    /* 固定せず、内容に応じて高さを調整 */
     min-height: auto;
-    /* 高さをコンテンツに応じて可変に */
 }
 
-/* ======= 都道府県リンクエリア ======= */
-.prefecture-links {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding: 15px 10px;
-    /* 余白を調整 */
-    max-width: 100%;
-    overflow: visible;
-    /* 非表示にならないように */
-}
-
-.prefecture-links ul {
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    padding: 0;
-    margin: 10px auto;
-    justify-content: center;
-    max-width: 95%;
-    /* 横幅を確保 */
-}
-
-/* ======= 追加: フッターの高さを確保 ======= */
-.prefecture-links::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 100px;
-    /* 追加の高さを確保 */
-}
-
-.prefecture-links li {
-    margin: 5px;
-    white-space: nowrap;
-    /* 都道府県名が途中で折り返されないように */
-}
-
-.prefecture-links a {
-    text-decoration: none;
-    color: #007bff;
-    font-size: 14px;
-}
-
-.prefecture-links a:hover {
-    text-decoration: underline;
-    color: white;
-}
-
-/* 📌 スマホ対応（ナビゲーションのレイアウト崩れを防ぐ） */
+/* スマホ対応 */
 @media (max-width: 768px) {
     .header {
         height: 50px;
@@ -278,11 +165,6 @@ footer {
 
     .logo img {
         height: 40px;
-    }
-
-    .nav {
-        justify-content: center;
-        flex-wrap: wrap;
     }
 
     .nav ul {
