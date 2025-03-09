@@ -20,9 +20,7 @@ html {
     z-index: 10;
     display: flex;
     align-items: center;
-    /* 垂直方向の中央揃え */
     justify-content: center;
-    /* 水平方向の中央揃え */
     padding: 0;
     box-sizing: border-box;
 }
@@ -31,7 +29,6 @@ html {
 .logo {
     position: absolute;
     left: 20px;
-    /* 左端に配置 */
 }
 
 .logo img {
@@ -44,7 +41,6 @@ html {
     flex: 1;
     display: flex;
     justify-content: center;
-    /* 均等配置の基準 */
 }
 
 .nav ul {
@@ -53,7 +49,6 @@ html {
     padding: 0;
     margin: 0;
     gap: 40px;
-    /* メニュー間のスペースを調整 */
 }
 
 .nav ul li {
@@ -74,111 +69,62 @@ html {
     text-decoration: underline;
 }
 
-
 /* 背景動画コンテナ */
 .video-container {
     position: relative;
     margin-top: 65px;
-    /* ヘッダーの高さ分だけ下げる */
     width: 100%;
     height: calc(100vh - 65px);
-    /* ヘッダーを引いた画面の高さ */
     overflow: hidden;
-    /* 動画がコンテナからはみ出さないようにする */
     background-color: black;
 }
 
-/* 動画の設定 */
+/* 背景動画の設定 */
 .video-container video {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     object-fit: cover;
-    /* 動画をコンテナ全体に収める */
     transform: translate(-50%, -50%);
 }
 
-/* レスポンシブ対応 */
+/* スマホ用の背景動画調整 */
 @media (max-width: 768px) {
-    .header {
-        height: 50px;
-        padding: 0 10px;
-    }
-
-    .logo img {
-        height: 40px;
-    }
-
-    .nav ul {
-        width: 100%;
-    }
-
-    .nav ul li a {
-        font-size: 14px;
-    }
-
-    .video-container {
-        height: calc(100vh - 50px);
-        /* ヘッダーを引いた画面の高さ（モバイル対応） */
+    .video-container video {
+        width: auto;
+        height: 100%;
+        object-fit: contain;
     }
 }
 
+/* タイムライン */
 .timeline-container {
     display: flex;
-    /* 横並びにする */
     justify-content: space-around;
-    /* 均等配置 */
     align-items: flex-start;
-    /* 上揃え */
     flex-wrap: wrap;
-    /* 画面幅が小さいときは折り返し */
     gap: 10px;
-    /* アイテムの間隔 */
-    padding: 10px;
-}
-
-.timeline-item {
-    text-align: center;
-    /* タイトルとウィジェットを中央揃え */
-}
-
-/* 横並びレイアウト */
-.timeline-container {
-    display: flex;
-    /* 横並びにする */
-    justify-content: space-around;
-    /* 均等配置 */
-    align-items: flex-start;
-    /* 上揃え */
-    flex-wrap: wrap;
-    /* 画面が小さいとき折り返す */
-    gap: 20px;
-    /* アイテムの間隔 */
     padding: 10px;
     border: 3px solid red;
 }
 
-/* 各セクションのスタイル */
 .timeline-item {
     text-align: center;
     width: 400px;
-    /* アイテムの幅を統一 */
 }
 
-/* ゲスト全体のコンテナ */
+/* ゲストコンテナ */
 .guest-container {
     text-align: center;
     padding: 10px;
 }
 
-/* タイトル（中央揃え） */
 .guest-title {
     margin-bottom: 20px;
 }
 
-/* 画像を横並びにするコンテナ */
 .guest-list {
     display: flex;
     justify-content: center;
@@ -187,13 +133,13 @@ html {
     flex-wrap: wrap;
 }
 
-/* 各ゲストのブロック */
+/* ゲスト情報 */
 .guest-item {
     text-align: center;
     width: 300px;
 }
 
-/* 画像プレビューの枠 */
+/* ゲスト画像 */
 .image-preview {
     width: 100%;
     height: 400px;
@@ -208,7 +154,6 @@ html {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* 画像のスタイル */
 .image-preview img {
     width: 100%;
     height: 100%;
@@ -216,7 +161,7 @@ html {
     border-radius: 5px;
 }
 
-/* ボタン */
+/* 予約ボタン */
 .guest-button {
     margin-top: 15px;
     padding: 10px 20px;
@@ -230,13 +175,12 @@ html {
     transition: 0.3s;
 }
 
-/* ボタンのホバー時 */
 .guest-button:hover {
     background-color: #cc5500;
     transform: scale(1.05);
 }
 
-/* 📌 GIF を中央に配置（1つだけ） */
+/* GIF スタイル */
 .gif-container {
     display: flex;
     justify-content: center;
@@ -244,44 +188,32 @@ html {
     margin-top: 0px;
 }
 
-/* 📌 GIF のスタイル */
 .gif-item {
     width: 240px;
-    /* GIF のサイズを統一 */
     height: 240px;
     object-fit: contain;
-    /* 画像が潰れないようにする */
     border-radius: 5px;
     background: transparent;
-    /* 背景を透明に */
     box-shadow: none;
-    /* 影を削除 */
 }
 
-/* ======= フッター ======= */
+/* フッター */
 footer {
     background: black;
     color: #fff;
     text-align: center;
     padding: 30px 0;
-    /* 余白を適度に確保 */
     width: 100%;
     position: relative;
-    /* 固定せず、内容に応じて高さを調整 */
     min-height: auto;
-    /* 高さをコンテンツに応じて可変に */
 }
 
-/* ======= 都道府県リンクエリア ======= */
 .prefecture-links {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     padding: 15px 10px;
-    /* 余白を調整 */
     max-width: 100%;
-    overflow: visible;
-    /* 非表示にならないように */
 }
 
 .prefecture-links ul {
@@ -292,22 +224,18 @@ footer {
     margin: 10px auto;
     justify-content: center;
     max-width: 95%;
-    /* 横幅を確保 */
 }
 
-/* ======= 追加: フッターの高さを確保 ======= */
 .prefecture-links::after {
     content: "";
     display: block;
     width: 100%;
     height: 100px;
-    /* 追加の高さを確保 */
 }
 
 .prefecture-links li {
     margin: 5px;
     white-space: nowrap;
-    /* 都道府県名が途中で折り返されないように */
 }
 
 .prefecture-links a {
