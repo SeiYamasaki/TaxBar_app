@@ -4,11 +4,11 @@ return [
     'plans' => [
         'basic' => [
             'name' => 'ゴールドプラン',
-            'price' => 30000
+            'price' => 50000
         ],
         'standard' => [
             'name' => 'プラチナプラン',
-            'price' => 50000
+            'price' => 70000
         ],
         'premium' => [
             'name' => 'VIPプラン',

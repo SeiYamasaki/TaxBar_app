@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">税理士その他の専門家 登録</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('register.tax_expert.post') }}" enctype="multipart/form-data">
                             @csrf
 
                             <!-- 税理士氏名 -->
@@ -32,13 +32,13 @@
                             <!-- 郵便番号 -->
                             <div class="form-group">
                                 <label for="postal_code">郵便番号</label>
-                                <input type="text" class="form-control" name="postal_code" required>
+                                <input type="text" class="form-control" name="postal_code" id="postal_code" required>
                             </div>
 
                             <!-- 都道府県 -->
                             <div class="form-group">
                                 <label for="prefecture">都道府県</label>
-                                <select class="form-control" name="prefecture" required>
+                                <select class="form-control" name="prefecture" id="prefecture" required>
                                     <option value="">選択してください</option>
                                     <option value="北海道">北海道</option>
                                     <option value="青森県">青森県</option>
@@ -93,7 +93,7 @@
                             <!-- 住所 -->
                             <div class="form-group">
                                 <label for="address">住所</label>
-                                <input type="text" class="form-control" name="address" required>
+                                <input type="text" class="form-control" name="address" id="address" required>
                             </div>
 
                             <!-- 事務所電話番号 -->
@@ -125,36 +125,40 @@
                                 <div id="preview_additional_photos" class="mt-2 d-flex flex-wrap border p-2 rounded">
                                 </div>
                             </div>
+
                             <!-- パスワード -->
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                 <label for="password">パスワード</label>
-                                <input type="password" class="form-control" name="password" required>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    name="password" required>
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                @enderror
                             </div>
-                            {{-- ストライプ --}}
-                            <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
-                                @csrf
 
-                                <!-- 既存の入力フィールド（省略） -->
+                            <!-- パスワード確認 -->
+                            <div class="form-group mb-3">
+                                <label for="password_confirmation">パスワード（確認）</label>
+                                <input type="password" class="form-control" name="password_confirmation" required>
+                            </div>
 
-                                <!-- 料金プランの選択 -->
-                                <div class="form-group">
-                                    <label for="plan">選択するプラン</label>
-                                    <select class="form-control" id="plan" name="plan" required>
-                                        @foreach (config('pricing.plans') as $key => $plan)
-                                            <option value="{{ $key }}" data-price="{{ $plan['price'] }}">
-                                                {{ $plan['name'] }}（{{ number_format($plan['price']) }}円）
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <!-- 料金プランの選択 -->
+                            <div class="form-group">
+                                <label for="plan">選択するプラン</label>
+                                <select class="form-control" id="plan" name="plan" required>
+                                    @foreach (config('pricing.plans') as $key => $plan)
+                                        <option value="{{ $key }}" data-price="{{ $plan['price'] }}">
+                                            {{ $plan['name'] }}（{{ number_format($plan['price']) }}円）
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                                <!-- 決済ボタン -->
-                                <button id="payButton" class="btn btn-success w-100 mt-3">クレジットカードで支払う</button>
+                            <!-- 決済ボタン -->
+                            <button id="payButton" class="btn btn-success w-100 mt-3">クレジットカードで支払う</button>
 
-                                <!-- 登録ボタン（決済後の登録） -->
-                                <button type="submit" class="btn btn-primary mt-3 w-100">登録</button>
-                            </form>
-
+                            <!-- 登録ボタン（決済後の登録） -->
+                            <button type="submit" class="btn btn-primary mt-3 w-100">登録</button>
                         </form>
                     </div>
                 </div>
@@ -165,4 +169,27 @@
 
 @section('scripts')
     <script src="{{ asset('js/form-preview.js') }}"></script>
+    <script>
+        document.getElementById('postal_code').addEventListener('input', function() {
+            const postalCode = this.value.replace(/[^0-9]/g, ''); // 数字以外を削除
+            if (postalCode.length === 7) { // 郵便番号が7桁の場合
+                fetch(`https://api.zipaddress.net/?zipcode=${postalCode}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.code === 200) {
+                            document.getElementById('address').value = data.data.fullAddress; // 住所を自動入力
+                            document.getElementById('prefecture').value = data.data.pref; // 都道府県を自動入力
+                        } else {
+                            console.error('API Error:', data.message);
+                        }
+                    })
+                    .catch(error => console.error('Fetch Error:', error));
+            }
+        });
+    </script>
 @endsection
