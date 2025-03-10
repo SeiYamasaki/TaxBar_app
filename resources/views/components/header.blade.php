@@ -38,28 +38,33 @@
         <div class="w-full max-w-none flex sm:justify-start lg:justify-between items-center px-6 py-4">
 
             <!-- ✅ ロゴ（左側） -->
-            <div class="logo flex-shrink-0 sm:ml-0 lg:ml-auto">
+            <div class="logo sm:ml-0 lg:ml-auto">
                 <a href="/">
-                    <img src="{{ asset('images/logo.png') }}" alt="ロゴ" class="h-10">
+                    <img src="{{ asset('images/logo.png') }}" alt="ロゴ" style="height: 75px; width: auto;">
                 </a>
             </div>
 
             <!-- ✅ デスクトップナビゲーション（中央均等配置） -->
-            <nav class="hidden lg:flex flex-1 justify-center">
-                <ul class="flex space-x-8">
+            <nav class="hidden lg:flex w-full justify-center">
+                <ul class="flex flex-wrap justify-center gap-x-4 gap-y-2 max-w-[80%]">
                     <li><a href="/" class="text-gray-700 hover:text-blue-500 text-lg">HOME</a></li>
-                    <li><a href="/taxminivideos" class="text-gray-700 hover:text-blue-500 text-lg">Tax Minutes&reg;</a>
-                    </li>
+                    <li><a href="/taxminivideos" class="text-gray-700 hover:text-blue-500 text-lg">Tax Minutes®</a></li>
                     <li><a href="/view/theme" class="text-gray-700 hover:text-blue-500 text-lg">テーマ</a></li>
                     <li><a href="/view/prohibited" class="text-gray-700 hover:text-blue-500 text-lg">禁止事項</a></li>
                     <li><a href="/inquiry" class="text-gray-700 hover:text-blue-500 text-lg">問合せ</a></li>
-                    <li><a href="/view/hachimantaishi" class="text-gray-700 hover:text-blue-500 text-lg">八幡平市</a></li>
                     <li><a href="/faq" class="text-gray-700 hover:text-blue-500 text-lg">よくある質問</a></li>
                     <li><a href="/pricing" class="text-gray-700 hover:text-blue-500 text-lg">料金表</a></li>
+                    <li><a href="/view/hachimantaishi" class="text-gray-700 hover:text-blue-500 text-lg">八幡平市</a></li>
                     <li><a href="/register/select" class="text-gray-700 hover:text-blue-500 text-lg">登録フォーム</a></li>
-                    <li><a href="/login" class="text-gray-700 hover:text-blue-500 text-lg">ログイン</a></li>
+                    <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">ログイン</a></li>
+                    <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">税理士の方へ</a></li>
+                    <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">特集ページ</a></li>
+                    <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">相続でお困りの方へ</a></li>
+                    <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">TaxBar®とは？</a></li>
+
                 </ul>
             </nav>
+
 
             <!-- ✅ ハンバーガーメニュー（スマホ用・一番右） -->
             <div x-data="{ open: false }" class="relative lg:hidden ml-auto">
@@ -74,40 +79,50 @@
 
                 <!-- 📌 メニュー（クリックで開閉） -->
                 <nav x-show="open" @click.away="open = false" x-transition
-                    class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg">
+                    class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg max-h-[80vh] overflow-y-auto">
                     <ul class="flex flex-col space-y-2 p-4">
                         <li><a href="/"
-                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-red-500 rounded-md transition-all duration-500 ease-in-out hover:scale-115 hover:brightness-175 animate-gradient">HOME</a>
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">HOME</a>
                         </li>
                         <li><a href="/taxminivideos"
-                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-red-500 rounded-md transition-all duration-500 ease-in-out hover:scale-115 hover:brightness-175 animate-gradient">Tax
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">Tax
                                 Minutes&reg;</a></li>
                         <li><a href="/view/theme"
-                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-red-500 rounded-md transition-all duration-500 ease-in-out hover:scale-115 hover:brightness-175 animate-gradient">テーマ</a>
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">テーマ</a>
                         </li>
                         <li><a href="/view/prohibited"
-                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-red-500 rounded-md transition-all duration-500 ease-in-out hover:scale-115 hover:brightness-175 animate-gradient">禁止事項</a>
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">禁止事項</a>
                         </li>
                         <li><a href="/inquiry"
-                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-red-500 rounded-md transition-all duration-500 ease-in-out hover:scale-115 hover:brightness-175 animate-gradient">問合せ</a>
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">問合せ</a>
                         </li>
                         <li><a href="/view/hachimantaishi"
-                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-red-500 rounded-md transition-all duration-500 ease-in-out hover:scale-115 hover:brightness-175 animate-gradient">八幡平市</a>
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">八幡平市</a>
                         </li>
                         <li><a href="/faq"
-                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-red-500 rounded-md transition-all duration-500 ease-in-out hover:scale-115 hover:brightness-175 animate-gradient">よくある質問</a>
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">よくある質問</a>
                         </li>
                         <li><a href="/pricing"
-                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-red-500 rounded-md transition-all duration-500 ease-in-out hover:scale-115 hover:brightness-175 animate-gradient">料金表</a>
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">料金表</a>
+                        </li>
+                        <li><a href="#"
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">税理士の方へ</a>
+                        </li>
+                        <li><a href="#"
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">特集ページ</a>
+                        </li>
+                        <li><a href="#"
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">相続でお困りの方へ</a>
                         </li>
                         <li><a href="/register/select"
-                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-red-500 rounded-md transition-all duration-500 ease-in-out hover:scale-115 hover:brightness-175 animate-gradient">登録フォーム</a>
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">登録フォーム</a>
                         </li>
                         <li><a href="/login"
-                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-red-500 rounded-md transition-all duration-500 ease-in-out hover:scale-115 hover:brightness-175 animate-gradient">ログイン</a>
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">ログイン</a>
                         </li>
                     </ul>
                 </nav>
+
             </div>
         </div>
     </header>
