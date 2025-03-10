@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaxBar®️ | ダッシュボード</title>
+    <title>TaxBar® | ダッシュボード</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
@@ -13,9 +13,9 @@
     @include('components.header')
 
     <!-- ヘッダーの高さ分のスペーサー -->
-    <div class="h-16"></div>
+    <div class="h-20"></div>
 
-    <main class="flex-grow container mx-auto px-4 py-8">
+    <main class="flex-grow container mx-auto px-4 py-8 mt-20">
         <div class="bg-white shadow-md rounded-lg p-8 max-w-4xl mx-auto">
             <!-- ロゴの表示 -->
             <div class="flex justify-center mb-6">

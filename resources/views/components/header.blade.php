@@ -34,7 +34,7 @@
 <body class="bg-gray-100">
 
     <!-- ✅ ヘッダー -->
-    <header class="bg-white bg-opacity-100 shadow-none fixed w-full top-0 left-0 z-50 min-h-[60px]">
+    <header class="bg-white bg-opacity-100 shadow-none fixed w-full top-0 left-0 z-50 min-h-[60px] flex items-center px-6 py-4">
         <div class="w-full max-w-none flex sm:justify-start lg:justify-between items-center px-6 py-4">
 
             <!-- ✅ ロゴ（左側） -->
@@ -56,7 +56,7 @@
                     <li><a href="/pricing" class="text-gray-700 hover:text-blue-500 text-lg">料金表</a></li>
                     <li><a href="/view/hachimantaishi" class="text-gray-700 hover:text-blue-500 text-lg">八幡平市</a></li>
                     <li><a href="/register/select" class="text-gray-700 hover:text-blue-500 text-lg">登録フォーム</a></li>
-                    <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">ログイン</a></li>
+                    <li><a href="/login" class="text-gray-700 hover:text-blue-500 text-lg">ログイン</a></li>
                     <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">税理士の方へ</a></li>
                     <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">特集ページ</a></li>
                     <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">相続でお困りの方へ</a></li>

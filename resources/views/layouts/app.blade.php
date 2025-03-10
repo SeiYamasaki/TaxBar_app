@@ -24,23 +24,42 @@
 
     <!-- Styles -->
     <style>
-        /* ✅ 画面全体の中央配置を保証 */
+        /* ✅ デフォルトの `body` スタイル（変更を許可） */
         body {
             background: linear-gradient(to right, #4f92ff, #0052cc, #002766);
             min-height: 100vh;
-            align-items: center;
-            justify-content: center;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* ✅ メインコンテンツの中央配置 */
+        /* ✅ デフォルトの `main` スタイル */
         main {
-            display: flex;
+            flex-grow: 1;
+            width: 100%;
+            display: flex; /* ✅ デフォルトは `flex` だが、ページごとに変更可能 */
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: auto !important; /* ✅ 高さを自動調整 */
+        }
+
+        /* ✅ ヘッダーのスタイル */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 90px;
+            background-color: white;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
     </style>
+
+    <!-- ✅ 特定ページ専用のスタイル -->
+    @yield('page-specific-styles')
 
     @stack('styles')
 
@@ -48,7 +67,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
+<!-- ✅ `@yield('body-class')` で特定のページだけクラスを変更可能 -->
+<body class="@yield('body-class')">
     @include('components.header')
 
     <main>
@@ -56,7 +76,7 @@
     </main>
 
     @include('components.footer')
-    
+
     <!-- Scripts -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -112,8 +132,8 @@
             }
         });
     </script>
+
     @stack('scripts')
-    {{-- 料金表のスクリプト --}}
 </body>
 
 </html>

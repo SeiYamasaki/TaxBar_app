@@ -1,5 +1,43 @@
 @extends('layouts.app')
 
+@section('body-class', 'register-page') <!-- ✅ ここで特定のクラスを適用 -->
+
+@section('page-specific-styles')
+    <style>
+        main {
+            display: block !important;
+            height: auto !important;
+            padding-top: 300px !important;
+            /* ✅ PCで確実に余白を取る */
+            padding-bottom: 500px !important;
+        }
+
+        /* スマホの余白はそのまま */
+        @media (max-width: 768px) {
+            main {
+                padding-top: 160px !important;
+            }
+        }
+
+        body {
+            overflow: auto !important;
+        }
+
+        /* `.container` に `margin-top` を追加 */
+        .container {
+            margin-top: 0px !important;
+            
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let headerHeight = document.querySelector('header').offsetHeight;
+            document.querySelector('main').style.paddingTop = (headerHeight + 60) + "px"; // ✅ 余裕を持たせる
+        });
+    </script>
+
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
