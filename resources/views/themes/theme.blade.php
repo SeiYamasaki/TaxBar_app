@@ -11,17 +11,75 @@
     <!-- FontAwesomeの追加 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* リセットとベーススタイル */
-        * {
-            box-sizing: border-box;
+        /* 全体リセット */
+        body,
+        html {
             margin: 0;
             padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            /* 横スクロールを防止 */
         }
 
-        body {
-            font-family: sans-serif;
-            line-height: 1.6;
-            color: #333;
+        /* ヘッダー全体 */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: black;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ロゴ */
+        .logo {
+            position: absolute;
+            left: 20px;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        /* ナビゲーションメニュー */
+        .nav {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 40px;
+        }
+
+        .nav ul li {
+            text-align: center;
+        }
+
+        .nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .nav ul li a:hover {
+            color: red;
+            text-decoration: underline;
         }
 
         /* ✅ `.custom-container` の影響を最小限に */
@@ -32,7 +90,7 @@
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
         }
-        
+
 
         /* グリッドレイアウト */
         .theme-grid {
@@ -221,7 +279,7 @@
     </div>
 
     <!-- コンテンツエリア -->
-    <main>
+    <main class="mt-20">
         <div class="custom-container">
             <div class="page-title-container">
                 <h1 class="page-title">テーマ</h1>

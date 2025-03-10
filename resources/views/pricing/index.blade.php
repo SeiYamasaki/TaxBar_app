@@ -4,7 +4,10 @@
 
 @section('content')
     <div class="container mt-12 mx-auto py-12">
-        <h1 class="text-4xl font-bold text-center mb-8 text-white">料金表／月払い</h1>
+        
+        <h1 class="text-3xl font-bold text-center mb-8 text-white">料金表／月払い</h1>
+        <h1 class="text-3xl font-bold text-center mb-8 text-white">契約期間／1年</h1>
+        <h1 class="text-1xl font-bold text-center mb-8 text-white">一般法人個人は登録無料！</h1>
 
         <!-- ユーザー名の表示 -->
         @if (Auth::check())
@@ -13,11 +16,11 @@
             <p class="text-white text-lg font-semibold">ゲストとして閲覧中</p>
         @endif
 
-        <!-- タブ切り替えボタン -->
+        {{-- <!-- タブ切り替えボタン -->
         <div class="flex justify-center mb-6">
             <button id="corporate-tab" class="tab-btn active" onclick="showTab('corporate')">専門家</button>
             <button id="individual-tab" class="tab-btn" onclick="showTab('individual')">企業･個人</button>
-        </div>
+        </div> --}}
 
         @php
             $items = [
