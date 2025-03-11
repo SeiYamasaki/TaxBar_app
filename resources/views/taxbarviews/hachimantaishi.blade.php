@@ -15,7 +15,6 @@
     @include('components.header')
 
     <!-- 背景動画 -->
-                {{-- <li><a href="/view/hachimantaishi">八幡平市</a></li> --}}
     <div class="video-container">
         <video autoplay muted loop poster="{{ asset('images/fallback.jpg') }}">
             <source src="{{ asset('videos/hachimantai_v8.mp4') }}" type="video/mp4">

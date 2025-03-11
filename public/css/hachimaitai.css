@@ -1,0 +1,142 @@
+/* 全体のレイアウト */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 背景動画 */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 対談セクション */
+.interview {
+    margin-top: 40px;
+}
+
+/* 対話のスタイル */
+.dialogue {
+    margin-top: 20px;
+}
+
+.dialogue-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.dialogue-item.left {
+    flex-direction: row;
+}
+
+.dialogue-item.right {
+    flex-direction: row-reverse;
+}
+
+/* 写真のスタイル */
+.photo-container {
+    margin-right: 15px;
+    /* 写真とテキストの間隔調整 */
+}
+
+.speaker-photo {
+    width: 50px;
+    /* 写真のサイズを小さく */
+    height: 50px;
+    /* 写真のサイズを小さく */
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* テキストスタイル */
+.text-gray-800 {
+    color: #333;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+}
+
+.text-3xl {
+    font-size: 2rem;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+/* ギャラリーのスタイル */
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.gallery-item {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* セクションの見出し */
+h2,
+h3 {
+    margin-bottom: 15px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .dialogue-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dialogue-item.right {
+        flex-direction: column;
+    }
+
+    .photo-container {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .speaker-photo {
+        width: 40px;
+        /* モバイル向けに写真を小さく */
+        height: 40px;
+    }
+
+    .gallery-item {
+        height: 200px;
+        /* モバイル向けにギャラリーのサイズを調整 */
+    }
+}
