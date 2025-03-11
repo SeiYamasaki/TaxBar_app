@@ -46,6 +46,7 @@ class RegisterController extends Controller
             'office_phone' => ['required', 'string', 'max:20'],
             'mobile_phone' => ['nullable', 'string', 'max:20'],
             'specialty' => ['nullable', 'string', 'max:255'],
+            'terms_agree' => ['required', 'accepted'],
         ]);
 
         // ユーザー作成
@@ -66,6 +67,7 @@ class RegisterController extends Controller
             'office_phone' => $request->office_phone,
             'mobile_phone' => $request->mobile_phone,
             'specialty' => $request->specialty,
+            'terms_agreed' => $request->has('terms_agree'),
         ]);
 
         event(new Registered($user));
@@ -87,6 +89,7 @@ class RegisterController extends Controller
             'registration_number' => ['nullable', 'string', 'max:15'],
             'address' => ['required', 'string', 'max:255'],
             'contact_info' => ['required', 'string', 'max:255'],
+            'terms_agree' => ['required', 'accepted'],
         ]);
 
         // ユーザー作成
@@ -104,6 +107,7 @@ class RegisterController extends Controller
             'registration_number' => $request->registration_number,
             'address' => $request->address,
             'contact_info' => $request->contact_info,
+            'terms_agreed' => $request->has('terms_agree'),
         ]);
 
         event(new Registered($user));
@@ -126,6 +130,7 @@ class RegisterController extends Controller
             'gender' => ['nullable', 'string', 'in:male,female,other'],
             'address' => ['nullable', 'string', 'max:255'],
             'contact_info' => ['nullable', 'string', 'max:255'],
+            'terms_agree' => ['required', 'accepted'],
         ]);
 
         // ユーザー作成
@@ -143,6 +148,7 @@ class RegisterController extends Controller
             'gender' => $request->gender,
             'address' => $request->address,
             'contact_info' => $request->contact_info,
+            'terms_agreed' => $request->has('terms_agree'),
         ]);
 
         event(new Registered($user));

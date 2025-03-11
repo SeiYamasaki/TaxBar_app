@@ -28,6 +28,7 @@ class Individual extends Model
         'gender',
         'address',
         'contact_info',
+        'terms_agreed',
     ];
 
     /**
@@ -37,6 +38,7 @@ class Individual extends Model
      */
     protected $casts = [
         'date_of_birth' => 'date',
+        'terms_agreed' => 'boolean',
     ];
 
     /**

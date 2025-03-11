@@ -26,7 +26,8 @@ class TaxAdvisor extends Model
         'subscription_end_date',
         'specialty',
         'profile_info',
-        'is_tax_accountant'
+        'is_tax_accountant',
+        'terms_agreed'
     ];
 
     /**
@@ -39,6 +40,7 @@ class TaxAdvisor extends Model
         'subscription_start_date' => 'date',
         'subscription_end_date' => 'date',
         'is_tax_accountant' => 'boolean',
+        'terms_agreed' => 'boolean',
     ];
 
     /**

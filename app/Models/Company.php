@@ -21,6 +21,16 @@ class Company extends Model
         'registration_number',
         'address',
         'contact_info',
+        'terms_agreed',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'terms_agreed' => 'boolean',
     ];
 
     /**
