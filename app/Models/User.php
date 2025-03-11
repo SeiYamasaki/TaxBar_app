@@ -38,6 +38,19 @@ class User extends Authenticatable
     }
 
     /**
+     * 税理士ユーザーがサブスクリプションプランを持っているか確認
+     */
+    public function hasPlan(): bool
+    {
+        if (!$this->isTaxAdvisor()) {
+            return true; // 税理士以外はプラン不要なのでtrueを返す
+        }
+
+        $taxAdvisor = $this->taxAdvisor;
+        return $taxAdvisor && $taxAdvisor->subscription_plan_id;
+    }
+
+    /**
      * 税理士プロフィールを取得
      */
     public function taxAdvisor(): HasOne
