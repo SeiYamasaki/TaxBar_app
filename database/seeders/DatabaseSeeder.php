@@ -45,42 +45,15 @@ class DatabaseSeeder extends Seeder
             'features' => ['基本機能', '詳細な分析', '優先サポート'],
         ]);
 
-        // 管理者アカウントを作成
-        $admin = User::firstOrCreate(
-            ['email' => 'admin@example.com'],
-            [
-                'name' => 'Admin User',
-                'password' => Hash::make('adminpassword'),
-                'role' => 'admin',
-            ]
-        );
-
-        // 一般税理士アカウントを作成
-        $taxAccountant = User::firstOrCreate(
-            ['email' => 'tax@example.com'],
-            [
-                'name' => 'Test Tax Accountant',
-                'password' => Hash::make('taxpassword'),
-                'role' => 'tax_advisor',
-            ]
-        );
-
-        // 一般ユーザー（税理士でない人）を作成
-        User::firstOrCreate(
-            ['email' => 'user@example.com'],
-            [
-                'name' => 'Regular User',
-                'password' => Hash::make('userpassword'),
-                'role' => 'individual',
-            ]
-        );
+        // 新しいUserSeederを実行
+        $this->call(UserSeeder::class);
 
         // ✅ 動画を20件生成（税理士が投稿する）
         Video::factory()->count(20)->create([
-            'user_id' => $taxAccountant->id,
+            'user_id' => 2, // 税理士ユーザーのIDを指定（UserSeederで作成したユーザーの順序に対応）
         ]);
 
         // ✅ `tax_advisors` テーブルにデータを追加
-        $this->call(TaxAdvisorSeeder::class);
+        // $this->call(TaxAdvisorSeeder::class); // UserSeederで税理士情報も作成するため、こちらはコメントアウト
     }
 }
