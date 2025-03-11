@@ -34,7 +34,8 @@
 <body class="bg-gray-100">
 
     <!-- ✅ ヘッダー -->
-    <header class="bg-white bg-opacity-100 shadow-none fixed w-full top-0 left-0 z-50 min-h-[60px] flex items-center px-6 py-4">
+    <header
+        class="bg-white bg-opacity-100 shadow-none fixed w-full top-0 left-0 z-50 min-h-[60px] flex items-center px-6 py-4">
         <div class="w-full max-w-none flex sm:justify-start lg:justify-between items-center px-6 py-4">
 
             <!-- ✅ ロゴ（左側） -->
@@ -58,7 +59,7 @@
                     <li><a href="/register/select" class="text-gray-700 hover:text-blue-500 text-lg">登録フォーム</a></li>
                     <li><a href="/login" class="text-gray-700 hover:text-blue-500 text-lg">ログイン</a></li>
                     <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">税理士の方へ</a></li>
-                    <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">特集ページ</a></li>
+                    <li><a href="/special" class="text-gray-700 hover:text-blue-500 text-lg">特集ページ</a></li>
                     <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">相続でお困りの方へ</a></li>
                     <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">TaxBar®とは？</a></li>
 
@@ -108,7 +109,7 @@
                         <li><a href="#"
                                 class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">税理士の方へ</a>
                         </li>
-                        <li><a href="#"
+                        <li><a href="/special"
                                 class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">特集ページ</a>
                         </li>
                         <li><a href="#"
