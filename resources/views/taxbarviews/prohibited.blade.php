@@ -14,7 +14,7 @@
 <body>
     @include('components.header')
     
-    <main style="margin-top: 120px; margin-left: 20%; margin-right: 20%;">
+    <main style="margin-top: 140px; margin-left: 20%; margin-right: 20%;">
         <h1 class="title">利用規約及び禁止事項</h1>
         
         <center>

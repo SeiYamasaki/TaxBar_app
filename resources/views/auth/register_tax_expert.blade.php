@@ -1,44 +1,58 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">税理士その他の専門家 登録</div>
+    <div class="container mx-auto px-4 pt-24">
+        <div class="flex justify-center">
+            <div class="w-full md:w-2/3 lg:w-1/2">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 font-semibold text-lg">税理士その他の専門家 登録</div>
 
-                    <div class="card-body">
+                    <div class="p-6">
                         <form method="POST" action="{{ route('register.tax_expert.post') }}" enctype="multipart/form-data">
                             @csrf
 
                             <!-- 税理士氏名 -->
-                            <div class="form-group">
-                                <label for="name">税理士等氏名</label>
-                                <input type="text" class="form-control" name="name" required>
+                            <div class="mb-4">
+                                <label for="name" class="block text-gray-700 text-sm font-bold mb-2">税理士等氏名</label>
+                                <input type="text"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    name="name" required>
                             </div>
 
                             <!-- 事務所名 (税理士法人名可) -->
-                            <div class="form-group">
-                                <label for="office_name">事務所名（税理士法人名可）</label>
-                                <input type="text" class="form-control" name="office_name" required>
+                            <div class="mb-4">
+                                <label for="office_name"
+                                    class="block text-gray-700 text-sm font-bold mb-2">事務所名（税理士法人名可）</label>
+                                <input type="text"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    name="office_name" required>
                             </div>
 
                             <!-- メールアドレス -->
-                            <div class="form-group">
-                                <label for="email">メールアドレス</label>
-                                <input type="email" class="form-control" name="email" required>
+                            <div class="mb-4">
+                                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">メールアドレス</label>
+                                <input type="email"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    name="email" required>
                             </div>
 
                             <!-- 郵便番号 -->
-                            <div class="form-group">
-                                <label for="postal_code">郵便番号</label>
-                                <input type="text" class="form-control" name="postal_code" id="postal_code" required>
+                            <div class="mb-4">
+                                <label for="postal_code" class="block text-gray-700 text-sm font-bold mb-2">郵便番号</label>
+                                <div class="flex">
+                                    <input type="text"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        name="postal_code" id="postal_code" placeholder="例：1234567" maxlength="8" required>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500">ハイフンなしで7桁の数字を入力してください</p>
                             </div>
 
                             <!-- 都道府県 -->
-                            <div class="form-group">
-                                <label for="prefecture">都道府県</label>
-                                <select class="form-control" name="prefecture" id="prefecture" required>
+                            <div class="mb-4">
+                                <label for="prefecture" class="block text-gray-700 text-sm font-bold mb-2">都道府県</label>
+                                <select
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    name="prefecture" id="prefecture" required>
                                     <option value="">選択してください</option>
                                     <option value="北海道">北海道</option>
                                     <option value="青森県">青森県</option>
@@ -91,74 +105,151 @@
                             </div>
 
                             <!-- 住所 -->
-                            <div class="form-group">
-                                <label for="address">住所</label>
-                                <input type="text" class="form-control" name="address" id="address" required>
+                            <div class="mb-4">
+                                <label for="address" class="block text-gray-700 text-sm font-bold mb-2">住所</label>
+                                <input type="text"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    name="address" id="address" required>
                             </div>
 
                             <!-- 事務所電話番号 -->
-                            <div class="form-group">
-                                <label for="office_phone">事務所電話番号</label>
-                                <input type="text" class="form-control" name="office_phone" required>
+                            <div class="mb-4">
+                                <label for="office_phone"
+                                    class="block text-gray-700 text-sm font-bold mb-2">事務所電話番号</label>
+                                <input type="text"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    name="office_phone" required>
                             </div>
 
                             <!-- 携帯電話番号 -->
-                            <div class="form-group">
-                                <label for="mobile_phone">携帯電話番号</label>
-                                <input type="text" class="form-control" name="mobile_phone">
+                            <div class="mb-4">
+                                <label for="mobile_phone"
+                                    class="block text-gray-700 text-sm font-bold mb-2">携帯電話番号</label>
+                                <input type="text"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    name="mobile_phone">
                             </div>
 
                             <!-- 税理士写真 -->
-                            <div class="form-group">
-                                <label for="tax_accountant_photo">税理士写真</label>
-                                <input type="file" class="form-control" id="tax_accountant_photo"
-                                    name="tax_accountant_photo" accept="image/*">
+                            <div class="mb-4">
+                                <label for="tax_accountant_photo"
+                                    class="block text-gray-700 text-sm font-bold mb-2">税理士写真</label>
+                                <input type="file"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    id="tax_accountant_photo" name="tax_accountant_photo" accept="image/*">
                                 <img id="preview_tax_accountant_photo" src="#" alt="プレビュー"
-                                    class="img-fluid mt-2 d-none border rounded" style="max-height: 200px;">
+                                    class="hidden mt-2 max-h-48 border rounded">
                             </div>
 
                             <!-- その他の写真 -->
-                            <div class="form-group">
-                                <label for="additional_photos">その他の写真</label>
-                                <input type="file" class="form-control" id="additional_photos"
-                                    name="additional_photos[]" accept="image/*" multiple>
-                                <div id="preview_additional_photos" class="mt-2 d-flex flex-wrap border p-2 rounded">
-                                </div>
+                            <div class="mb-4">
+                                <label for="additional_photos"
+                                    class="block text-gray-700 text-sm font-bold mb-2">その他の写真</label>
+                                <input type="file"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    id="additional_photos" name="additional_photos[]" accept="image/*" multiple>
                             </div>
 
                             <!-- パスワード -->
-                            <div class="form-group mb-3">
-                                <label for="password">パスワード</label>
-                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                            <div class="mb-4">
+                                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">パスワード</label>
+                                <input type="password"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('password') border-red-500 @enderror"
                                     name="password" required>
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    <p class="text-red-500 text-xs mt-1"><strong>{{ $message }}</strong></p>
                                 @enderror
                             </div>
 
                             <!-- パスワード確認 -->
-                            <div class="form-group mb-3">
-                                <label for="password_confirmation">パスワード（確認）</label>
-                                <input type="password" class="form-control" name="password_confirmation" required>
+                            <div class="mb-6">
+                                <label for="password_confirmation"
+                                    class="block text-gray-700 text-sm font-bold mb-2">パスワード（確認）</label>
+                                <input type="password"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    name="password_confirmation" required>
                             </div>
 
-                            <!-- 料金プランの選択 -->
-                            <div class="form-group">
-                                <label for="plan">選択するプラン</label>
-                                <select class="form-control" id="plan" name="plan" required>
-                                    @foreach (config('pricing.plans') as $key => $plan)
-                                        <option value="{{ $key }}" data-price="{{ $plan['price'] }}">
-                                            {{ $plan['name'] }}（{{ number_format($plan['price']) }}円）
-                                        </option>
-                                    @endforeach
-                                </select>
+                            <!-- 禁止事項確認 -->
+                            <div class="mb-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">利用規約及び禁止事項</h3>
+                                <div
+                                    class="text-sm text-gray-600 mb-4 max-h-80 overflow-y-auto p-3 border border-gray-200 rounded">
+                                    <h4 class="font-bold mb-2">第1条（目的）</h4>
+                                    <p class="mb-3">
+                                        本規約は、TaxBar®が提供するオンラインプラットフォームにおいて、
+                                        税理士およびその他の専門家と一般利用者が適切かつ円滑にサービスを利用できるようにすることを目的とします。
+                                        本サービスを通じて、利用者は税務相談、専門家によるアドバイス、その他関連する情報を提供または取得することができます。
+                                        また、サービスの公平性、公正性、信頼性を確保し、不正行為を防止することを目的とします。
+                                    </p>
+
+                                    <h4 class="font-bold mb-2">第2条（契約期間）</h4>
+                                    <p class="mb-3">
+                                        本サービスの契約期間は1年間とします。契約期間満了の30日前までに登録者から解約の申し出がない場合、
+                                        自動的に1年間更新されるものとします。
+                                    </p>
+
+                                    <h4 class="font-bold mb-2">第3条（支払方法及び課金）</h4>
+                                    <p class="mb-3">
+                                        登録者は、サービス登録時にWEB決済を行い、月払いでの課金となります。
+                                        当月分の料金は当月課金とし、支払い方法は、TaxBar®が指定する決済手段を利用するものとします。
+                                        期限内に支払いが確認できない場合、サービスの利用を停止または契約を解除することがあります。
+                                    </p>
+
+                                    <h4 class="font-bold mb-2">第4条（適用範囲）</h4>
+                                    <p class="mb-3">本規約は、TaxBar®を利用するすべての登録者、税理士その他の専門家、及び一般利用者に適用されます。</p>
+
+                                    <h4 class="font-bold mb-2">第5条（登録及びアカウント管理）</h4>
+                                    <p class="mb-3">
+                                        登録者は、正確な情報を提供し、虚偽の情報を使用しないものとします。アカウント情報の管理は登録者の責任とし、不正使用があった場合は速やかにTaxBar®へ報告するものとします。
+                                    </p>
+
+                                    <h4 class="font-bold mb-2">第6条（なりすましの禁止）</h4>
+                                    <p class="mb-3">
+                                        一般利用者は、他人の名義を使用する、または別人になりすまして本サービスを利用することを禁止します。
+                                        なりすまし行為が発覚した場合、直ちにアカウントを停止し、登録を抹消することがあります。
+                                        また、なりすまし行為によって発生した損害について、
+                                        TaxBar®は当該登録者に対し損害賠償請求を行うことができ、登録者はその支払い義務を負うものとします。
+                                    </p>
+
+                                    <h4 class="font-bold mb-2">第7条（途中退会）</h4>
+                                    <p class="mb-3">
+                                        登録者は、TaxBar®のサービスから途中退会することができます。
+                                        退会を希望する場合、所定の手続きを行うものとします。
+                                        ただし、退会時点で未払いの費用がある場合は、退会後もその支払い義務を負うものとします。
+                                        また、途中退会に伴う日割り返金は行いません。
+                                    </p>
+
+                                    <h4 class="font-bold mb-2">第8条（準拠法及び合意管轄）</h4>
+                                    <p class="mb-3">
+                                        本規約は日本法を準拠法とし、本規約及び本サービスに関する一切の紛争については、
+                                        東京地方裁判所又は東京簡易裁判所を第一審の専属的合意管轄裁判所とします。
+                                    </p>
+
+                                    <h4 class="font-bold mb-2">第9条（イエローカード制）</h4>
+                                    <p class="mb-3">
+                                        TaxBar®は、利用規約及び禁止事項に違反した者に対し、
+                                        イエローカードを提示することができる。
+                                        イエローカードが2枚提示された者は登録を抹消され、
+                                        レッドカードが1枚提示された者は即時に登録を抹消されるものとする。
+                                    </p>
+                                </div>
+                                <div class="flex items-start mt-4">
+                                    <div class="flex items-center h-5">
+                                        <input id="terms_agree" name="terms_agree" type="checkbox" required
+                                            class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300">
+                                    </div>
+                                    <label for="terms_agree" class="ml-2 text-sm font-medium text-gray-700">
+                                        上記の利用規約及び禁止事項を理解し、遵守することに同意します。
+                                    </label>
+                                </div>
                             </div>
 
-                            <!-- 決済ボタン -->
-                            <button id="payButton" class="btn btn-success w-100 mt-3">クレジットカードで支払う</button>
-
-                            <!-- 登録ボタン（決済後の登録） -->
-                            <button type="submit" class="btn btn-primary mt-3 w-100">登録</button>
+                            <!-- 登録ボタン -->
+                            <button type="submit"
+                                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-300 mt-4">
+                                登録
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -170,26 +261,64 @@
 @section('scripts')
     <script src="{{ asset('js/form-preview.js') }}"></script>
     <script>
-        document.getElementById('postal_code').addEventListener('input', function() {
-            const postalCode = this.value.replace(/[^0-9]/g, ''); // 数字以外を削除
-            if (postalCode.length === 7) { // 郵便番号が7桁の場合
-                fetch(`https://api.zipaddress.net/?zipcode=${postalCode}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.code === 200) {
-                            document.getElementById('address').value = data.data.fullAddress; // 住所を自動入力
-                            document.getElementById('prefecture').value = data.data.pref; // 都道府県を自動入力
-                        } else {
-                            console.error('API Error:', data.message);
-                        }
-                    })
-                    .catch(error => console.error('Fetch Error:', error));
+        document.addEventListener('DOMContentLoaded', function() {
+            // 禁止事項チェックボックスと登録ボタンの連動
+            const termsAgree = document.getElementById('terms_agree');
+            const submitButton = document.querySelector('button[type="submit"]');
+
+            // チェックボックスの状態を確認し、ボタンの有効/無効を切り替える関数
+            function updateSubmitButton() {
+                if (termsAgree.checked) {
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                    submitButton.classList.add('hover:bg-blue-600');
+                } else {
+                    submitButton.disabled = true;
+                    submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+                    submitButton.classList.remove('hover:bg-blue-600');
+                }
             }
+
+            // 初期状態ではボタンを無効化
+            submitButton.disabled = true;
+            submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+            submitButton.classList.remove('hover:bg-blue-600');
+
+            // チェックボックスの変更を監視
+            termsAgree.addEventListener('change', updateSubmitButton);
+
+            // 画像プレビュー機能
+            document.getElementById('tax_accountant_photo').addEventListener('change', function(e) {
+                const preview = document.getElementById('preview_tax_accountant_photo');
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.classList.remove('hidden');
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                } else {
+                    preview.classList.add('hidden');
+                }
+            });
+
+            // 複数画像プレビュー
+            document.getElementById('additional_photos').addEventListener('change', function(e) {
+                const preview = document.getElementById('preview_additional_photos');
+                preview.innerHTML = '';
+                if (this.files) {
+                    Array.from(this.files).forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.classList.add('max-h-32', 'm-1', 'border', 'rounded');
+                            preview.appendChild(img);
+                        }
+                        reader.readAsDataURL(file);
+                    });
+                }
+            });
         });
     </script>
 @endsection
