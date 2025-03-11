@@ -12,6 +12,7 @@ use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\TaxMinutesVideoController;
 
 
+
 Route::get('/', function () {
     return view('taxbarviews.login');
 });
@@ -66,5 +67,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/taxminivideos/{video}', [TaxMinutesVideoController::class, 'update'])->name('taxminivideos.update');
     Route::delete('/taxminivideos/{video}', [TaxMinutesVideoController::class, 'destroy'])->name('taxminivideos.destroy');
 });
-
+//特集ページルート
+Route::get('/special', function () {
+    return view('special_pages.index');
+});
 require __DIR__ . '/auth.php';
