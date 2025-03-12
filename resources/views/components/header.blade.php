@@ -57,12 +57,26 @@
                     <li><a href="/pricing" class="text-gray-700 hover:text-blue-500 text-lg">料金表</a></li>
                     <li><a href="/view/hachimantaishi" class="text-gray-700 hover:text-blue-500 text-lg">八幡平市</a></li>
                     <li><a href="/register/select" class="text-gray-700 hover:text-blue-500 text-lg">登録フォーム</a></li>
-                    <li><a href="/login" class="text-gray-700 hover:text-blue-500 text-lg">ログイン</a></li>
+                    @guest
+                        <li><a href="/login" class="text-gray-700 hover:text-blue-500 text-lg">ログイン</a></li>
+                    @else
+                        <li>
+                            <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-blue-500 text-lg">マイページ</a>
+                        </li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}" class="inline">
+                                @csrf
+                                <button type="submit"
+                                    class="text-gray-700 hover:text-blue-500 text-lg bg-transparent border-none cursor-pointer p-0">
+                                    ログアウト
+                                </button>
+                            </form>
+                        </li>
+                    @endguest
                     <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">税理士の方へ</a></li>
                     <li><a href="/special" class="text-gray-700 hover:text-blue-500 text-lg">特集ページ</a></li>
                     <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">相続でお困りの方へ</a></li>
                     <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">TaxBar®とは？</a></li>
-
                 </ul>
             </nav>
 
@@ -118,9 +132,25 @@
                         <li><a href="/register/select"
                                 class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">登録フォーム</a>
                         </li>
-                        <li><a href="/login"
-                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">ログイン</a>
-                        </li>
+                        @guest
+                            <li><a href="/login"
+                                    class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">ログイン</a>
+                            </li>
+                        @else
+                            <li>
+                                <a href="{{ route('dashboard') }}"
+                                    class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">マイページ</a>
+                            </li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit"
+                                        class="w-full text-left block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">
+                                        ログアウト
+                                    </button>
+                                </form>
+                            </li>
+                        @endguest
                     </ul>
                 </nav>
 
