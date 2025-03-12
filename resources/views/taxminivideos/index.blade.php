@@ -49,6 +49,9 @@
                                     <p class="text-color-primary font-medium text-black">投稿者：{{ $video->user->name ?? $video->name }}</p>
                                 </div>
                             </div>
+                            <div class="mt-2">
+                                <a href="{{ route('taxminivideos.show', $video->id) }}" class="text-color-primary font-medium text-black">コメントはこちらをクリック♪</a>
+                            </div>
                         </a>
                     </div>
 
