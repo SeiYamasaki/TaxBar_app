@@ -11,6 +11,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\TaxMinutesVideoController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SouzokuTaxController;
 
 
 
@@ -78,4 +79,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/special', function () {
     return view('special_pages.index');
 });
+
+// 相続ページルート定義
+Route::get('/souzoku-tax', [SouzokuTaxController::class, 'index']);
+
 require __DIR__ . '/auth.php';
