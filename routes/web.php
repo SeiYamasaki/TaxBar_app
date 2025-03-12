@@ -102,4 +102,15 @@ Route::get('/special', function () {
 // 相続ページルート定義
 Route::get('/souzoku-tax', [SouzokuTaxController::class, 'index']);
 
+//3Dページルート
+Route::get('/about-taxbar', function () {
+    return view('taxbar');
+});
+
+//3Dページから入店後のルート
+Route::get('/taxbar-introduction', function () {
+    return view('taxbar-introduction');
+})->name('taxbar-introduction');  // ここで名前を付ける
+
+
 require __DIR__ . '/auth.php';
