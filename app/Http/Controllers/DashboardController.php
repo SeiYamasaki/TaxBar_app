@@ -14,6 +14,15 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
+        // 税理士ユーザーの場合、サブスクリプションをチェック
+        if ($user->role === 'tax_advisor') {
+            $taxAdvisor = $user->tax_advisor;
+            if (!$taxAdvisor || !$taxAdvisor->subscription_plan_id) {
+                return redirect()->route('pricing.index', ['show_plan_modal' => true])
+                    ->with('warning', 'サービスをご利用いただくには、プランを選択してください。');
+            }
+        }
+
         switch ($user->role) {
             case 'admin':
                 return $this->adminDashboard();
@@ -50,8 +59,9 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         // 税理士特有のデータを取得
+        $taxAdvisor = $user->tax_advisor;
 
-        return view('dashboards.tax_advisor', compact('user'));
+        return view('dashboards.tax_advisor', compact('user', 'taxAdvisor'));
     }
 
     /**

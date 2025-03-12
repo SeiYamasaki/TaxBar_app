@@ -174,7 +174,7 @@
                             <div class="mb-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
                                 <h3 class="text-lg font-semibold text-gray-800 mb-3">利用規約及び禁止事項</h3>
                                 <div
-                                    class="text-sm text-gray-600 mb-4 max-h-80 overflow-y-auto p-3 border border-gray-200 rounded">
+                                    class="bg-white text-sm text-gray-600 mb-4 max-h-80 overflow-y-auto p-3 border border-gray-200 rounded">
                                     <h4 class="font-bold mb-2">第1条（目的）</h4>
                                     <p class="mb-3">
                                         本規約は、TaxBar®が提供するオンラインプラットフォームにおいて、

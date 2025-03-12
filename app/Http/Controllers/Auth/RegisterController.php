@@ -46,6 +46,8 @@ class RegisterController extends Controller
             'office_phone' => ['required', 'string', 'max:20'],
             'mobile_phone' => ['nullable', 'string', 'max:20'],
             'specialty' => ['nullable', 'string', 'max:255'],
+            'tax_accountant_photo' => ['nullable', 'image', 'max:5120'],
+            'additional_photos.*' => ['nullable', 'image', 'max:5120'],
             'terms_agree' => ['required', 'accepted'],
         ]);
 
@@ -57,6 +59,21 @@ class RegisterController extends Controller
             'role' => 'tax_advisor',
         ]);
 
+        // 税理士写真のアップロード処理
+        $taxAccountantPhotoPath = null;
+        if ($request->hasFile('tax_accountant_photo')) {
+            $taxAccountantPhotoPath = $request->file('tax_accountant_photo')->store('tax_advisor_photos', 'public');
+        }
+
+        // 追加写真のアップロード処理
+        $additionalPhotos = [];
+        if ($request->hasFile('additional_photos')) {
+            foreach ($request->file('additional_photos') as $photo) {
+                $path = $photo->store('tax_advisor_additional_photos', 'public');
+                $additionalPhotos[] = $path;
+            }
+        }
+
         // 税理士情報作成
         TaxAdvisor::create([
             'user_id' => $user->id,
@@ -67,6 +84,8 @@ class RegisterController extends Controller
             'office_phone' => $request->office_phone,
             'mobile_phone' => $request->mobile_phone,
             'specialty' => $request->specialty,
+            'tax_accountant_photo' => $taxAccountantPhotoPath,
+            'additional_photos' => $additionalPhotos,
             'terms_agreed' => $request->has('terms_agree'),
         ]);
 
@@ -74,7 +93,8 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('dashboard')->with('success', '税理士アカウントが登録されました！');
+        // プラン選択画面にリダイレクト
+        return redirect()->route('pricing.index', ['show_plan_modal' => true])->with('success', '税理士アカウントが登録されました！プランを選択してください。');
     }
 
     /**

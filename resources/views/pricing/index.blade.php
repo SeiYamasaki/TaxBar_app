@@ -4,10 +4,29 @@
 
 @section('content')
     <div class="container mt-12 mx-auto py-12">
-        
+
         <h1 class="text-3xl font-bold text-center mb-8 text-white">料金表／月払い</h1>
         <h1 class="text-3xl font-bold text-center mb-8 text-white">契約期間／1年</h1>
         <h1 class="text-1xl font-bold text-center mb-8 text-white">一般法人個人は登録無料！</h1>
+
+        <!-- フラッシュメッセージの表示 -->
+        @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 mx-auto max-w-4xl">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('warning'))
+            <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-6 mx-auto max-w-4xl">
+                {{ session('warning') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 mx-auto max-w-4xl">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <!-- ユーザー名の表示 -->
         @if (Auth::check())
@@ -137,10 +156,16 @@
                                 </div>
 
                                 <div class="p-6 flex justify-center">
-                                    <button
-                                        class="{{ $buttonColors[$index] }} text-white py-3 px-8 rounded-full text-sm font-bold transition-all transform hover:scale-105 shadow-lg">
-                                        今すぐ申し込む
-                                    </button>
+                                    <form action="{{ route('stripe.payment') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="plan_id" value="{{ $index + 1 }}">
+                                        <input type="hidden" name="amount" value="{{ $plan['monthlyFee'] }}">
+                                        <input type="hidden" name="plan_name" value="{{ $plan['name'] }}">
+                                        <button type="submit"
+                                            class="{{ $buttonColors[$index] }} text-white py-3 px-8 rounded-full text-sm font-bold transition-all transform hover:scale-105 shadow-lg">
+                                            今すぐ申し込む
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         @endforeach
@@ -150,4 +175,237 @@
             </div>
         </div>
     </div>
+
+    <!-- プラン選択モーダル (tax_advisorユーザー用) -->
+    @if (Auth::check() && Auth::user()->role === 'tax_advisor' && (request()->has('show_plan_modal') || session('warning')))
+        <div id="plan-modal" class="fixed inset-0 z-50 flex items-center justify-center">
+            <!-- ぼかしオーバーレイ (固定位置) -->
+            <div class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-md"></div>
+
+            <!-- モーダルコンテンツ -->
+            <div class="relative z-10 max-h-screen w-full max-w-5xl px-4 py-4">
+                <div class="bg-white rounded-lg shadow-xl w-full overflow-hidden flex flex-col max-h-[90vh]">
+                    <div class="bg-gray-800 text-white p-4 flex justify-between items-center">
+                        <h2 class="text-xl font-bold">プランを選択してください</h2>
+                        <a href="{{ url('/') }}" class="text-white hover:text-gray-300 cursor-pointer"
+                            id="close-modal">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="p-6 overflow-y-auto">
+                        @if (session('success'))
+                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        @if (session('warning'))
+                            <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+                                {{ session('warning') }}
+                            </div>
+                        @endif
+
+                        <p class="text-gray-700 mb-6">税理士として活動するには、プランにご登録いただく必要があります。以下からプランをお選びください。</p>
+
+                        <!-- プラン選択部分 -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                            @foreach ($corporatePlans as $index => $plan)
+                                <div
+                                    class="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow flex flex-col h-full">
+                                    <div class="p-4 {{ $headerColors[$index] }} text-white">
+                                        <h3 class="text-xl font-bold mb-1 text-center">{{ $plan['name'] }}</h3>
+                                        <p class="text-center text-xl font-bold">
+                                            ¥{{ number_format($plan['monthlyFee']) }}/月</p>
+                                    </div>
+                                    <div class="p-4 overflow-y-auto flex-grow">
+                                        <ul class="space-y-2">
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M5 13l4 4L19 7"></path>
+                                                </svg>
+                                                開店時間: {{ $plan['openTime'] }}
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M5 13l4 4L19 7"></path>
+                                                </svg>
+                                                開店回数: {{ $plan['openCountPerMonth'] }}
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 {{ $plan['tipping'] === '有' ? 'text-green-500' : 'text-red-500' }} mr-2"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="{{ $plan['tipping'] === '有' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
+                                                    </path>
+                                                </svg>
+                                                投銭機能: {{ $plan['tipping'] }}
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 {{ $plan['specialGuest'] === '有' ? 'text-green-500' : 'text-red-500' }} mr-2"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="{{ $plan['specialGuest'] === '有' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
+                                                    </path>
+                                                </svg>
+                                                スペシャルゲスト適用: {{ $plan['specialGuest'] }}
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M5 13l4 4L19 7"></path>
+                                                </svg>
+                                                TaxMinutes投稿: {{ Str::limit($plan['taxMinutesPost'], 30) }}
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 {{ $plan['videoPostingPerMonth'] !== '無' ? 'text-green-500' : 'text-red-500' }} mr-2"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="{{ $plan['videoPostingPerMonth'] !== '無' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
+                                                    </path>
+                                                </svg>
+                                                動画投稿/月: {{ Str::limit($plan['videoPostingPerMonth'], 30) }}
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 {{ $plan['marketingSupport'] !== '無' ? 'text-green-500' : 'text-red-500' }} mr-2"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="{{ $plan['marketingSupport'] !== '無' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
+                                                    </path>
+                                                </svg>
+                                                マーケティング支援: {{ Str::limit($plan['marketingSupport'], 30) }}
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 {{ $plan['aiTaxBarSupport'] === '有' ? 'text-green-500' : 'text-red-500' }} mr-2"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="{{ $plan['aiTaxBarSupport'] === '有' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
+                                                    </path>
+                                                </svg>
+                                                TaxBar®専門AI実装: {{ $plan['aiTaxBarSupport'] }}
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 {{ $plan['taxQASupport'] === '有' ? 'text-green-500' : 'text-red-500' }} mr-2"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="{{ $plan['taxQASupport'] === '有' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
+                                                    </path>
+                                                </svg>
+                                                税務Q&A補助: {{ $plan['taxQASupport'] }}
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M5 13l4 4L19 7"></path>
+                                                </svg>
+                                                相談履歴の参照: {{ $plan['pastHistoryReference'] }}
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M5 13l4 4L19 7"></path>
+                                                </svg>
+                                                税務助言補助: {{ $plan['taxAdviceSupport'] }}
+                                            </li>
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 {{ $plan['taxRevisionNotification'] !== '無' ? 'text-green-500' : 'text-red-500' }} mr-2"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="{{ $plan['taxRevisionNotification'] !== '無' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
+                                                    </path>
+                                                </svg>
+                                                税制改正通知: {{ Str::limit($plan['taxRevisionNotification'], 30) }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="p-4 bg-gray-50 flex justify-center mt-auto">
+                                        <form action="{{ route('stripe.payment') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="plan_id" value="{{ $index + 1 }}">
+                                            <input type="hidden" name="amount" value="{{ $plan['monthlyFee'] }}">
+                                            <input type="hidden" name="plan_name" value="{{ $plan['name'] }}">
+                                            <button type="submit"
+                                                class="{{ $buttonColors[$index] }} text-white py-2 px-6 rounded-full text-sm font-bold transition-all transform hover:scale-105">
+                                                このプランを選択
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- モーダル表示時の背景スクロール制御 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalElement = document.getElementById('plan-modal');
+            const modalContent = document.querySelector('.p-6.overflow-y-auto');
+
+            // ホイールイベントを選択的に阻止する関数（モーダル内のスクロールは許可）
+            const preventScrollOutsideModal = function(e) {
+                // イベントの発生源がモーダルコンテンツ内かチェック
+                if (modalContent && modalContent.contains(e.target)) {
+                    // モーダル内のスクロールは許可
+                    return true;
+                }
+                // モーダル外のスクロールは阻止
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            };
+
+            if (modalElement) {
+                // スクロール無効化 - より強力な方法
+                document.body.style.overflow = 'hidden';
+                document.body.style.height = '100%';
+                document.documentElement.style.overflow = 'hidden';
+                document.documentElement.style.height = '100%';
+
+                // モーダル外のホイールイベントのみを無効化
+                document.addEventListener('wheel', preventScrollOutsideModal, {
+                    passive: false
+                });
+                document.addEventListener('touchmove', preventScrollOutsideModal, {
+                    passive: false
+                });
+            }
+
+            // 閉じるボタンをクリックしたときの処理
+            const closeBtn = document.getElementById('close-modal');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function(e) {
+                    // デフォルトの動作を停止（リンクのナビゲーションを防ぐ）
+                    e.preventDefault();
+
+                    // スクロール再有効化
+                    document.body.style.overflow = '';
+                    document.body.style.height = '';
+                    document.documentElement.style.overflow = '';
+                    document.documentElement.style.height = '';
+
+                    // イベントリスナーを削除
+                    document.removeEventListener('wheel', preventScrollOutsideModal);
+                    document.removeEventListener('touchmove', preventScrollOutsideModal);
+
+                    // トップページにリダイレクト
+                    window.location.href = "{{ url('/') }}";
+                });
+            }
+        });
+    </script>
 @endsection
