@@ -18,10 +18,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    
+
     <!-- ✅ Alpine.js を追加 -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    <!-- A-Frameライブラリ -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+    
     <!-- Styles -->
     <style>
         /* ✅ デフォルトの `body` スタイル（変更を許可） */
@@ -36,10 +40,12 @@
         main {
             flex-grow: 1;
             width: 100%;
-            display: flex; /* ✅ デフォルトは `flex` だが、ページごとに変更可能 */
+            display: flex;
+            /* ✅ デフォルトは `flex` だが、ページごとに変更可能 */
             justify-content: center;
             align-items: center;
-            min-height: auto !important; /* ✅ 高さを自動調整 */
+            min-height: auto !important;
+            /* ✅ 高さを自動調整 */
         }
 
         /* ✅ ヘッダーのスタイル */
@@ -68,6 +74,7 @@
 </head>
 
 <!-- ✅ `@yield('body-class')` で特定のページだけクラスを変更可能 -->
+
 <body class="@yield('body-class')">
     @include('components.header')
 
