@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\SubscriptionPlan;
 
 class PricingController extends Controller
 {
@@ -25,7 +26,7 @@ class PricingController extends Controller
                 'taxQASupport'           => '有',                                // ※税務Q&Aサポート
                 'pastHistoryReference'   => '最新1件のみ',                         // ※過去相談履歴の参照
                 'taxAdviceSupport'       => '簡易アドバイス',                       // ※税務アドバイス補助
-                'taxRevisionNotification'=> '無',                                // ※税制改正の自動通知
+                'taxRevisionNotification' => '無',                                // ※税制改正の自動通知
             ],
             [
                 'name'                   => 'プラチナプラン',
@@ -42,7 +43,7 @@ class PricingController extends Controller
                 'taxQASupport'           => '有',
                 'pastHistoryReference'   => '最新5件のみ',
                 'taxAdviceSupport'       => '簡易アドバイス',
-                'taxRevisionNotification'=> '標準通知',
+                'taxRevisionNotification' => '標準通知',
             ],
             [
                 'name'                   => 'VIPプラン',
@@ -59,7 +60,7 @@ class PricingController extends Controller
                 'taxQASupport'           => '有',
                 'pastHistoryReference'   => '全履歴',
                 'taxAdviceSupport'       => '高度アドバイス',
-                'taxRevisionNotification'=> '「税理士の業務分野」に応じたカスタマイズ通知',
+                'taxRevisionNotification' => '「税理士の業務分野」に応じたカスタマイズ通知',
             ],
         ];
 
@@ -68,21 +69,60 @@ class PricingController extends Controller
             [
                 'name' => '個 人',
                 'price' => 0,
-                'features' => ['一切無料','投銭機能有',"議事録自動生成有","動画見放題"]
+                'features' => ['一切無料', '投銭機能有', "議事録自動生成有", "動画見放題"]
             ],
             [
                 'name' => '法 人',
                 'price' => 0,
-                'features' => ['一切無料','投銭機能有',"議事録自動生成有","動画見放題"]
+                'features' => ['一切無料', '投銭機能有', "議事録自動生成有", "動画見放題"]
             ],
             [
                 'name' => '団 体',
                 'price' => 0,
-                'features' => ['一切無料','投銭機能有',"議事録自動生成有","動画見放題"]
+                'features' => ['一切無料', '投銭機能有', "議事録自動生成有", "動画見放題"]
             ]
         ];
 
+        // プランをデータベースに保存
+        $this->syncPlansWithDatabase($corporatePlans);
+
         // Blade に渡す
         return view('pricing.index', compact('corporatePlans', 'individualPlans'));
+    }
+
+    /**
+     * プラン情報をデータベースに同期する
+     */
+    private function syncPlansWithDatabase($plans)
+    {
+        foreach ($plans as $index => $plan) {
+            $features = [
+                'contractDuration' => $plan['contractDuration'],
+                'openTime' => $plan['openTime'],
+                'openCountPerMonth' => $plan['openCountPerMonth'],
+                'tipping' => $plan['tipping'],
+                'specialGuest' => $plan['specialGuest'],
+                'taxMinutesPost' => $plan['taxMinutesPost'],
+                'videoPostingPerMonth' => $plan['videoPostingPerMonth'],
+                'marketingSupport' => $plan['marketingSupport'],
+                'aiTaxBarSupport' => $plan['aiTaxBarSupport'],
+                'taxQASupport' => $plan['taxQASupport'],
+                'pastHistoryReference' => $plan['pastHistoryReference'],
+                'taxAdviceSupport' => $plan['taxAdviceSupport'],
+                'taxRevisionNotification' => $plan['taxRevisionNotification'],
+            ];
+
+            // プランがなければ作成、あれば更新
+            SubscriptionPlan::updateOrCreate(
+                ['id' => $index + 1],
+                [
+                    'name' => $plan['name'],
+                    'price' => $plan['monthlyFee'],
+                    'description' => $plan['name'] . ' - 月額' . number_format($plan['monthlyFee']) . '円',
+                    'features' => $features,
+                    'duration_days' => 365, // 1年間の契約
+                ]
+            );
+        }
     }
 }
