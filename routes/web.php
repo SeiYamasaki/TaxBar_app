@@ -12,6 +12,7 @@ use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\TaxMinutesVideoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SouzokuTaxController;
+use App\Http\Controllers\CommentController;
 
 
 
@@ -75,7 +76,24 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/taxminivideos/{video}/edit', [TaxMinutesVideoController::class, 'edit'])->name('taxminivideos.edit');
     Route::put('/taxminivideos/{video}', [TaxMinutesVideoController::class, 'update'])->name('taxminivideos.update');
     Route::delete('/taxminivideos/{video}', [TaxMinutesVideoController::class, 'destroy'])->name('taxminivideos.destroy');
+
+    // コメント関連のルート
+    Route::post('/taxminivideos/{video}/comments', [CommentController::class, 'storeForVideo'])->name('comments.store.video');
+    Route::post('/themes/{theme}/comments', [CommentController::class, 'storeForTheme'])->name('comments.store.theme');
+    Route::get('/comments/my', [CommentController::class, 'myComments'])->name('comments.my');
+    Route::get('/comments/received', [CommentController::class, 'receivedComments'])->name('comments.received');
+    Route::put('/comments/{comment}/approve', [CommentController::class, 'approve'])->name('comments.approve');
+    Route::put('/comments/{comment}/reject', [CommentController::class, 'reject'])->name('comments.reject');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
+
+// 管理者向けコメント管理ルート
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::get('/comments', [CommentController::class, 'index'])->name('admin.comments.index');
+    Route::post('/comments/bulk-approve', [CommentController::class, 'bulkApprove'])->name('admin.comments.bulk.approve');
+    Route::delete('/comments/bulk-delete', [CommentController::class, 'bulkDelete'])->name('admin.comments.bulk.delete');
+});
+
 //特集ページルート
 Route::get('/special', function () {
     return view('special_pages.index');

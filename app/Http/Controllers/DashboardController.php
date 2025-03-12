@@ -100,7 +100,58 @@ class DashboardController extends Controller
         // 税理士特有のデータを取得
         $taxAdvisor = $user->tax_advisor;
 
-        return view('dashboards.tax_advisor', compact('user', 'taxAdvisor'));
+        // ユーザーが投稿した動画とテーマのIDを取得
+        $videoIds = \App\Models\TaxMinutesVideo::where('user_id', $user->id)->pluck('id')->toArray();
+        $themeIds = \App\Models\Theme::where('user_id', $user->id)->pluck('id')->toArray();
+
+        // 受信したコメントを取得
+        $pendingComments = \App\Models\Comment::where(function ($query) use ($videoIds, $themeIds) {
+            // 動画へのコメント
+            $query->where(function ($q) use ($videoIds) {
+                if (!empty($videoIds)) {
+                    $q->where('commentable_type', \App\Models\TaxMinutesVideo::class)
+                        ->whereIn('commentable_id', $videoIds);
+                }
+            });
+
+            // テーマへのコメント
+            $query->orWhere(function ($q) use ($themeIds) {
+                if (!empty($themeIds)) {
+                    $q->where('commentable_type', \App\Models\Theme::class)
+                        ->whereIn('commentable_id', $themeIds);
+                }
+            });
+        })
+            ->where('is_approved', false) // 未承認のコメントのみ
+            ->with(['user', 'commentable']) // リレーションを事前に読み込み
+            ->latest()
+            ->get();
+
+        // 承認済みのコメント
+        $approvedComments = \App\Models\Comment::where(function ($query) use ($videoIds, $themeIds) {
+            // 動画へのコメント
+            $query->where(function ($q) use ($videoIds) {
+                if (!empty($videoIds)) {
+                    $q->where('commentable_type', \App\Models\TaxMinutesVideo::class)
+                        ->whereIn('commentable_id', $videoIds);
+                }
+            });
+
+            // テーマへのコメント
+            $query->orWhere(function ($q) use ($themeIds) {
+                if (!empty($themeIds)) {
+                    $q->where('commentable_type', \App\Models\Theme::class)
+                        ->whereIn('commentable_id', $themeIds);
+                }
+            });
+        })
+            ->where('is_approved', true) // 承認済みのコメント
+            ->with(['user', 'commentable']) // リレーションを事前に読み込み
+            ->latest()
+            ->take(5) // 最新5件のみ
+            ->get();
+
+        return view('dashboards.tax_advisor', compact('user', 'taxAdvisor', 'pendingComments', 'approvedComments'));
     }
 
     /**

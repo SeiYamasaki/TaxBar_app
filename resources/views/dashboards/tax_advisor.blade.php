@@ -151,6 +151,119 @@
                 </div>
             </div>
 
+            <!-- コメント管理セクション -->
+            <div class="bg-gray-50 border-l-4 border-indigo-500 p-6 rounded-lg mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">コメント管理</h2>
+
+                <!-- 承認待ちコメント -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3 flex items-center">
+                        <span
+                            class="bg-yellow-500 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2 text-sm">
+                            {{ count($pendingComments) }}
+                        </span>
+                        承認待ちコメント
+                    </h3>
+
+                    @if (count($pendingComments) > 0)
+                        <div class="space-y-4">
+                            @foreach ($pendingComments as $comment)
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-yellow-400">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <div class="font-medium">{{ $comment->user->name }}</div>
+                                            <div class="text-sm text-gray-500">
+                                                {{ $comment->created_at->format('Y/m/d H:i') }}</div>
+
+                                            <!-- コメント対象の情報 -->
+                                            <div class="text-sm text-gray-600 mt-1">
+                                                @if ($comment->commentable_type === 'App\Models\TaxMinutesVideo')
+                                                    <span
+                                                        class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">動画</span>
+                                                    {{ $comment->commentable->title ?? '削除された動画' }}
+                                                @elseif($comment->commentable_type === 'App\Models\Theme')
+                                                    <span
+                                                        class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">テーマ</span>
+                                                    {{ $comment->commentable->title ?? '削除されたテーマ' }}
+                                                @endif
+                                            </div>
+
+                                            <p class="mt-2">{{ $comment->content }}</p>
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <form action="{{ route('comments.approve', $comment->id) }}"
+                                                method="POST" class="inline">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit"
+                                                    class="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded text-sm">
+                                                    承認
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('comments.reject', $comment->id) }}"
+                                                method="POST" class="inline">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit"
+                                                    class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm">
+                                                    拒否
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="bg-white p-4 rounded-lg shadow-sm text-center text-gray-500">
+                            承認待ちのコメントはありません
+                        </div>
+                    @endif
+                </div>
+
+                <!-- 承認済みの最新コメント -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">最近の承認済みコメント</h3>
+
+                    @if (count($approvedComments) > 0)
+                        <div class="space-y-4">
+                            @foreach ($approvedComments as $comment)
+                                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-400">
+                                    <div class="font-medium">{{ $comment->user->name }}</div>
+                                    <div class="text-sm text-gray-500">{{ $comment->created_at->format('Y/m/d H:i') }}
+                                    </div>
+
+                                    <!-- コメント対象の情報 -->
+                                    <div class="text-sm text-gray-600 mt-1">
+                                        @if ($comment->commentable_type === 'App\Models\TaxMinutesVideo')
+                                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">動画</span>
+                                            {{ $comment->commentable->title ?? '削除された動画' }}
+                                        @elseif($comment->commentable_type === 'App\Models\Theme')
+                                            <span
+                                                class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">テーマ</span>
+                                            {{ $comment->commentable->title ?? '削除されたテーマ' }}
+                                        @endif
+                                    </div>
+
+                                    <p class="mt-2">{{ $comment->content }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="mt-4 text-center">
+                            <a href="{{ route('comments.received') }}"
+                                class="text-indigo-600 hover:text-indigo-800 font-medium">
+                                すべての受信コメントを見る
+                            </a>
+                        </div>
+                    @else
+                        <div class="bg-white p-4 rounded-lg shadow-sm text-center text-gray-500">
+                            承認済みのコメントはありません
+                        </div>
+                    @endif
+                </div>
+            </div>
+
             <!-- サービス提供 -->
             <div class="bg-gray-50 border-l-4 border-purple-500 p-6 rounded-lg mb-6">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">サービス提供</h2>
