@@ -34,6 +34,8 @@ class DatabaseSeeder extends Seeder
         // 新しいUserSeederを実行
         $this->call(UserSeeder::class);
 
+        $this->call(FaqSeeder::class);
+
         // ✅ 動画を20件生成（税理士が投稿する）
         Video::factory()->count(20)->create([
             'user_id' => 2, // 税理士ユーザーのIDを指定（UserSeederで作成したユーザーの順序に対応）
