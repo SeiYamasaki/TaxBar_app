@@ -113,25 +113,8 @@
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                         </div>
                         <div>
-                            <label for="prefecture" class="block text-sm font-medium text-gray-700 mb-1">都道府県</label>
-                            <select name="prefecture" id="prefecture"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="">選択してください</option>
-                                <option value="全国">全国</option>
-                                <option value="東京都">東京都</option>
-                                <option value="大阪府">大阪府</option>
-                                <!-- 他の都道府県 -->
-                            </select>
-                        </div>
-                        <div>
                             <label for="video" class="block text-sm font-medium text-gray-700 mb-1">動画ファイル</label>
                             <input type="file" name="video" id="video" accept="video/*" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label for="thumbnail"
-                                class="block text-sm font-medium text-gray-700 mb-1">サムネイル画像（オプション）</label>
-                            <input type="file" name="thumbnail" id="thumbnail" accept="image/*"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
                         <div>
@@ -146,7 +129,36 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-3">アップロード済み動画</h3>
                     <div class="bg-white p-4 rounded-lg shadow-sm">
-                        <p class="text-center text-gray-500">アップロードした動画はありません</p>
+                        @if ($taxMinutesVideos->count() > 0)
+                            <div class="overflow-x-auto">
+                                <div class="inline-flex space-x-4 min-w-full pb-2">
+                                    @foreach ($taxMinutesVideos as $video)
+                                        <a href="{{ route('taxminivideos.edit', $video->id) }}"
+                                            class="w-64 flex-shrink-0">
+                                            <div class="border rounded-lg overflow-hidden shadow-sm h-full">
+                                                <div class="p-3">
+                                                    <h4 class="font-medium text-gray-800 mb-1 truncate">
+                                                        {{ $video->title }}</h4>
+                                                    <p class="text-sm text-gray-600 mb-1 line-clamp-2">
+                                                        {{ $video->description }}</p>
+                                                    <p class="text-sm text-gray-500">アップロード日:
+                                                        {{ $video->created_at->format('Y/m/d') }}
+                                                    </p>
+                                                    <p class="text-sm text-gray-500">コメント数:
+                                                        {{ $video->comments->count() }}
+                                                    </p>
+                                                    <p class="text-sm text-gray-500">再生数:
+                                                        {{ $video->views }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @else
+                            <p class="text-center text-gray-500">アップロードした動画はありません</p>
+                        @endif
                     </div>
                 </div>
             </div>

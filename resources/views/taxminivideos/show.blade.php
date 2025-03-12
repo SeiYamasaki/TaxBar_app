@@ -107,15 +107,6 @@
                         </p>
                         <p class="flex items-center">
                             <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 2a8 8 0 100 16 8 8 0 000-16zM5.93 6.757a6 6 0 018.113 8.113L10 11.414l-4.07 3.456a6 6 0 01-8.113-8.113L10 8.586l4.07-3.456a6 6 0 01-8.14 8.14z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <span class="font-medium text-gray-900">都道府県:</span>
-                            <span>{{ $video->prefecture }}</span>
-                        </p>
-                        <p class="flex items-center">
-                            <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path
                                     d="M10 12a4 4 0 100-8 4 4 0 000 8zm0-10a6 6 0 016 6c0 2.22-1.21 4.16-3 5.2V15a1 1 0 01-1 1h-4a1 1 0 01-1-1v-1.8C5.21 12.16 4 10.22 4 8a6 6 0 016-6z" />
                             </svg>

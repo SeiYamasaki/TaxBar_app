@@ -52,16 +52,12 @@ class TaxMinutesVideoController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'nullable',
-            'prefecture' => 'nullable',
             'video' => 'required|file|mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/x-flv,video/x-ms-wmv|max:102400', // 100MB
-            'thumbnail' => 'nullable|image|max:20480', // 20MB
         ], [
             'video.required' => '動画ファイルを選択してください。',
             'video.file' => '有効なファイルを選択してください。',
             'video.mimetypes' => '対応していない動画形式です。MP4、QuickTime、AVI、FLV、WMVのいずれかの形式をアップロードしてください。',
             'video.max' => '動画ファイルのサイズは100MB以下である必要があります。',
-            'thumbnail.image' => '有効な画像ファイルを選択してください。',
-            'thumbnail.max' => 'サムネイル画像のサイズは20MB以下である必要があります。',
         ]);
 
         try {
@@ -69,22 +65,15 @@ class TaxMinutesVideoController extends Controller
             $videoPath = $request->file('video')->store('videos/taxminutes', 'public');
             Log::info('動画ファイル保存パス: ' . $videoPath);
 
-            // サムネイルがあれば保存
-            $thumbnailPath = null;
-            if ($request->hasFile('thumbnail')) {
-                $thumbnailPath = $request->file('thumbnail')->store('thumbnails/taxminutes', 'public');
-                Log::info('サムネイル保存パス: ' . $thumbnailPath);
-            }
-
             // データベースに保存
             $userId = Auth::id();
             $video = new TaxMinutesVideo([
                 'user_id' => $userId,
                 'title' => $request->title,
-                'description' => $request->description,
-                'prefecture' => $request->prefecture,
+                'description' => $request->description ?? '',
+                'prefecture' => $request->prefecture ?? null,
                 'video_path' => $videoPath,
-                'thumbnail_path' => $thumbnailPath,
+                'thumbnail_path' => null,
                 'views' => 0,
             ]);
             $video->save();
@@ -121,18 +110,14 @@ class TaxMinutesVideoController extends Controller
             abort(403, '他のユーザーの動画は編集できません');
         }
 
+        // actionパラメータがdeleteの場合は削除処理を実行
+        if ($request->input('action') === 'delete') {
+            return $this->destroy($video);
+        }
+
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'nullable',
-            'prefecture' => 'nullable',
-            'video' => 'nullable|file|mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/x-flv,video/x-ms-wmv|max:102400', // 100MB
-            'thumbnail' => 'nullable|image|max:20480', // 20MB
-        ], [
-            'video.file' => '有効なファイルを選択してください。',
-            'video.mimetypes' => '対応していない動画形式です。MP4、QuickTime、AVI、FLV、WMVのいずれかの形式をアップロードしてください。',
-            'video.max' => '動画ファイルのサイズは100MB以下である必要があります。',
-            'thumbnail.image' => '有効な画像ファイルを選択してください。',
-            'thumbnail.max' => 'サムネイル画像のサイズは20MB以下である必要があります。',
         ]);
 
         try {
@@ -140,32 +125,7 @@ class TaxMinutesVideoController extends Controller
             $data = [
                 'title' => $request->title,
                 'description' => $request->description,
-                'prefecture' => $request->prefecture,
             ];
-
-            // 新しい動画ファイルがあれば更新
-            if ($request->hasFile('video')) {
-                // 古いファイルを削除
-                if ($video->video_path) {
-                    Storage::disk('public')->delete($video->video_path);
-                }
-
-                // 新しいファイルを保存
-                $data['video_path'] = $request->file('video')->store('videos/taxminutes', 'public');
-                Log::info('新しい動画ファイル保存パス: ' . $data['video_path']);
-            }
-
-            // 新しいサムネイルがあれば更新
-            if ($request->hasFile('thumbnail')) {
-                // 古いファイルを削除
-                if ($video->thumbnail_path) {
-                    Storage::disk('public')->delete($video->thumbnail_path);
-                }
-
-                // 新しいファイルを保存
-                $data['thumbnail_path'] = $request->file('thumbnail')->store('thumbnails/taxminutes', 'public');
-                Log::info('新しいサムネイル保存パス: ' . $data['thumbnail_path']);
-            }
 
             // データベースを更新
             $video->update($data);
