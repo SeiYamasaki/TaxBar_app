@@ -89,25 +89,69 @@ class PaymentController extends Controller
     // 支払い成功時の処理
     public function success(Request $request)
     {
+        // デバッグログ
+        Log::info('Payment success called', [
+            'user' => Auth::check() ? Auth::id() : 'guest',
+            'session_id' => $request->session_id,
+            'has_selected_plan' => session()->has('selected_plan')
+        ]);
+
         // セッションからプラン情報を取得
         $selectedPlan = session('selected_plan');
 
-        if (Auth::check() && Auth::user()->role === 'tax_advisor' && $selectedPlan) {
+        if (Auth::check() && Auth::user()->role === 'tax_advisor') {
+            // デバッグログ
+            Log::info('User is tax_advisor', [
+                'user_id' => Auth::id(),
+                'selected_plan' => $selectedPlan
+            ]);
+
             // ユーザーのTaxAdvisor情報を取得
             $taxAdvisor = Auth::user()->taxAdvisor;
 
+            // taxAdvisorが取得できない場合はリレーションから取得を試みる
+            if (!$taxAdvisor) {
+                $taxAdvisor = \App\Models\TaxAdvisor::where('user_id', Auth::id())->first();
+                Log::info('Trying to get taxAdvisor directly from DB', [
+                    'found' => $taxAdvisor ? true : false
+                ]);
+            }
+
             if ($taxAdvisor) {
+                // プラン情報がセッションにない場合はリクエストから取得を試みる
+                $planId = $selectedPlan['plan_id'] ?? null;
+                if (!$planId && $request->session_id) {
+                    try {
+                        Stripe::setApiKey(env('STRIPE_SECRET'));
+                        $session = Session::retrieve($request->session_id);
+                        $planId = $session->metadata->plan_id ?? null;
+                        Log::info('Retrieved plan from Stripe', ['plan_id' => $planId]);
+                    } catch (\Exception $e) {
+                        Log::error('Error retrieving Stripe session', ['error' => $e->getMessage()]);
+                    }
+                }
+
                 // サブスクリプション情報を更新
-                $taxAdvisor->update([
-                    'subscription_plan_id' => $selectedPlan['plan_id'],
+                $updateData = [
                     'subscription_start_date' => Carbon::now(),
                     'subscription_end_date' => Carbon::now()->addYear(), // 1年間の契約
-                ]);
+                ];
+
+                // プランIDがある場合は更新
+                if ($planId) {
+                    $updateData['subscription_plan_id'] = $planId;
+                }
+
+                $taxAdvisor->update($updateData);
+                Log::info('Updated tax advisor subscription', ['tax_advisor_id' => $taxAdvisor->id, 'data' => $updateData]);
 
                 // セッションからプラン情報を削除
                 session()->forget('selected_plan');
 
-                return redirect()->route('dashboard')->with('success', $selectedPlan['plan_name'] . 'プランの契約が完了しました！');
+                $planName = $selectedPlan['plan_name'] ?? 'サブスクリプション';
+                return redirect()->route('dashboard')->with('success', $planName . 'プランの契約が完了しました！');
+            } else {
+                Log::error('TaxAdvisor record not found for user', ['user_id' => Auth::id()]);
             }
         }
 

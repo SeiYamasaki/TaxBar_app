@@ -28,22 +28,8 @@ class DatabaseSeeder extends Seeder
         // 外部キー制約を再有効化
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // サブスクリプションプランを作成
-        SubscriptionPlan::create([
-            'name' => 'ベーシック',
-            'description' => '基本機能のみのプラン',
-            'price' => 5000,
-            'duration_days' => 30,
-            'features' => ['基本機能'],
-        ]);
-
-        SubscriptionPlan::create([
-            'name' => 'プロフェッショナル',
-            'description' => '高度な機能を含むプラン',
-            'price' => 10000,
-            'duration_days' => 30,
-            'features' => ['基本機能', '詳細な分析', '優先サポート'],
-        ]);
+        // サブスクリプションプランを作成（新しいSeederを使用）
+        $this->call(SubscriptionPlanSeeder::class);
 
         // 新しいUserSeederを実行
         $this->call(UserSeeder::class);
