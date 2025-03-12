@@ -129,7 +129,7 @@
                     <div class="mt-10 text-center">
                         <!-- コメント一覧 -->
                         <h3 class="text-lg font-semibold text-gray-800 mb-5 border-b-2 border-indigo-500 pb-3">コメント</h3>
-                        <div class="space-y-5 text-gray-700 text-base">
+                        <div class="space-y-5 text-gray-700 text-base overflow-y-auto max-h-[300px]">
                             @forelse ($video->approvedComments as $comment)
                                 <div class="bg-gray-50 p-4 rounded-lg">
                                     <div class="flex items-center mb-2">
