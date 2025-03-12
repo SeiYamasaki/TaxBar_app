@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class TaxMinutesVideo extends Model
 {
@@ -33,6 +34,22 @@ class TaxMinutesVideo extends Model
     }
 
     /**
+     * 動画に対するコメントを取得
+     */
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    /**
+     * 承認済みコメントのみを取得
+     */
+    public function approvedComments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable')->where('is_approved', true);
+    }
+
+    /**
      * 動画のURLを取得
      */
     public function getVideoUrlAttribute()
@@ -50,4 +67,4 @@ class TaxMinutesVideo extends Model
         }
         return asset('images/default-thumbnail.jpg');
     }
-} 
+}

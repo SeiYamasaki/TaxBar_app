@@ -123,6 +123,36 @@
                             <span>{{ $video->views }} 回</span>
                         </p>
                     </div>
+                    <!-- コメント投稿エリア -->
+                    <div class="mt-10 text-center">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-5 border-b-2 border-indigo-500 pb-3">コメント投稿
+                        </h3>
+                        <form action="{{ route('comments.store.video', $video->id) }}" method="POST">
+                            @csrf
+                            <textarea name="content" class="w-full p-2 border rounded-lg" placeholder="コメントを入力"></textarea>
+                            <button type="submit"
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300">投稿</button>
+                        </form>
+                    </div>
+
+                    <div class="mt-10 text-center">
+                        <!-- コメント一覧 -->
+                        <h3 class="text-lg font-semibold text-gray-800 mb-5 border-b-2 border-indigo-500 pb-3">コメント</h3>
+                        <div class="space-y-5 text-gray-700 text-base">
+                            @forelse ($video->approvedComments as $comment)
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <div class="flex items-center mb-2">
+                                        <span class="font-medium text-gray-900 mr-2">{{ $comment->user->name }}</span>
+                                        <span
+                                            class="text-xs text-gray-500">{{ $comment->created_at->format('Y/m/d H:i') }}</span>
+                                    </div>
+                                    <p class="text-gray-700">{{ $comment->content }}</p>
+                                </div>
+                            @empty
+                                <p class="text-gray-500 italic">コメントはまだありません</p>
+                            @endforelse
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
