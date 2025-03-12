@@ -24,6 +24,8 @@ class TaxAdvisor extends Model
         'subscription_plan_id',
         'subscription_start_date',
         'subscription_end_date',
+        'stripe_customer_id',
+        'stripe_subscription_id',
         'specialty',
         'profile_info',
         'is_tax_accountant',
