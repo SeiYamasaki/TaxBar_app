@@ -186,7 +186,7 @@
                                 <label for="description" class="flex items-center font-medium text-gray-900 mb-2">
                                     <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                         <path
-                                            d="M2 3h16a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V5a2 2 0 012-2zm1 2v10h14V5H3z" />
+                                            d="M2 3h16a2 2 0 012 2v10a2 2 0 01-2-2H2a2 2 0 01-2-2V5a2 2 0 012-2zm1 2v10h14V5H3z" />
                                     </svg>
                                     説明:
                                 </label>
@@ -196,6 +196,36 @@
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
+
+                            <!-- サムネイル画像の設定 -->
+                            <div>
+                                <label for="thumbnail" class="flex items-center font-medium text-gray-900 mb-2">
+                                    <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    サムネイル画像:
+                                </label>
+
+                                <!-- 現在のサムネイル表示 -->
+                                @if ($video->thumbnail_path)
+                                    <div class="mb-3 flex items-center">
+                                        <img src="{{ asset('storage/' . $video->thumbnail_path) }}" alt="現在のサムネイル"
+                                            class="w-24 h-16 object-cover rounded border">
+                                        <span class="ml-3 text-sm text-gray-600">現在設定されているサムネイル</span>
+                                    </div>
+                                @endif
+
+                                <input type="file" name="thumbnail" id="thumbnail" accept="image/*"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <p class="text-xs text-gray-500 mt-1">推奨サイズ: 720×1280px（9:16）。設定しない場合は現在のサムネイルが維持されます。
+                                </p>
+                                @error('thumbnail')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
                             <div class="flex items-center">
                                 <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                     <path
@@ -204,34 +234,50 @@
                                 <span class="font-medium text-gray-900">閲覧数:</span>
                                 <span class="ml-2">{{ $video->views }} 回</span>
                             </div>
-                        </div>
-
-                        <!-- アクションボタン -->
-                        <div class="mt-8 flex justify-between">
-                            <div class="flex space-x-2">
-                                <a href="{{ route('dashboard') }}"
-                                    class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300">
-                                    キャンセル
-                                </a>
-                                <button type="submit" name="action" value="update"
-                                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300">
-                                    更新する
-                                </button>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 12a4 4 0 100-8 4 4 0 000 8zm0-10a6 6 0 016 6c0 2.22-1.21 4.16-3 5.2V15a1 1 0 01-1 1h-4a1 1 0 01-1-1v-1.8C5.21 12.16 4 10.22 4 8a6 6 0 016-6z" />
+                                </svg>
+                                コメント一覧
                             </div>
+                            @foreach ($video->comments as $comment)
+                                <div class="mb-2">
+                                    <img src="{{ asset('storage/' . $comment->) }}"
+                                        alt="ユーザーアイコン" class="w-8 h-8 rounded-full">
+                                    <span class="font-medium text-gray-900">{{ $comment->user->name }}</span>
+                                    <span class="ml-2">{{ $comment->content }}</span>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                </form>
 
-                <form action="{{ route('taxminivideos.destroy', $video->id) }}" method="POST" class="mt-4"
-                    onsubmit="return confirm('この動画を削除してもよろしいですか？');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" name="action" value="delete"
-                        class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300">
-                        削除
-                    </button>
-                </form>
+                    <!-- アクションボタン -->
+                    <div class="mt-8 flex justify-between">
+                        <div class="flex space-x-2">
+                            <a href="{{ route('dashboard') }}"
+                                class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300">
+                                キャンセル
+                            </a>
+                            <button type="submit" name="action" value="update"
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300">
+                                更新する
+                            </button>
+                        </div>
+                    </div>
             </div>
+            </form>
+
+            <form action="{{ route('taxminivideos.destroy', $video->id) }}" method="POST" class="mt-4"
+                onsubmit="return confirm('この動画を削除してもよろしいですか？');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" name="action" value="delete"
+                    class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300">
+                    削除
+                </button>
+            </form>
+        </div>
         </div>
 
         <!-- アクションボタン -->
