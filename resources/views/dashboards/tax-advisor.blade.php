@@ -45,31 +45,30 @@
                 <p class="py-1"><strong>メールアドレス:</strong> {{ $user->email }}</p>
                 <p class="py-1"><strong>ユーザー種別:</strong> 税理士</p>
                 <p class="py-1"><strong>プロフィール画像:</strong>
-                    @if ($user->tax_advisor && $user->tax_advisor->tax_accountant_photo)
-                        <img src="{{ asset('storage/' . $user->tax_advisor->tax_accountant_photo) }}" alt="プロフィール画像"
-                            class="w-24 h-24 rounded-full object-cover">
+                    @if ($user->taxAdvisor && $user->taxAdvisor->tax_accountant_photo)
+                        <img src="{{ asset('storage/' . $user->taxAdvisor->tax_accountant_photo) }}" alt="プロフィール画像" class="w-56 h-56">
                     @else
                         <span class="text-gray-500">未設定</span>
                     @endif
                 </p>
 
-                @if ($user->tax_advisor)
+                @if ($user->taxAdvisor)
                     <!-- 税理士の場合の追加情報 -->
                     <h3 class="font-bold mt-3 mb-2 border-b pb-1">税理士プロフィール</h3>
-                    <p class="py-1"><strong>事務所名:</strong> {{ $user->tax_advisor->office_name ?? '未登録' }}</p>
-                    <p class="py-1"><strong>郵便番号:</strong> {{ $user->tax_advisor->postal_code ?? '未登録' }}</p>
-                    <p class="py-1"><strong>都道府県:</strong> {{ $user->tax_advisor->prefecture ?? '未登録' }}</p>
-                    <p class="py-1"><strong>住所:</strong> {{ $user->tax_advisor->address ?? '未登録' }}</p>
-                    <p class="py-1"><strong>事務所電話番号:</strong> {{ $user->tax_advisor->office_phone ?? '未登録' }}</p>
-                    <p class="py-1"><strong>携帯電話番号:</strong> {{ $user->tax_advisor->mobile_phone ?? '未登録' }}</p>
-                    <p class="py-1"><strong>専門分野:</strong> {{ $user->tax_advisor->specialty ?? '未登録' }}</p>
-                    @if ($user->tax_advisor->subscriptionPlan)
+                    <p class="py-1"><strong>事務所名:</strong> {{ $user->taxAdvisor->office_name ?? '未登録' }}</p>
+                    <p class="py-1"><strong>郵便番号:</strong> {{ $user->taxAdvisor->postal_code ?? '未登録' }}</p>
+                    <p class="py-1"><strong>都道府県:</strong> {{ $user->taxAdvisor->prefecture ?? '未登録' }}</p>
+                    <p class="py-1"><strong>住所:</strong> {{ $user->taxAdvisor->address ?? '未登録' }}</p>
+                    <p class="py-1"><strong>事務所電話番号:</strong> {{ $user->taxAdvisor->office_phone ?? '未登録' }}</p>
+                    <p class="py-1"><strong>携帯電話番号:</strong> {{ $user->taxAdvisor->mobile_phone ?? '未登録' }}</p>
+                    <p class="py-1"><strong>専門分野:</strong> {{ $user->taxAdvisor->specialty ?? '未登録' }}</p>
+                    @if ($user->taxAdvisor->subscriptionPlan)
                         <p class="py-1"><strong>料金プラン:</strong>
-                            {{ $user->tax_advisor->subscriptionPlan->name ?? '未登録' }}</p>
+                            {{ $user->taxAdvisor->subscriptionPlan->name ?? '未登録' }}</p>
                         <p class="py-1"><strong>プラン期間:</strong>
-                            {{ $user->tax_advisor->subscription_start_date ? $user->tax_advisor->subscription_start_date->format('Y年m月d日') : '未設定' }}
+                            {{ $user->taxAdvisor->subscription_start_date ? $user->taxAdvisor->subscription_start_date->format('Y年m月d日') : '未設定' }}
                             から
-                            {{ $user->tax_advisor->subscription_end_date ? $user->tax_advisor->subscription_end_date->format('Y年m月d日') : '未設定' }}
+                            {{ $user->taxAdvisor->subscription_end_date ? $user->taxAdvisor->subscription_end_date->format('Y年m月d日') : '未設定' }}
                         </p>
                     @endif
                 @endif
