@@ -100,6 +100,9 @@ class DashboardController extends Controller
         // 税理士特有のデータを取得
         $taxAdvisor = $user->tax_advisor;
 
+        // ユーザーが投稿した動画を取得
+        $taxMinutesVideos = \App\Models\TaxMinutesVideo::where('user_id', $user->id)->latest()->get();
+
         // ユーザーが投稿した動画とテーマのIDを取得
         $videoIds = \App\Models\TaxMinutesVideo::where('user_id', $user->id)->pluck('id')->toArray();
         $themeIds = \App\Models\Theme::where('user_id', $user->id)->pluck('id')->toArray();
@@ -151,7 +154,7 @@ class DashboardController extends Controller
             ->take(5) // 最新5件のみ
             ->get();
 
-        return view('dashboards.tax_advisor', compact('user', 'taxAdvisor', 'pendingComments', 'approvedComments'));
+        return view('dashboards.tax_advisor', compact('user', 'taxAdvisor', 'pendingComments', 'approvedComments', 'taxMinutesVideos'));
     }
 
     /**

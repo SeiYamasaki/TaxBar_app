@@ -22,6 +22,8 @@ export default {
         './resources/js/**/*.js',
         './resources/css/**/*.css',
         './resources/views/themes/**/*.blade.php',
+        './resources/views/taxbarviews/**/*.blade.php',
+        './resources/views/taxminivideos/**/*.blade.php',
     ],
 
     theme: {
