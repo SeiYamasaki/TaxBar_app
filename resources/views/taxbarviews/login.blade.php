@@ -35,7 +35,7 @@
         </div>
 
         <div class="timeline-container">
-            <h1 class="start-heading">TaxBar®からのお知らせ</h1>
+            <h1 class="start-heading">TaxBar®からのリアルタイム配信</h1>
             <div class="timeline-item">
                 <div id="news-content">
                     <p>最新のお知らせを取得中...</p>
