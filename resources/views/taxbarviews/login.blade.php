@@ -29,7 +29,7 @@
         <!-- 追加する動画（80%サイズ） -->
         <div class="extra-video-container">
             <video autoplay muted loop>
-                <source src="{{ asset('videos/ZOOM_1.mov') }}" type="video/mp4">
+                <source src="{{ asset('videos/extra_video_v1.mp4') }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
