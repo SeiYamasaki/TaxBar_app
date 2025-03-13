@@ -13,6 +13,7 @@ use App\Http\Controllers\TaxMinutesVideoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SouzokuTaxController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\TaxAdvisorController;
 
 
 
@@ -111,6 +112,12 @@ Route::get('/about-taxbar', function () {
 Route::get('/taxbar-introduction', function () {
     return view('taxbar-introduction');
 })->name('taxbar-introduction');  // ここで名前を付ける
+
+//税理士の方へページのルート
+Route::get('/tax-advisors', function () {
+    return view('tax-advisors');
+})->name('tax-advisors');
+
 
 
 require __DIR__ . '/auth.php';

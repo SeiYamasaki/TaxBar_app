@@ -51,8 +51,10 @@
                     @guest
                         <li><a href="/" class="text-gray-700 hover:text-blue-500 text-lg">ログイン</a></li>
                     @else
-                        <li><a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-blue-500 text-lg">ダッシュボード</a></li>
+                        <li><a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-blue-500 text-lg">ダッシュボード</a>
+                        </li>
                     @endguest
+                    <li><a href="/" class="text-gray-700 hover:text-blue-500 text-lg">HOME</a></li>
                     <li><a href="/taxminivideos" class="text-gray-700 hover:text-blue-500 text-lg">Tax Minutes®</a></li>
                     <li><a href="/view/theme" class="text-gray-700 hover:text-blue-500 text-lg">テーマ</a></li>
                     <li><a href="/view/prohibited" class="text-gray-700 hover:text-blue-500 text-lg">禁止事項</a></li>
@@ -64,7 +66,6 @@
                     @guest
                         <li><a href="/login" class="text-gray-700 hover:text-blue-500 text-lg">ログイン</a></li>
                     @else
-
                         <li>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
@@ -75,7 +76,7 @@
                             </form>
                         </li>
                     @endguest
-                    <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">税理士の方へ</a></li>
+                    <li><a href="/tax-advisors" class="text-gray-700 hover:text-blue-500 text-lg">税理士の方へ</a></li>
                     <li><a href="/special" class="text-gray-700 hover:text-blue-500 text-lg">特集ページ</a></li>
                     <li><a href="/souzoku-tax" class="text-gray-700 hover:text-blue-500 text-lg">相続でお困りの方へ</a></li>
                     <li><a href="/about-taxbar" class="text-gray-700 hover:text-blue-500 text-lg">TaxBar®とは？</a></li>
@@ -122,7 +123,7 @@
                         <li><a href="/pricing"
                                 class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">料金表</a>
                         </li>
-                        <li><a href="#"
+                        <li><a href="/tax-advisors"
                                 class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">税理士の方へ</a>
                         </li>
                         <li><a href="/special"
