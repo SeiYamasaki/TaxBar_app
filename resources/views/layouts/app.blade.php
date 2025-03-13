@@ -25,7 +25,7 @@
     <!-- A-Frameライブラリ -->
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
-    
+
     <!-- Styles -->
     <style>
         /* ✅ デフォルトの `body` スタイル（変更を許可） */
