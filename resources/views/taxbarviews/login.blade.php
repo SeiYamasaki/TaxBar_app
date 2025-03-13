@@ -23,39 +23,61 @@
             </video>
         </div>
 
-        <!-- Xタイムライン -->
-        <div class="timeline-container">
-            <div class="timeline-item">
-                <h1 class="x1txt">~TaxBar&reg;からのお知らせ~</h1>
-                <a class="twitter-timeline" data-width="500" data-height="700" data-tweet-limit="3"
-                    href="https://twitter.com/Python_SEI?ref_src=twsrc%5Etfw">
-                    Tweets by Python_SEI
-                </a>
-            </div>
+        <!-- 追加のH1見出し -->
+        <h1 class="start-heading">さぁ､始めよう TaxBar®</h1>
 
+        <!-- 追加する動画（80%サイズ） -->
+        <div class="extra-video-container">
+            <video autoplay muted loop>
+                <source src="{{ asset('videos/ZOOM_1.mov') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- 連絡リアルタイム配信 -->
+        <div class="timeline-container">
+            <h1 class="start-heading">TaxBar®からのお知らせ</h1>
             <div class="timeline-item">
-                <h1 class="x3txt">~リアルタイム配信~</h1>
-                <a class="twitter-timeline" data-width="500" data-height="700" data-tweet-limit="3"
-                    href="https://twitter.com/Python_SEI?ref_src=twsrc%5Etfw">
-                    Tweets by Python_SEI
-                </a>
+                <div id="news-content">
+                    <p>最新のお知らせを取得中...</p>
+                </div>
             </div>
         </div>
-        <!-- Xのウィジェット読み込みスクリプト -->
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
         <script>
-            function reloadTwitterWidget() {
-                let iframe = document.querySelector("iframe.twitter-timeline");
-                if (iframe) {
-                    iframe.remove(); // 既存のタイムラインを削除
+            async function fetchNews() {
+                const spreadsheetId = "1ckX1KuD_bWLBRp_I95w6HSsjlCxdXk_DR3DvBsaUgHA"; // あなたのスプレッドシートIDを入れる
+                const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json`;
+
+                try {
+                    const response = await fetch(url);
+                    const text = await response.text();
+                    const json = JSON.parse(text.substring(47, text.length - 2)); // 余計な部分を削除
+                    const rows = json.table.rows; // スプレッドシートのデータを取得
+
+                    let newsHtml = "";
+                    const maxItems = 5; // 最新5件を表示
+
+                    // A1～A5セルのデータを新しい順に取得
+                    for (let i = 0; i < Math.min(rows.length, maxItems); i++) {
+                        if (rows[i] && rows[i].c[0] && rows[i].c[0].v) {
+                            newsHtml += `<p class="news-item">${rows[i].c[0].v}</p>`;
+                        }
+                    }
+
+                    document.getElementById("news-content").innerHTML = newsHtml || `<p>現在、お知らせはありません。</p>`;
+                } catch (error) {
+                    console.error("ニュースの取得に失敗しました", error);
+                    document.getElementById("news-content").innerHTML = `<p>お知らせの取得に失敗しました。</p>`;
                 }
-                twttr.widgets.load(); // 再読み込み
             }
 
-            // 30秒ごとに最新の投稿を取得（調整可能）
-            setInterval(reloadTwitterWidget, 30000);
+            // 初回ロード時 & 10秒ごとに更新
+            fetchNews();
+            setInterval(fetchNews, 10000);
         </script>
+
+
         <div class="gif-container">
             <img src="{{ asset('images/robo1.gif') }}" alt="GIF2" class="gif-item">
         </div>
