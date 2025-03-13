@@ -194,15 +194,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- アクションボタン -->
-            <div class="mt-10 text-center">
-                <a href="{{ route('taxminivideos.index') }}"
-                    class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all duration-300">
-                    戻る
-                </a>
-            </div>
+                <!-- アクションボタン -->
+                <div class="mt-10 text-center">
+                    <a href="{{ route('taxminivideos.index') }}"
+                        class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all duration-300">
+                        戻る
+                    </a>
+                </div>
     </main>
 
     <!-- フッター -->
@@ -284,17 +283,11 @@
             // 投稿ボタンクリック時
             showConfirmBtn.addEventListener('click', function() {
                 const content = commentContent.value.trim();
-
-                // 入力チェック
                 if (!content) {
                     alert('コメントを入力してください');
                     return;
                 }
-
-                // プレビューにコメント内容を表示
                 commentPreview.textContent = content;
-
-                // モーダルを表示
                 confirmModal.classList.remove('hidden');
             });
 
