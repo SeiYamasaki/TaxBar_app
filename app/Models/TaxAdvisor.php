@@ -20,6 +20,7 @@ class TaxAdvisor extends Model
         'office_phone',
         'mobile_phone',
         'tax_accountant_photo',
+        'tax_minutes_icon',
         'additional_photos',
         'subscription_plan_id',
         'subscription_start_date',

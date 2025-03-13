@@ -13,7 +13,11 @@ use App\Http\Controllers\TaxMinutesVideoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SouzokuTaxController;
 use App\Http\Controllers\CommentController;
+<<<<<<< HEAD
 use App\Http\Controllers\TaxAdvisorController;
+=======
+use App\Http\Controllers\TaxAdvisorProfileController;
+>>>>>>> 9019a10 (TaxMinutesの投稿するボタン設置、TaxMinutesのユーザーアイコンを専門家のプロフィールから設定できるようにしました。)
 
 
 
@@ -69,6 +73,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // 税理士プロフィール編集ルート
+    Route::get('/tax-advisor/profile', [TaxAdvisorProfileController::class, 'edit'])->name('tax_advisor.profile.edit');
+    Route::patch('/tax-advisor/profile', [TaxAdvisorProfileController::class, 'update'])->name('tax_advisor.profile.update');
 });
 
 // 認証が必要なTaxMinutesビデオ管理ルート

@@ -66,7 +66,11 @@
                     @endif
                 @endif
 
-                <div class="mt-4 flex justify-end">
+                <div class="mt-4 flex justify-between">
+                    <a href="{{ route('tax_advisor.profile.edit') }}"
+                        class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+                        プロフィール編集
+                    </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">
