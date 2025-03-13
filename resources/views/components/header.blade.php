@@ -48,8 +48,6 @@
             <!-- ✅ デスクトップナビゲーション（中央均等配置） -->
             <nav class="hidden lg:flex w-full justify-center">
                 <ul class="flex flex-wrap justify-center gap-x-4 gap-y-2 max-w-[80%]">
-                    <li><a href="/" class="text-gray-700 hover:text-blue-500 text-lg">HOME</a>
-                        </li>
                     <li><a href="/" class="text-gray-700 hover:text-blue-500 text-lg">HOME</a></li>
                     <li><a href="/taxminivideos" class="text-gray-700 hover:text-blue-500 text-lg">Tax Minutes®</a></li>
                     <li><a href="/view/theme" class="text-gray-700 hover:text-blue-500 text-lg">テーマ</a></li>
@@ -63,7 +61,7 @@
                         <li><a href="/login" class="text-gray-700 hover:text-blue-500 text-lg">ログイン</a></li>
                     @else
                         <li>
-                            <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-blue-500 text-lg">マイページ</a>
+                            <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-blue-500 text-lg">ダッシュボード</a>
                         </li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
