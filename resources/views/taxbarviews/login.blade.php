@@ -23,39 +23,121 @@
             </video>
         </div>
 
-        <!-- Xタイムライン -->
-        <div class="timeline-container">
-            <div class="timeline-item">
-                <h1 class="x1txt">~TaxBar&reg;からのお知らせ~</h1>
-                <a class="twitter-timeline" data-width="500" data-height="700" data-tweet-limit="3"
-                    href="https://twitter.com/Python_SEI?ref_src=twsrc%5Etfw">
-                    Tweets by Python_SEI
-                </a>
-            </div>
+        <!-- 追加のH1見出し -->
+        <h1 class="start-heading">さぁ､始めよう TaxBar®</h1>
 
+        <!-- 追加する動画（80%サイズ） -->
+        <div class="extra-video-container">
+            <video autoplay muted loop>
+                <source src="{{ asset('videos/extra_video_v1.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="timeline-container">
+            <h1 class="start-heading">TaxBar®からのリアルタイム配信</h1>
             <div class="timeline-item">
-                <h1 class="x3txt">~リアルタイム配信~</h1>
-                <a class="twitter-timeline" data-width="500" data-height="700" data-tweet-limit="3"
-                    href="https://twitter.com/Python_SEI?ref_src=twsrc%5Etfw">
-                    Tweets by Python_SEI
-                </a>
+                <div id="news-content">
+                    <p>最新のお知らせを取得中...</p>
+                </div>
             </div>
         </div>
-        <!-- Xのウィジェット読み込みスクリプト -->
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
         <script>
-            function reloadTwitterWidget() {
-                let iframe = document.querySelector("iframe.twitter-timeline");
-                if (iframe) {
-                    iframe.remove(); // 既存のタイムラインを削除
+            async function fetchNews() {
+                const spreadsheetId = "1ckX1KuD_bWLBRp_I95w6HSsjlCxdXk_DR3DvBsaUgHA"; // ✅ あなたのスプレッドシートID
+                const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json`;
+
+                try {
+                    const response = await fetch(url);
+                    const text = await response.text();
+                    const json = JSON.parse(text.substring(47, text.length - 2)); // 余計な部分を削除
+                    const rows = json.table.rows; // スプレッドシートのデータを取得
+
+                    let newsHtml = "";
+                    const maxItems = 5; // 最新5件を表示
+
+                    for (let i = 0; i < Math.min(rows.length, maxItems); i++) {
+                        if (rows[i] && rows[i].c[0] && rows[i].c[1]) {
+                            let dateValue = rows[i].c[0].v; // スプレッドシートのA列データ（日時）
+                            let formattedDate = "日付エラー"; // 初期値（エラーハンドリング）
+
+                            // **📌 1. 数値のシリアル値（Google Sheetsの日付）を適切に変換**
+                            if (typeof dateValue === "number") {
+                                const baseDate = new Date(1899, 11, 30);
+                                baseDate.setDate(baseDate.getDate() + dateValue);
+                                formattedDate = baseDate.toLocaleString("ja-JP", {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                });
+                            }
+                            // **📌 2. カンマ区切りの "Date(YYYY,MM,DD,HH,MM,SS)" を変換**
+                            else if (typeof dateValue === "string" && dateValue.startsWith("Date(")) {
+                                let dateParts = dateValue.match(/\d+/g); // 数字だけ抽出
+                                if (dateParts && dateParts.length >= 3) {
+                                    let year = parseInt(dateParts[0], 10);
+                                    let month = parseInt(dateParts[1], 10) - 1; // **📌 月を 0 ベースに補正**
+                                    let day = parseInt(dateParts[2], 10);
+                                    let hours = dateParts.length > 3 ? parseInt(dateParts[3], 10) : 0;
+                                    let minutes = dateParts.length > 4 ? parseInt(dateParts[4], 10) : 0;
+                                    let seconds = dateParts.length > 5 ? parseInt(dateParts[5], 10) : 0;
+
+                                    let parsedDate = new Date(year, month, day, hours, minutes, seconds);
+                                    if (!isNaN(parsedDate.getTime())) {
+                                        formattedDate = parsedDate.toLocaleString("ja-JP", {
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        });
+                                    } else {
+                                        console.warn("無効なカンマ区切り日付:", dateValue);
+                                    }
+                                }
+                            }
+                            // **📌 3. "YYYY/MM/DD HH:MM:SS" の文字列を変換**
+                            else if (typeof dateValue === "string") {
+                                let parsedDate = new Date(dateValue);
+                                if (!isNaN(parsedDate.getTime())) {
+                                    formattedDate = parsedDate.toLocaleString("ja-JP", {
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    });
+                                } else {
+                                    console.warn("無効な文字列日付:", dateValue);
+                                }
+                            } else {
+                                console.warn("日付が無効です:", dateValue);
+                            }
+
+                            let newsText = rows[i].c[1].v; // お知らせの内容
+                            let newLabel = i === 0 ? `<span class="new-label">NEW!</span>` : ""; // 最新のお知らせに「NEW!」を表示
+
+                            newsHtml += `<p class="news-item">${newLabel} ${formattedDate} - ${newsText}</p>`;
+                        }
+                    }
+
+                    document.getElementById("news-content").innerHTML = newsHtml || `<p>現在、お知らせはありません。</p>`;
+                } catch (error) {
+                    console.error("ニュースの取得に失敗しました", error);
+                    document.getElementById("news-content").innerHTML = `<p>お知らせの取得に失敗しました。</p>`;
                 }
-                twttr.widgets.load(); // 再読み込み
             }
 
-            // 30秒ごとに最新の投稿を取得（調整可能）
-            setInterval(reloadTwitterWidget, 30000);
+            // 初回ロード時 & 10秒ごとに更新
+            fetchNews();
+            setInterval(fetchNews, 10000);
         </script>
+
+
+
         <div class="gif-container">
             <img src="{{ asset('images/robo1.gif') }}" alt="GIF2" class="gif-item">
         </div>
@@ -68,7 +150,7 @@
             </div>
 
             <div class="guest-list">
-                <!-- 3人目のゲスト -->
+                <!-- 1人目のゲスト -->
                 <div class="guest-item">
                     <h2 class="x2txt">黒瀬公認会計士事務所</h2>
                     <div class="image-preview">
@@ -80,7 +162,7 @@
                     </div>
                 </div>
 
-                <!-- 4人目のゲスト -->
+                <!-- 1人目のゲスト -->
                 <div class="guest-item">
                     <h2 class="x2txt">公認会計士税理士 黒瀬賢史</h2>
                     <div class="image-preview">
@@ -103,7 +185,7 @@
                 </div>
 
                 <div class="guest-list">
-                    <!-- 1人目のゲスト -->
+                    <!-- 2人目のゲスト -->
                     <div class="guest-item">
                         <h2 class="x2txt">酒井雄介税理士事務所</h2>
                         <div class="image-preview">

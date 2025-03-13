@@ -72,7 +72,7 @@ html {
 /* 背景動画コンテナ */
 .video-container {
     position: relative;
-    margin-top: 65px;
+    margin-top: 120px;
     width: 100%;
     height: calc(100vh - 65px);
     overflow: hidden;
@@ -99,21 +99,221 @@ html {
     }
 }
 
-/* タイムライン */
+/* 追加する動画のコンテナ */
+.extra-video-container {
+    width: 80%;
+    /* 通常は80% */
+    margin: 20px auto;
+    /* 中央寄せ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 追加する動画のスタイル */
+.extra-video-container video {
+    width: 100%;
+    /* コンテナ内で100% */
+    height: auto;
+    /* アスペクト比維持 */
+    border-radius: 10px;
+    /* 角を少し丸める */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    /* 軽い影を追加 */
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .extra-video-container {
+        width: 100%;
+        /* スマホでは100% */
+        margin: 10px 0;
+        /* 余白を減らす */
+    }
+
+    .extra-video-container video {
+        border-radius: 0;
+        /* スマホでは角の丸みをなくす */
+        box-shadow: none;
+        /* スマホでは影をなくしてシンプルに */
+    }
+}
+
+/* H1見出しを中央配置 */
+.start-heading-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    /* 適度な高さを設定 */
+    z-index: 2;
+    /* 他の要素より前面に */
+}
+
+/* レインボーカラーのアニメーション */
+@keyframes rainbow {
+    0% {
+        color: #ff0000;
+    }
+
+    /* 赤 */
+    16% {
+        color: #ff7f00;
+    }
+
+    /* オレンジ */
+    33% {
+        color: #ffff00;
+    }
+
+    /* 黄 */
+    50% {
+        color: #00ff00;
+    }
+
+    /* 緑 */
+    66% {
+        color: #0000ff;
+    }
+
+    /* 青 */
+    83% {
+        color: #4b0082;
+    }
+
+    /* 藍 */
+    100% {
+        color: #8b00ff;
+    }
+
+    /* 紫 */
+}
+
+/* H1のスタイル */
+.start-heading {
+    font-size: 2rem;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0);
+    /* 半透明の背景 */
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-align: center;
+    animation: rainbow 3s infinite linear;
+    /* 3秒ごとにレインボーに変化 */
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .start-heading {
+        font-size: 1.5rem;
+        padding: 8px 15px;
+    }
+}
+
+/* タイムライン全体（中央配置） */
 .timeline-container {
     display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     padding: 10px;
     border: 3px solid red;
 }
 
+/* Xウィジェットの高さを固定 */
 .timeline-item {
     text-align: center;
-    width: 400px;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
 }
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .timeline-container {
+        overflow: visible;
+        /* スマホでスクロールを防止 */
+    }
+
+    .timeline-item {
+        width: 95%;
+        max-width: none;
+    }
+}
+
+/* お知らせエリア（PC用） */
+#news-content {
+    width: 600px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* お知らせアイテム */
+.news-item {
+    padding: 8px;
+    margin: 5px 0;
+    border-bottom: 1px solid #ccc;
+    font-size: 1rem;
+    text-align: left;
+}
+
+/* 最後の要素のボーダーを消す */
+.news-item:last-child {
+    border-bottom: none;
+}
+
+/* NEW! ラベル */
+.new-label {
+    background-color: red;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 3px 5px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+/* 📱 スマホ対応 */
+@media (max-width: 768px) {
+    .timeline-container {
+        padding: 5px;
+        gap: 5px;
+    }
+
+    .timeline-item {
+        width: 100%;
+    }
+
+    #news-content {
+        width: 95%;
+        /* スマホでは画面幅に合わせる */
+        font-size: 1rem;
+        /* フォントを少し小さく */
+        padding: 10px;
+    }
+
+    .news-item {
+        font-size: 0.9rem;
+        /* スマホ用にフォントサイズを縮小 */
+        padding: 6px;
+    }
+
+    .new-label {
+        font-size: 0.7rem;
+        /* スマホではNEW!ラベルを小さめに */
+        padding: 2px 4px;
+    }
+}
+
 
 /* ゲストコンテナ */
 .guest-container {
@@ -139,27 +339,69 @@ html {
     width: 300px;
 }
 
-/* ゲスト画像 */
+/* 🖼️ ゲスト画像の枠（スタイリッシュなフレーム付き） */
 .image-preview {
-    width: 100%;
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 3px solid #ff6600;
-    border-radius: 10px;
+    width: 320px; /* 一回り大きく */
+    height: 440px;
+    position: relative;
+    border-radius: 15px; /* 角を丸く */
     overflow: hidden;
-    background: #fff;
-    padding: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    padding: 5px; /* フレームの太さ */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
+/* 🎨 フレームデザイン */
+.image-preview::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 15px;
+    border: 3px solid transparent;
+    background: linear-gradient(135deg, #ff5722, #ff9800) padding-box, 
+                linear-gradient(135deg, #ff5722, #ff9800, #ffcc00) border-box;
+    z-index: 1;
+}
+
+/* 🖼️ ゲスト画像（枠にフィット） */
 .image-preview img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 10px;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
 }
+
+/* ✨ ホバー時のエフェクト（ズーム＆シャドウ強化） */
+.image-preview:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* 🖥️ ホバー時にフレームを光らせる */
+.image-preview:hover::before {
+    background: linear-gradient(135deg, #ffcc00, #ff5722, #ff9800) padding-box, 
+                linear-gradient(135deg, #ffcc00, #ff5722, #ff9800) border-box;
+}
+
+/* 📱 スマホ対応 */
+@media (max-width: 768px) {
+    .image-preview {
+        width: 95%;
+        height: auto;
+    }
+
+    .image-preview img {
+        width: 100%;
+        height: auto;
+    }
+}
+
 
 /* 予約ボタン */
 .guest-button {
@@ -180,21 +422,44 @@ html {
     transform: scale(1.05);
 }
 
-/* GIF スタイル */
+/* 🎥 GIFコンテナ（少し動きをつける） */
 .gif-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 0px;
+    margin-top: 5px;
+    transition: transform 0.3s ease-in-out;
 }
 
+/* 🎥 GIF自体もホバー時に少し動かす */
 .gif-item {
     width: 240px;
     height: 240px;
     object-fit: contain;
     border-radius: 5px;
-    background: transparent;
-    box-shadow: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* ✨ ホバー時にGIFも軽く浮かせる */
+.image-preview:hover+.gif-container .gif-item {
+    transform: scale(1.05);
+}
+
+/* 📱 スマホ対応（小さめサイズに） */
+@media (max-width: 768px) {
+    .image-preview {
+        width: 95%;
+        height: auto;
+    }
+
+    .image-preview img {
+        width: 100%;
+        height: auto;
+    }
+
+    .gif-container {
+        margin-top: 10px;
+    }
 }
 
 /* フッター */
@@ -247,4 +512,48 @@ footer {
 .prefecture-links a:hover {
     text-decoration: underline;
     color: white;
+}
+
+/* 🏷️ h1.x2txt の基本スタイル（PC用） */
+.x2txt {
+    font-size: 1.4rem;  /* PCでは大きめのサイズ */
+    font-weight: bold;
+    color: #333;  /* 黒に近い濃いグレー */
+    text-align: center;
+    margin: 20px 0;
+    padding: 10px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* 軽い影で立体感を出す */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* ✨ ホバー時に少し拡大 */
+.x2txt:hover {
+    transform: scale(1.05);
+}
+
+/* 📱 スマホ対応 */
+@media (max-width: 768px) {
+    .x2txt {
+        font-size: 2rem;  /* スマホでは少し小さめに */
+        padding: 8px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* スマホでは影を少し控えめに */
+    }
+}
+
+/* 🖌️ アニメーション付きの特別なエフェクト */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 特別なアニメーションを追加（オプション） */
+.x2txt.animated {
+    animation: pulse 3s infinite ease-in-out;
 }
