@@ -154,7 +154,7 @@ class DashboardController extends Controller
             ->take(5) // 最新5件のみ
             ->get();
 
-        return view('dashboards.tax_advisor', compact('user', 'taxAdvisor', 'pendingComments', 'approvedComments', 'taxMinutesVideos'));
+        return view('dashboards.tax-advisor', compact('user', 'taxAdvisor', 'pendingComments', 'approvedComments', 'taxMinutesVideos'));
     }
 
     /**
