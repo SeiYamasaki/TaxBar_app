@@ -34,7 +34,6 @@
             </video>
         </div>
 
-        <!-- 連絡リアルタイム配信 -->
         <div class="timeline-container">
             <h1 class="start-heading">TaxBar®からのお知らせ</h1>
             <div class="timeline-item">
@@ -46,7 +45,7 @@
 
         <script>
             async function fetchNews() {
-                const spreadsheetId = "1ckX1KuD_bWLBRp_I95w6HSsjlCxdXk_DR3DvBsaUgHA"; // あなたのスプレッドシートIDを入れる
+                const spreadsheetId = "1ckX1KuD_bWLBRp_I95w6HSsjlCxdXk_DR3DvBsaUgHA"; // ✅ あなたのスプレッドシートID
                 const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json`;
 
                 try {
@@ -58,10 +57,70 @@
                     let newsHtml = "";
                     const maxItems = 5; // 最新5件を表示
 
-                    // A1～A5セルのデータを新しい順に取得
                     for (let i = 0; i < Math.min(rows.length, maxItems); i++) {
-                        if (rows[i] && rows[i].c[0] && rows[i].c[0].v) {
-                            newsHtml += `<p class="news-item">${rows[i].c[0].v}</p>`;
+                        if (rows[i] && rows[i].c[0] && rows[i].c[1]) {
+                            let dateValue = rows[i].c[0].v; // スプレッドシートのA列データ（日時）
+                            let formattedDate = "日付エラー"; // 初期値（エラーハンドリング）
+
+                            // **📌 1. 数値のシリアル値（Google Sheetsの日付）を適切に変換**
+                            if (typeof dateValue === "number") {
+                                const baseDate = new Date(1899, 11, 30);
+                                baseDate.setDate(baseDate.getDate() + dateValue);
+                                formattedDate = baseDate.toLocaleString("ja-JP", {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                });
+                            }
+                            // **📌 2. カンマ区切りの "Date(YYYY,MM,DD,HH,MM,SS)" を変換**
+                            else if (typeof dateValue === "string" && dateValue.startsWith("Date(")) {
+                                let dateParts = dateValue.match(/\d+/g); // 数字だけ抽出
+                                if (dateParts && dateParts.length >= 3) {
+                                    let year = parseInt(dateParts[0], 10);
+                                    let month = parseInt(dateParts[1], 10) - 1; // **📌 月を 0 ベースに補正**
+                                    let day = parseInt(dateParts[2], 10);
+                                    let hours = dateParts.length > 3 ? parseInt(dateParts[3], 10) : 0;
+                                    let minutes = dateParts.length > 4 ? parseInt(dateParts[4], 10) : 0;
+                                    let seconds = dateParts.length > 5 ? parseInt(dateParts[5], 10) : 0;
+
+                                    let parsedDate = new Date(year, month, day, hours, minutes, seconds);
+                                    if (!isNaN(parsedDate.getTime())) {
+                                        formattedDate = parsedDate.toLocaleString("ja-JP", {
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        });
+                                    } else {
+                                        console.warn("無効なカンマ区切り日付:", dateValue);
+                                    }
+                                }
+                            }
+                            // **📌 3. "YYYY/MM/DD HH:MM:SS" の文字列を変換**
+                            else if (typeof dateValue === "string") {
+                                let parsedDate = new Date(dateValue);
+                                if (!isNaN(parsedDate.getTime())) {
+                                    formattedDate = parsedDate.toLocaleString("ja-JP", {
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    });
+                                } else {
+                                    console.warn("無効な文字列日付:", dateValue);
+                                }
+                            } else {
+                                console.warn("日付が無効です:", dateValue);
+                            }
+
+                            let newsText = rows[i].c[1].v; // お知らせの内容
+                            let newLabel = i === 0 ? `<span class="new-label">NEW!</span>` : ""; // 最新のお知らせに「NEW!」を表示
+
+                            newsHtml += `<p class="news-item">${newLabel} ${formattedDate} - ${newsText}</p>`;
                         }
                     }
 
@@ -76,6 +135,7 @@
             fetchNews();
             setInterval(fetchNews, 10000);
         </script>
+
 
 
         <div class="gif-container">
