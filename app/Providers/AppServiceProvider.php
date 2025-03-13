@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Http\Controllers\TaxAdvisorController;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // 税理士一覧をフッターに表示するためのビューコンポーザーを登録
+        TaxAdvisorController::registerViewComposer();
     }
 }

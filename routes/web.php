@@ -114,6 +114,17 @@ Route::get('/special', function () {
 // 相続ページルート定義
 Route::get('/souzoku-tax', [SouzokuTaxController::class, 'index']);
 
+// 税理士一覧関連のルート
+Route::get('/tax-advisors', function () {
+    return view('tax-advisors');
+})->name('tax-advisors');
+
+// 都道府県ごとの税理士一覧ページ
+Route::get('/tax-advisors/prefecture/{prefecture}', [TaxAdvisorController::class, 'byPrefecture'])->name('tax-advisors.prefecture');
+
+// 税理士プロフィール詳細ページ（認証不要）
+Route::get('/tax-advisor/{id}', [TaxAdvisorProfileController::class, 'show'])->name('tax-advisors.show');
+
 //3Dページルート
 Route::get('/about-taxbar', function () {
     return view('taxbar');
@@ -123,12 +134,5 @@ Route::get('/about-taxbar', function () {
 Route::get('/taxbar-introduction', function () {
     return view('taxbar-introduction');
 })->name('taxbar-introduction');  // ここで名前を付ける
-
-//税理士の方へページのルート
-Route::get('/tax-advisors', function () {
-    return view('tax-advisors');
-})->name('tax-advisors');
-
-
 
 require __DIR__ . '/auth.php';

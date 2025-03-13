@@ -15,9 +15,18 @@ class TaxMinutesVideoController extends Controller
     /**
      * 動画一覧を表示
      */
-    public function index()
+    public function index(Request $request)
     {
-        $videos = TaxMinutesVideo::with(['user', 'user.taxAdvisor'])->latest()->paginate(12);
+        $query = TaxMinutesVideo::with(['user', 'user.taxAdvisor']);
+
+        // 税理士IDでフィルタリング
+        if ($request->has('tax_advisor')) {
+            $taxAdvisorId = $request->input('tax_advisor');
+            $query->where('user_id', $taxAdvisorId);
+        }
+
+        $videos = $query->latest()->paginate(12);
+
         return view('taxminivideos.index', compact('videos'));
     }
 
