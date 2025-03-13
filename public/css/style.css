@@ -244,19 +244,6 @@ html {
     }
 }
 
-/* お知らせエリア */
-#news-content {
-    width: 600px;
-    padding: 15px;
-    background: #f9f9f9;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-}
-
 /* お知らせエリア（PC用） */
 #news-content {
     width: 600px;
@@ -275,11 +262,24 @@ html {
     padding: 8px;
     margin: 5px 0;
     border-bottom: 1px solid #ccc;
+    font-size: 1rem;
+    text-align: left;
 }
 
 /* 最後の要素のボーダーを消す */
 .news-item:last-child {
     border-bottom: none;
+}
+
+/* NEW! ラベル */
+.new-label {
+    background-color: red;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 3px 5px;
+    border-radius: 5px;
+    margin-right: 5px;
 }
 
 /* 📱 スマホ対応 */
@@ -305,6 +305,12 @@ html {
         font-size: 0.9rem;
         /* スマホ用にフォントサイズを縮小 */
         padding: 6px;
+    }
+
+    .new-label {
+        font-size: 0.7rem;
+        /* スマホではNEW!ラベルを小さめに */
+        padding: 2px 4px;
     }
 }
 
