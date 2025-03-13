@@ -175,7 +175,7 @@
                                 <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-yellow-400">
                                     <div class="flex justify-between items-start">
                                         <div>
-                                            <div class="font-medium">{{ $comment->user->name }}</div>
+                                            <div class="font-medium">{{ $comment->display_name }}</div>
                                             <div class="text-sm text-gray-500">
                                                 {{ $comment->created_at->format('Y/m/d H:i') }}</div>
 
@@ -233,7 +233,7 @@
                         <div class="space-y-4">
                             @foreach ($approvedComments as $comment)
                                 <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-400">
-                                    <div class="font-medium">{{ $comment->user->name }}</div>
+                                    <div class="font-medium">{{ $comment->display_name }}</div>
                                     <div class="text-sm text-gray-500">{{ $comment->created_at->format('Y/m/d H:i') }}
                                     </div>
 

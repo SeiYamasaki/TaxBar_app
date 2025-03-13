@@ -62,6 +62,11 @@
 
     <!-- メインコンテンツ -->
     <main class="container mt-12 mx-auto px-4 py-16 animate-fade-in">
+        <!-- フラッシュメッセージ（非表示） -->
+        @if (session('success'))
+            <div id="flash-message" class="hidden">{{ session('success') }}</div>
+        @endif
+
         <!-- 動画タイトル -->
         <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10 text-center">{{ $video->title }}</h1>
 
@@ -145,11 +150,14 @@
                             @forelse ($video->approvedComments->sortByDesc('created_at') as $comment)
                                 <div class="bg-gray-50 p-4 rounded-lg">
                                     <div class="flex items-center mb-2">
-                                        @if ($comment->user->isTaxAdvisor() && $comment->user->taxAdvisor && $comment->user->taxAdvisor->expert_photo_url)
+                                        @if (
+                                            $comment->user &&
+                                                $comment->user->isTaxAdvisor() &&
+                                                $comment->user->taxAdvisor &&
+                                                $comment->user->taxAdvisor->expert_photo_url)
                                             <img src="{{ asset('storage/' . $comment->user->taxAdvisor->expert_photo_url) }}"
                                                 alt="ユーザーアイコン"
                                                 class="rounded-full w-8 h-8 object-cover border-2 border-gray-200 mr-2">
-                                                
                                         @else
                                             <svg class="w-8 h-8 text-gray-400 bg-gray-100 rounded-full border-2 border-gray-200 p-1 mr-2"
                                                 fill="currentColor" viewBox="0 0 20 20"
@@ -159,7 +167,8 @@
                                                     clip-rule="evenodd"></path>
                                             </svg>
                                         @endif
-                                        <span class="font-medium text-gray-900 mr-2">{{ $comment->user->name }}</span>
+                                        <span
+                                            class="font-medium text-gray-900 mr-2">{{ $comment->display_name }}</span>
                                         <span
                                             class="text-xs text-gray-500">{{ $comment->created_at->format('Y/m/d H:i') }}</span>
                                     </div>
@@ -169,17 +178,17 @@
                                 <p class="text-gray-500 italic">コメントはまだありません</p>
                             @endforelse
                         </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- アクションボタン -->
-        <div class="mt-10 text-center">
-            <a href="{{ route('taxminivideos.index') }}"
-                class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all duration-300">
-                戻る
-            </a>
-        </div>
+            <!-- アクションボタン -->
+            <div class="mt-10 text-center">
+                <a href="{{ route('taxminivideos.index') }}"
+                    class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all duration-300">
+                    戻る
+                </a>
+            </div>
     </main>
 
     <!-- フッター -->
@@ -213,7 +222,13 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
                 <h3 class="text-xl font-bold text-gray-800 mb-2">投稿が完了しました！</h3>
-                <p class="text-gray-700 mb-6">反映まで少々お待ちください。</p>
+                <p id="completion-message" class="text-gray-700 mb-6">
+                    @if (session('success'))
+                        {{ session('success') }}
+                    @else
+                        反映まで少々お待ちください。
+                    @endif
+                </p>
                 <button id="completionCloseBtn"
                     class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
                     閉じる
@@ -246,6 +261,11 @@
             const cancelBtn = document.getElementById('cancelBtn');
             const completionCloseBtn = document.getElementById('completionCloseBtn');
 
+            // フラッシュメッセージがある場合は完了モーダルを表示
+            @if (session('success'))
+                completionModal.classList.remove('hidden');
+            @endif
+
             // 投稿ボタンクリック時
             showConfirmBtn.addEventListener('click', function() {
                 const content = commentContent.value.trim();
@@ -272,25 +292,8 @@
             confirmBtn.addEventListener('click', function() {
                 confirmModal.classList.add('hidden');
 
-                // フォームをAjaxで送信
-                const formData = new FormData(commentForm);
-                fetch(commentForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                    .then(response => {
-                        // 送信完了後、完了モーダルを表示
-                        completionModal.classList.remove('hidden');
-                        // コメント入力欄をクリア
-                        commentContent.value = '';
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('投稿中にエラーが発生しました。もう一度お試しください。');
-                    });
+                // フォームを直接送信
+                commentForm.submit();
             });
 
             // 完了モーダルの閉じるボタン

@@ -243,9 +243,23 @@
                             </div>
                             @foreach ($video->comments as $comment)
                                 <div class="mb-2">
-                                    <img src="{{ asset('storage/' . $comment->) }}"
-                                        alt="ユーザーアイコン" class="w-8 h-8 rounded-full">
-                                    <span class="font-medium text-gray-900">{{ $comment->user->name }}</span>
+                                    @if (
+                                        $comment->user &&
+                                            $comment->user->isTaxAdvisor() &&
+                                            $comment->user->taxAdvisor &&
+                                            $comment->user->taxAdvisor->expert_photo_url)
+                                        <img src="{{ asset('storage/' . $comment->user->taxAdvisor->expert_photo_url) }}"
+                                            alt="ユーザーアイコン" class="w-8 h-8 rounded-full">
+                                    @else
+                                        <svg class="w-8 h-8 text-gray-400 bg-gray-100 rounded-full border-2 border-gray-200 p-1 mr-2"
+                                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    @endif
+                                    <span
+                                        class="font-medium text-gray-900">{{ $comment->display_name ?? ($comment->user ? $comment->user->name : '一般') }}</span>
                                     <span class="ml-2">{{ $comment->content }}</span>
                                 </div>
                             @endforeach

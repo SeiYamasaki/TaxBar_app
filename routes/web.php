@@ -77,6 +77,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/tax-advisor/profile', [TaxAdvisorProfileController::class, 'update'])->name('tax_advisor.profile.update');
 });
 
+// コメント投稿ルート（認証不要）
+Route::post('/taxminivideos/{video}/comments', [CommentController::class, 'storeForVideo'])->name('comments.store.video');
+Route::post('/themes/{theme}/comments', [CommentController::class, 'storeForTheme'])->name('comments.store.theme');
+
 // 認証が必要なTaxMinutesビデオ管理ルート
 Route::middleware(['auth'])->group(function () {
     // 固定パスのルートを先に定義
@@ -87,9 +91,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/taxminivideos/{video}', [TaxMinutesVideoController::class, 'update'])->name('taxminivideos.update');
     Route::delete('/taxminivideos/{video}', [TaxMinutesVideoController::class, 'destroy'])->name('taxminivideos.destroy');
 
-    // コメント関連のルート
-    Route::post('/taxminivideos/{video}/comments', [CommentController::class, 'storeForVideo'])->name('comments.store.video');
-    Route::post('/themes/{theme}/comments', [CommentController::class, 'storeForTheme'])->name('comments.store.theme');
+    // コメント関連のルート（認証が必要）
     Route::get('/comments/my', [CommentController::class, 'myComments'])->name('comments.my');
     Route::get('/comments/received', [CommentController::class, 'receivedComments'])->name('comments.received');
     Route::put('/comments/{comment}/approve', [CommentController::class, 'approve'])->name('comments.approve');

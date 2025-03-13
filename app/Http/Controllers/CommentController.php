@@ -16,7 +16,7 @@ class CommentController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index', 'show', 'storeForVideo', 'storeForTheme']);
     }
 
     /**
@@ -146,9 +146,10 @@ class CommentController extends Controller
         ]);
 
         $comment = new Comment([
-            'user_id' => Auth::id(),
+            'user_id' => Auth::check() ? Auth::id() : null,
             'content' => $request->content,
             'is_approved' => false, // デフォルトでは未承認
+            'guest_name' => Auth::check() ? null : '一般',
         ]);
 
         $video->comments()->save($comment);
@@ -166,9 +167,10 @@ class CommentController extends Controller
         ]);
 
         $comment = new Comment([
-            'user_id' => Auth::id(),
+            'user_id' => Auth::check() ? Auth::id() : null,
             'content' => $request->content,
             'is_approved' => false, // デフォルトでは未承認
+            'guest_name' => Auth::check() ? null : '一般',
         ]);
 
         $theme->comments()->save($comment);
