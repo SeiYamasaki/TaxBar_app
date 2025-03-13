@@ -101,9 +101,23 @@
                             </svg>
                             <span class="font-medium text-gray-900">投稿者:</span>
                         <div class="flex items-center ml-2">
-                            @if ($video->expert_photo_url)
-                                <img src="{{ asset('storage/' . $video->expert_photo_url) }}" alt="専門家の写真"
-                                    class="rounded-full w-8 h-8 object-cover border-2 border-gray-200 mr-2">
+                            @if ($video->user && $video->user->isTaxAdvisor() && $video->user->taxAdvisor)
+                                @if ($video->user->taxAdvisor->tax_minutes_icon)
+                                    <img src="{{ asset('storage/' . $video->user->taxAdvisor->tax_minutes_icon) }}"
+                                        alt="専門家の写真"
+                                        class="rounded-full w-8 h-8 object-cover border-2 border-gray-200 mr-2">
+                                @elseif ($video->user->taxAdvisor->tax_accountant_photo)
+                                    <img src="{{ asset('storage/' . $video->user->taxAdvisor->tax_accountant_photo) }}"
+                                        alt="専門家の写真"
+                                        class="rounded-full w-8 h-8 object-cover border-2 border-gray-200 mr-2">
+                                @else
+                                    <svg class="w-8 h-8 text-gray-400 bg-gray-100 rounded-full border-2 border-gray-200 p-1 mr-2"
+                                        fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd">
+                                        </path>
+                                    </svg>
+                                @endif
                             @else
                                 <svg class="w-8 h-8 text-gray-400 bg-gray-100 rounded-full border-2 border-gray-200 p-1 mr-2"
                                     fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -214,7 +228,8 @@
     </div>
 
     <!-- 完了通知モーダル -->
-    <div id="completionModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div id="completionModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
             <div class="text-center">
                 <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor"

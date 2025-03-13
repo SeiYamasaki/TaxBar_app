@@ -44,6 +44,14 @@
                 <p class="py-1"><strong>名前:</strong> {{ $user->name }}</p>
                 <p class="py-1"><strong>メールアドレス:</strong> {{ $user->email }}</p>
                 <p class="py-1"><strong>ユーザー種別:</strong> 税理士</p>
+                <p class="py-1"><strong>プロフィール画像:</strong>
+                    @if ($user->tax_advisor && $user->tax_advisor->tax_accountant_photo)
+                        <img src="{{ asset('storage/' . $user->tax_advisor->tax_accountant_photo) }}" alt="プロフィール画像"
+                            class="w-24 h-24 rounded-full object-cover">
+                    @else
+                        <span class="text-gray-500">未設定</span>
+                    @endif
+                </p>
 
                 @if ($user->tax_advisor)
                     <!-- 税理士の場合の追加情報 -->
