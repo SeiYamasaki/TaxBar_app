@@ -130,10 +130,10 @@
                     <div class="mt-10 text-center">
                         <h3 class="text-lg font-semibold text-gray-800 mb-5 border-b-2 border-indigo-500 pb-3">コメント投稿
                         </h3>
-                        <form action="{{ route('comments.store.video', $video->id) }}" method="POST">
+                        <form id="commentForm" action="{{ route('comments.store.video', $video->id) }}" method="POST">
                             @csrf
-                            <textarea name="content" class="w-full p-2 border rounded-lg" placeholder="コメントを入力"></textarea>
-                            <button type="submit"
+                            <textarea id="commentContent" name="content" class="w-full p-2 border rounded-lg" placeholder="コメントを入力"></textarea>
+                            <button type="button" id="showConfirmBtn"
                                 class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300">投稿</button>
                         </form>
                     </div>
@@ -185,6 +185,43 @@
     <!-- フッター -->
     @include('components.footer')
 
+    <!-- 確認モーダル -->
+    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">投稿確認</h3>
+            <p class="text-gray-700 mb-6">この内容で投稿しますよろしいですか？</p>
+            <div id="commentPreview" class="bg-gray-50 p-4 rounded-lg mb-6 text-left max-h-40 overflow-y-auto"></div>
+            <div class="flex justify-end space-x-3">
+                <button id="cancelBtn"
+                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">
+                    いいえ
+                </button>
+                <button id="confirmBtn"
+                    class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                    はい
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 完了通知モーダル -->
+    <div id="completionModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <div class="text-center">
+                <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">投稿が完了しました！</h3>
+                <p class="text-gray-700 mb-6">反映まで少々お待ちください。</p>
+                <button id="completionCloseBtn"
+                    class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                    閉じる
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const video = document.querySelector('video');
         const overlay = document.querySelector('.video-container > div');
@@ -195,6 +232,88 @@
 
         video.addEventListener('pause', () => {
             overlay.style.display = 'flex'; // 動画が一時停止するとオーバーレイを表示
+        });
+
+        // コメント投稿の確認モーダル処理
+        document.addEventListener('DOMContentLoaded', function() {
+            const commentForm = document.getElementById('commentForm');
+            const commentContent = document.getElementById('commentContent');
+            const showConfirmBtn = document.getElementById('showConfirmBtn');
+            const confirmModal = document.getElementById('confirmModal');
+            const completionModal = document.getElementById('completionModal');
+            const commentPreview = document.getElementById('commentPreview');
+            const confirmBtn = document.getElementById('confirmBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const completionCloseBtn = document.getElementById('completionCloseBtn');
+
+            // 投稿ボタンクリック時
+            showConfirmBtn.addEventListener('click', function() {
+                const content = commentContent.value.trim();
+
+                // 入力チェック
+                if (!content) {
+                    alert('コメントを入力してください');
+                    return;
+                }
+
+                // プレビューにコメント内容を表示
+                commentPreview.textContent = content;
+
+                // モーダルを表示
+                confirmModal.classList.remove('hidden');
+            });
+
+            // キャンセルボタンクリック時
+            cancelBtn.addEventListener('click', function() {
+                confirmModal.classList.add('hidden');
+            });
+
+            // 確認ボタンクリック時
+            confirmBtn.addEventListener('click', function() {
+                confirmModal.classList.add('hidden');
+
+                // フォームをAjaxで送信
+                const formData = new FormData(commentForm);
+                fetch(commentForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => {
+                        // 送信完了後、完了モーダルを表示
+                        completionModal.classList.remove('hidden');
+                        // コメント入力欄をクリア
+                        commentContent.value = '';
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('投稿中にエラーが発生しました。もう一度お試しください。');
+                    });
+            });
+
+            // 完了モーダルの閉じるボタン
+            completionCloseBtn.addEventListener('click', function() {
+                completionModal.classList.add('hidden');
+                // ページをリロードして最新のコメントを表示
+                location.reload();
+            });
+
+            // モーダル外クリックでも閉じる
+            confirmModal.addEventListener('click', function(e) {
+                if (e.target === confirmModal) {
+                    confirmModal.classList.add('hidden');
+                }
+            });
+
+            completionModal.addEventListener('click', function(e) {
+                if (e.target === completionModal) {
+                    completionModal.classList.add('hidden');
+                    // ページをリロードして最新のコメントを表示
+                    location.reload();
+                }
+            });
         });
     </script>
 </body>

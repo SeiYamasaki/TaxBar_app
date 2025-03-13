@@ -13,11 +13,8 @@ use App\Http\Controllers\TaxMinutesVideoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SouzokuTaxController;
 use App\Http\Controllers\CommentController;
-<<<<<<< HEAD
 use App\Http\Controllers\TaxAdvisorController;
-=======
 use App\Http\Controllers\TaxAdvisorProfileController;
->>>>>>> 9019a10 (TaxMinutesの投稿するボタン設置、TaxMinutesのユーザーアイコンを専門家のプロフィールから設定できるようにしました。)
 
 
 
