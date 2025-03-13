@@ -150,7 +150,7 @@
             </div>
 
             <div class="guest-list">
-                <!-- 3人目のゲスト -->
+                <!-- 1人目のゲスト -->
                 <div class="guest-item">
                     <h2 class="x2txt">黒瀬公認会計士事務所</h2>
                     <div class="image-preview">
@@ -162,7 +162,7 @@
                     </div>
                 </div>
 
-                <!-- 4人目のゲスト -->
+                <!-- 1人目のゲスト -->
                 <div class="guest-item">
                     <h2 class="x2txt">公認会計士税理士 黒瀬賢史</h2>
                     <div class="image-preview">
@@ -185,7 +185,7 @@
                 </div>
 
                 <div class="guest-list">
-                    <!-- 1人目のゲスト -->
+                    <!-- 2人目のゲスト -->
                     <div class="guest-item">
                         <h2 class="x2txt">酒井雄介税理士事務所</h2>
                         <div class="image-preview">

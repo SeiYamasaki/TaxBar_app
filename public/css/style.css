@@ -339,27 +339,69 @@ html {
     width: 300px;
 }
 
-/* ゲスト画像 */
+/* 🖼️ ゲスト画像の枠（スタイリッシュなフレーム付き） */
 .image-preview {
-    width: 100%;
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 3px solid #ff6600;
-    border-radius: 10px;
+    width: 320px; /* 一回り大きく */
+    height: 440px;
+    position: relative;
+    border-radius: 15px; /* 角を丸く */
     overflow: hidden;
-    background: #fff;
-    padding: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    padding: 5px; /* フレームの太さ */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
+/* 🎨 フレームデザイン */
+.image-preview::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 15px;
+    border: 3px solid transparent;
+    background: linear-gradient(135deg, #ff5722, #ff9800) padding-box, 
+                linear-gradient(135deg, #ff5722, #ff9800, #ffcc00) border-box;
+    z-index: 1;
+}
+
+/* 🖼️ ゲスト画像（枠にフィット） */
 .image-preview img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 10px;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
 }
+
+/* ✨ ホバー時のエフェクト（ズーム＆シャドウ強化） */
+.image-preview:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* 🖥️ ホバー時にフレームを光らせる */
+.image-preview:hover::before {
+    background: linear-gradient(135deg, #ffcc00, #ff5722, #ff9800) padding-box, 
+                linear-gradient(135deg, #ffcc00, #ff5722, #ff9800) border-box;
+}
+
+/* 📱 スマホ対応 */
+@media (max-width: 768px) {
+    .image-preview {
+        width: 95%;
+        height: auto;
+    }
+
+    .image-preview img {
+        width: 100%;
+        height: auto;
+    }
+}
+
 
 /* 予約ボタン */
 .guest-button {
@@ -380,21 +422,44 @@ html {
     transform: scale(1.05);
 }
 
-/* GIF スタイル */
+/* 🎥 GIFコンテナ（少し動きをつける） */
 .gif-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 0px;
+    margin-top: 5px;
+    transition: transform 0.3s ease-in-out;
 }
 
+/* 🎥 GIF自体もホバー時に少し動かす */
 .gif-item {
     width: 240px;
     height: 240px;
     object-fit: contain;
     border-radius: 5px;
-    background: transparent;
-    box-shadow: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* ✨ ホバー時にGIFも軽く浮かせる */
+.image-preview:hover+.gif-container .gif-item {
+    transform: scale(1.05);
+}
+
+/* 📱 スマホ対応（小さめサイズに） */
+@media (max-width: 768px) {
+    .image-preview {
+        width: 95%;
+        height: auto;
+    }
+
+    .image-preview img {
+        width: 100%;
+        height: auto;
+    }
+
+    .gif-container {
+        margin-top: 10px;
+    }
 }
 
 /* フッター */
@@ -447,4 +512,48 @@ footer {
 .prefecture-links a:hover {
     text-decoration: underline;
     color: white;
+}
+
+/* 🏷️ h1.x2txt の基本スタイル（PC用） */
+.x2txt {
+    font-size: 1.4rem;  /* PCでは大きめのサイズ */
+    font-weight: bold;
+    color: #333;  /* 黒に近い濃いグレー */
+    text-align: center;
+    margin: 20px 0;
+    padding: 10px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* 軽い影で立体感を出す */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* ✨ ホバー時に少し拡大 */
+.x2txt:hover {
+    transform: scale(1.05);
+}
+
+/* 📱 スマホ対応 */
+@media (max-width: 768px) {
+    .x2txt {
+        font-size: 2rem;  /* スマホでは少し小さめに */
+        padding: 8px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* スマホでは影を少し控えめに */
+    }
+}
+
+/* 🖌️ アニメーション付きの特別なエフェクト */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 特別なアニメーションを追加（オプション） */
+.x2txt.animated {
+    animation: pulse 3s infinite ease-in-out;
 }
