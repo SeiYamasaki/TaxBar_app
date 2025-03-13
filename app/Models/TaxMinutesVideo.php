@@ -67,4 +67,25 @@ class TaxMinutesVideo extends Model
         }
         return asset('images/default-thumbnail.jpg');
     }
+
+    /**
+     * 投稿者のアイコン写真URLを取得
+     * 税理士ユーザーの場合はtax_minutes_iconを優先的に使用し、
+     * なければtax_accountant_photoを使用
+     */
+    public function getExpertPhotoUrlAttribute()
+    {
+        if ($this->user && $this->user->isTaxAdvisor() && $this->user->taxAdvisor) {
+            // TaxMinutes用のアイコンが設定されている場合はそれを優先
+            if ($this->user->taxAdvisor->tax_minutes_icon) {
+                return $this->user->taxAdvisor->tax_minutes_icon;
+            }
+            // なければ通常の税理士写真を使用
+            else if ($this->user->taxAdvisor->tax_accountant_photo) {
+                return $this->user->taxAdvisor->tax_accountant_photo;
+            }
+        }
+
+        return null;
+    }
 }

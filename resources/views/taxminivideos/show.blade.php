@@ -95,7 +95,19 @@
                                     d="M10 10a4 4 0 100-8 4 4 0 000 8zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                             </svg>
                             <span class="font-medium text-gray-900">投稿者:</span>
+                        <div class="flex items-center ml-2">
+                            @if ($video->expert_photo_url)
+                                <img src="{{ asset('storage/' . $video->expert_photo_url) }}" alt="専門家の写真"
+                                    class="rounded-full w-8 h-8 object-cover border-2 border-gray-200 mr-2">
+                            @else
+                                <svg class="w-8 h-8 text-gray-400 bg-gray-100 rounded-full border-2 border-gray-200 p-1 mr-2"
+                                    fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            @endif
                             <span>{{ $video->user->name }}</span>
+                        </div>
                         </p>
                         <p class="flex items-center">
                             <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -133,6 +145,19 @@
                             @forelse ($video->approvedComments as $comment)
                                 <div class="bg-gray-50 p-4 rounded-lg">
                                     <div class="flex items-center mb-2">
+                                        @if ($comment->user->isTaxAdvisor() && $comment->user->taxAdvisor && $comment->user->taxAdvisor->tax_accountant_photo)
+                                            <img src="{{ asset('storage/' . $comment->user->taxAdvisor->tax_accountant_photo) }}"
+                                                alt="ユーザーアイコン"
+                                                class="rounded-full w-8 h-8 object-cover border-2 border-gray-200 mr-2">
+                                        @else
+                                            <svg class="w-8 h-8 text-gray-400 bg-gray-100 rounded-full border-2 border-gray-200 p-1 mr-2"
+                                                fill="currentColor" viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        @endif
                                         <span class="font-medium text-gray-900 mr-2">{{ $comment->user->name }}</span>
                                         <span
                                             class="text-xs text-gray-500">{{ $comment->created_at->format('Y/m/d H:i') }}</span>

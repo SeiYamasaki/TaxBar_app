@@ -17,7 +17,7 @@ class TaxMinutesVideoController extends Controller
      */
     public function index()
     {
-        $videos = TaxMinutesVideo::latest()->paginate(12);
+        $videos = TaxMinutesVideo::with(['user', 'user.taxAdvisor'])->latest()->paginate(12);
         return view('taxminivideos.index', compact('videos'));
     }
 
@@ -27,6 +27,7 @@ class TaxMinutesVideoController extends Controller
     public function byPrefecture($prefecture)
     {
         $videos = TaxMinutesVideo::where('prefecture', $prefecture)
+            ->with(['user', 'user.taxAdvisor'])
             ->latest()
             ->paginate(12);
 
@@ -38,6 +39,14 @@ class TaxMinutesVideoController extends Controller
      */
     public function show(TaxMinutesVideo $video)
     {
+        // 関連するユーザー情報を読み込み
+        $video->load([
+            'user',
+            'user.taxAdvisor',
+            'approvedComments.user',
+            'approvedComments.user.taxAdvisor'
+        ]);
+
         // 閲覧数をインクリメント
         $video->increment('views');
 

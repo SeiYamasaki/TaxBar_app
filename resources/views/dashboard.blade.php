@@ -286,11 +286,29 @@
             @endif
 
             <div class="flex justify-center">
-                <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit"
-                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">ログアウト</button>
-                </form>
+                @if (auth()->user()->role === 'tax_advisor')
+                    <div class="mt-4 flex justify-between">
+                        <a href="{{ route('tax_advisor.profile.edit') }}"
+                            class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+                            プロフィール編集
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">
+                                ログアウト
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <div class="mt-4 flex justify-end">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">
+                                ログアウト
+                            </button>
+                        </form>
+                    </div>
+                @endif
             </div>
         </div>
     </main>

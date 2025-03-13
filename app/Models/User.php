@@ -97,4 +97,27 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    /**
+     * ユーザーのプロフィール写真URLを取得
+     * 税理士の場合はtax_minutes_iconを優先的に使用し、
+     * なければtax_accountant_photoを使用
+     * 写真がない場合はデフォルト画像を返す
+     */
+    public function getProfilePhotoUrlAttribute()
+    {
+        if ($this->isTaxAdvisor() && $this->taxAdvisor) {
+            // TaxMinutes用のアイコンが設定されている場合はそれを優先
+            if ($this->taxAdvisor->tax_minutes_icon) {
+                return asset('storage/' . $this->taxAdvisor->tax_minutes_icon);
+            }
+            // なければ通常の税理士写真を使用
+            else if ($this->taxAdvisor->tax_accountant_photo) {
+                return asset('storage/' . $this->taxAdvisor->tax_accountant_photo);
+            }
+        }
+
+        // デフォルトのアイコン画像を返す
+        return asset('images/default-avatar.png');
+    }
 }
