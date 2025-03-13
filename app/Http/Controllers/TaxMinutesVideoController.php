@@ -62,17 +62,28 @@ class TaxMinutesVideoController extends Controller
             'title' => 'required|max:255',
             'description' => 'nullable',
             'video' => 'required|file|mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/x-flv,video/x-ms-wmv|max:102400', // 100MB
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 最大2MB
         ], [
             'video.required' => '動画ファイルを選択してください。',
             'video.file' => '有効なファイルを選択してください。',
             'video.mimetypes' => '対応していない動画形式です。MP4、QuickTime、AVI、FLV、WMVのいずれかの形式をアップロードしてください。',
             'video.max' => '動画ファイルのサイズは100MB以下である必要があります。',
+            'thumbnail.image' => 'サムネイルは画像ファイルである必要があります。',
+            'thumbnail.mimes' => 'サムネイルはJPEG、PNG、JPG、GIF形式のみ対応しています。',
+            'thumbnail.max' => 'サムネイル画像のサイズは2MB以下である必要があります。',
         ]);
 
         try {
             // 動画ファイルを保存
             $videoPath = $request->file('video')->store('videos/taxminutes', 'public');
             Log::info('動画ファイル保存パス: ' . $videoPath);
+
+            // サムネイル画像の処理
+            $thumbnailPath = null;
+            if ($request->hasFile('thumbnail')) {
+                $thumbnailPath = $request->file('thumbnail')->store('videos/thumbnails', 'public');
+                Log::info('サムネイル画像保存パス: ' . $thumbnailPath);
+            }
 
             // データベースに保存
             $userId = Auth::id();
@@ -82,7 +93,7 @@ class TaxMinutesVideoController extends Controller
                 'description' => $request->description ?? '',
                 'prefecture' => $request->prefecture ?? null,
                 'video_path' => $videoPath,
-                'thumbnail_path' => null,
+                'thumbnail_path' => $thumbnailPath,
                 'views' => 0,
             ]);
             $video->save();
@@ -127,6 +138,11 @@ class TaxMinutesVideoController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'nullable',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 最大2MB
+        ], [
+            'thumbnail.image' => 'サムネイルは画像ファイルである必要があります。',
+            'thumbnail.mimes' => 'サムネイルはJPEG、PNG、JPG、GIF形式のみ対応しています。',
+            'thumbnail.max' => 'サムネイル画像のサイズは2MB以下である必要があります。',
         ]);
 
         try {
@@ -135,6 +151,19 @@ class TaxMinutesVideoController extends Controller
                 'title' => $request->title,
                 'description' => $request->description,
             ];
+
+            // サムネイル画像の処理
+            if ($request->hasFile('thumbnail')) {
+                // 古いサムネイルを削除
+                if ($video->thumbnail_path && Storage::disk('public')->exists($video->thumbnail_path)) {
+                    Storage::disk('public')->delete($video->thumbnail_path);
+                }
+
+                // 新しいサムネイルを保存
+                $thumbnailPath = $request->file('thumbnail')->store('videos/thumbnails', 'public');
+                $data['thumbnail_path'] = $thumbnailPath;
+                Log::info('サムネイル画像更新: ' . $thumbnailPath);
+            }
 
             // データベースを更新
             $video->update($data);
@@ -160,12 +189,13 @@ class TaxMinutesVideoController extends Controller
         }
 
         try {
-            // ファイルを削除
-            if ($video->video_path) {
+            // 動画ファイルの削除
+            if ($video->video_path && Storage::disk('public')->exists($video->video_path)) {
                 Storage::disk('public')->delete($video->video_path);
             }
 
-            if ($video->thumbnail_path) {
+            // サムネイルの削除
+            if ($video->thumbnail_path && Storage::disk('public')->exists($video->thumbnail_path)) {
                 Storage::disk('public')->delete($video->thumbnail_path);
             }
 
@@ -180,5 +210,21 @@ class TaxMinutesVideoController extends Controller
             return redirect()->route('dashboard')
                 ->with('error', '動画の削除に失敗しました: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * 専門家用の動画管理画面を表示
+     */
+    public function manage()
+    {
+        $user = Auth::user();
+
+        // ユーザーが投稿した動画を取得
+        $videos = TaxMinutesVideo::where('user_id', $user->id)
+            ->with('comments')
+            ->latest()
+            ->paginate(10); // ページネーション機能を追加
+
+        return view('taxminivideos.manage', compact('videos'));
     }
 }

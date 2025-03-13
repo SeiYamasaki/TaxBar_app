@@ -29,7 +29,8 @@ Route::view('/themes/detail', 'themes.detail')->name('themes.detail');
 
 Route::get('/taxminivideos', [TaxMinutesVideoController::class, 'index'])->name('taxminivideos.index');
 Route::get('/taxminivideos/prefecture/{prefecture}', [TaxMinutesVideoController::class, 'byPrefecture'])->name('taxminivideos.prefecture');
-Route::get('/taxminivideos/{video}', [TaxMinutesVideoController::class, 'show'])->name('taxminivideos.show');
+// 認証不要の一般公開用動画詳細表示ルート
+Route::get('/taxminivideos/view/{video}', [TaxMinutesVideoController::class, 'show'])->name('taxminivideos.show');
 
 Route::get('/view/hachimantaishi', function () {
     return view('taxbarviews.hachimantaishi');
@@ -78,6 +79,9 @@ Route::middleware('auth')->group(function () {
 
 // 認証が必要なTaxMinutesビデオ管理ルート
 Route::middleware(['auth'])->group(function () {
+    // 固定パスのルートを先に定義
+    Route::get('/taxminivideos/manage', [TaxMinutesVideoController::class, 'manage'])->name('taxminivideos.manage');
+
     Route::post('/taxminivideos', [TaxMinutesVideoController::class, 'store'])->name('taxminivideos.store');
     Route::get('/taxminivideos/{video}/edit', [TaxMinutesVideoController::class, 'edit'])->name('taxminivideos.edit');
     Route::put('/taxminivideos/{video}', [TaxMinutesVideoController::class, 'update'])->name('taxminivideos.update');

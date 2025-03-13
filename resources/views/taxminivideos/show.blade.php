@@ -142,13 +142,14 @@
                         <!-- コメント一覧 -->
                         <h3 class="text-lg font-semibold text-gray-800 mb-5 border-b-2 border-indigo-500 pb-3">コメント</h3>
                         <div class="space-y-5 text-gray-700 text-base overflow-y-auto max-h-[300px]">
-                            @forelse ($video->approvedComments as $comment)
+                            @forelse ($video->approvedComments->sortByDesc('created_at') as $comment)
                                 <div class="bg-gray-50 p-4 rounded-lg">
                                     <div class="flex items-center mb-2">
-                                        @if ($comment->user->isTaxAdvisor() && $comment->user->taxAdvisor && $comment->user->taxAdvisor->tax_accountant_photo)
-                                            <img src="{{ asset('storage/' . $comment->user->taxAdvisor->tax_accountant_photo) }}"
+                                        @if ($comment->user->isTaxAdvisor() && $comment->user->taxAdvisor && $comment->user->taxAdvisor->expert_photo_url)
+                                            <img src="{{ asset('storage/' . $comment->user->taxAdvisor->expert_photo_url) }}"
                                                 alt="ユーザーアイコン"
                                                 class="rounded-full w-8 h-8 object-cover border-2 border-gray-200 mr-2">
+                                                
                                         @else
                                             <svg class="w-8 h-8 text-gray-400 bg-gray-100 rounded-full border-2 border-gray-200 p-1 mr-2"
                                                 fill="currentColor" viewBox="0 0 20 20"
@@ -168,7 +169,6 @@
                                 <p class="text-gray-500 italic">コメントはまだありません</p>
                             @endforelse
                         </div>
-                    </div>
                 </div>
             </div>
         </div>

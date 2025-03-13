@@ -101,7 +101,7 @@
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">Tax Minutes リール動画</h2>
 
                 <!-- 動画アップロードフォーム -->
-                <div class="mb-6 p-4 bg-white rounded-lg shadow-sm">
+                <div id="upload-video" class="mb-6 p-4 bg-white rounded-lg shadow-sm">
                     <h3 class="text-lg font-semibold mb-3">新しい動画をアップロード</h3>
                     <form action="{{ route('taxminivideos.store') }}" method="POST" enctype="multipart/form-data"
                         class="space-y-4">
@@ -122,6 +122,13 @@
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
                         <div>
+                            <label for="thumbnail" class="block text-sm font-medium text-gray-700 mb-1">サムネイル画像
+                                (任意)</label>
+                            <input type="file" name="thumbnail" id="thumbnail" accept="image/*"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <p class="text-xs text-gray-500 mt-1">推奨サイズ: 720×1280px（9:16）。設定しない場合はデフォルト画像が使用されます。</p>
+                        </div>
+                        <div>
                             <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
                                 アップロード
                             </button>
@@ -129,40 +136,21 @@
                     </form>
                 </div>
 
-                <!-- アップロード済み動画一覧 -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-3">アップロード済み動画</h3>
-                    <div class="bg-white p-4 rounded-lg shadow-sm">
-                        @if ($taxMinutesVideos->count() > 0)
-                            <div class="overflow-x-auto">
-                                <div class="inline-flex space-x-4 min-w-full pb-2">
-                                    @foreach ($taxMinutesVideos as $video)
-                                        <a href="{{ route('taxminivideos.edit', $video->id) }}"
-                                            class="w-64 flex-shrink-0">
-                                            <div class="border rounded-lg overflow-hidden shadow-sm h-full">
-                                                <div class="p-3">
-                                                    <h4 class="font-medium text-gray-800 mb-1 truncate">
-                                                        {{ $video->title }}</h4>
-                                                    <p class="text-sm text-gray-600 mb-1 line-clamp-2">
-                                                        {{ $video->description }}</p>
-                                                    <p class="text-sm text-gray-500">アップロード日:
-                                                        {{ $video->created_at->format('Y/m/d') }}
-                                                    </p>
-                                                    <p class="text-sm text-gray-500">コメント数:
-                                                        {{ $video->comments->count() }}
-                                                    </p>
-                                                    <p class="text-sm text-gray-500">再生数:
-                                                        {{ $video->views }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @else
-                            <p class="text-center text-gray-500">アップロードした動画はありません</p>
-                        @endif
+                <!-- 動画管理ボタン -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex flex-col items-center justify-center">
+                        <p class="text-gray-600 mb-4">アップロードした動画の一覧を表示して管理します</p>
+                        <a href="{{ route('taxminivideos.manage') }}"
+                            class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            動画を管理する
+                        </a>
+                        <p class="text-sm text-gray-500 mt-2">{{ $taxMinutesVideos->count() }}件の動画がアップロードされています</p>
                     </div>
                 </div>
             </div>
