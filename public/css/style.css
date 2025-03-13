@@ -72,7 +72,7 @@ html {
 /* 背景動画コンテナ */
 .video-container {
     position: relative;
-    margin-top: 65px;
+    margin-top: 120px;
     width: 100%;
     height: calc(100vh - 65px);
     overflow: hidden;
