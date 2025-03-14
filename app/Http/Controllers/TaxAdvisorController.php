@@ -13,11 +13,12 @@ class TaxAdvisorController extends Controller
      */
     public function getByPrefecture()
     {
-        // 都道府県ごとに税理士を取得
+        // 都道府県ごとに税理士を取得（ランダム表示）
         $advisorsByPrefecture = TaxAdvisor::with('user')
             ->whereHas('user', function ($query) {
                 $query->where('role', 'tax_advisor');
             })
+            ->inRandomOrder() // ランダムに並び替え
             ->get()
             ->groupBy('prefecture');
 
@@ -29,12 +30,13 @@ class TaxAdvisorController extends Controller
      */
     public function byPrefecture($prefecture)
     {
-        // 特定の都道府県の税理士を取得
+        // 特定の都道府県の税理士を取得（ランダム表示）
         $advisors = TaxAdvisor::with('user')
             ->whereHas('user', function ($query) {
                 $query->where('role', 'tax_advisor');
             })
             ->where('prefecture', $prefecture)
+            ->inRandomOrder() // ランダムに並び替え
             ->paginate(20);
 
         return view('tax_advisor.prefecture', [
@@ -108,6 +110,7 @@ class TaxAdvisorController extends Controller
                         $query->where('role', 'tax_advisor');
                     })
                     ->where('prefecture', $prefecture)
+                    ->inRandomOrder() // ランダムに並び替え
                     ->take(3)
                     ->get();
             }

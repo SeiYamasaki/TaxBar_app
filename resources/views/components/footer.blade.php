@@ -13,18 +13,6 @@
                         <li>
                             <a href="{{ route('tax-advisors.prefecture', ['prefecture' => $prefecture]) }}"
                                 class="hover:text-blue-200 hover:underline">{{ $prefecture }}</a>
-                            @if (isset($advisorsByPrefecture[$prefecture]) && $advisorsByPrefecture[$prefecture]->count() > 0)
-                                <ul class="ml-8">
-                                    @foreach ($advisorsByPrefecture[$prefecture] as $advisor)
-                                        <li class="flex items-center">
-                                            <a href="{{ route('tax-advisors.show', $advisor->id) }}"
-                                                class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">{{ $advisor->user->name }}</a>
-                                            <img src="{{ asset('images/logotoumei.png') }}" alt="バッチ"
-                                                class="h-8 rounded-full w-8">
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
                         </li>
                     @endforeach
                 </ul>
@@ -38,18 +26,6 @@
                         <li>
                             <a href="{{ route('tax-advisors.prefecture', ['prefecture' => $prefecture]) }}"
                                 class="hover:text-blue-200 hover:underline">{{ $prefecture }}</a>
-                            @if (isset($advisorsByPrefecture[$prefecture]) && $advisorsByPrefecture[$prefecture]->count() > 0)
-                                <ul class="ml-8">
-                                    @foreach ($advisorsByPrefecture[$prefecture] as $advisor)
-                                        <li class="flex items-center">
-                                            <a href="{{ route('tax-advisors.show', $advisor->id) }}"
-                                                class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">{{ $advisor->user->name }}</a>
-                                            <img src="{{ asset('images/logotoumei.png') }}" alt="バッチ"
-                                                class="h-8 rounded-full w-8">
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
                         </li>
                     @endforeach
                 </ul>
@@ -63,18 +39,6 @@
                         <li>
                             <a href="{{ route('tax-advisors.prefecture', ['prefecture' => $prefecture]) }}"
                                 class="hover:text-blue-200 hover:underline">{{ $prefecture }}</a>
-                            @if (isset($advisorsByPrefecture[$prefecture]) && $advisorsByPrefecture[$prefecture]->count() > 0)
-                                <ul class="ml-8">
-                                    @foreach ($advisorsByPrefecture[$prefecture] as $advisor)
-                                        <li class="flex items-center">
-                                            <a href="{{ route('tax-advisors.show', $advisor->id) }}"
-                                                class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">{{ $advisor->user->name }}</a>
-                                            <img src="{{ asset('images/logotoumei.png') }}" alt="バッチ"
-                                                class="h-8 rounded-full w-8">
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
                         </li>
                     @endforeach
                 </ul>
@@ -88,18 +52,6 @@
                         <li>
                             <a href="{{ route('tax-advisors.prefecture', ['prefecture' => $prefecture]) }}"
                                 class="hover:text-blue-200 hover:underline">{{ $prefecture }}</a>
-                            @if (isset($advisorsByPrefecture[$prefecture]) && $advisorsByPrefecture[$prefecture]->count() > 0)
-                                <ul class="ml-8">
-                                    @foreach ($advisorsByPrefecture[$prefecture] as $advisor)
-                                        <li class="flex items-center">
-                                            <a href="{{ route('tax-advisors.show', $advisor->id) }}"
-                                                class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">{{ $advisor->user->name }}</a>
-                                            <img src="{{ asset('images/logotoumei.png') }}" alt="バッチ"
-                                                class="h-8 rounded-full w-8">
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
                         </li>
                     @endforeach
                 </ul>
@@ -113,18 +65,6 @@
                         <li>
                             <a href="{{ route('tax-advisors.prefecture', ['prefecture' => $prefecture]) }}"
                                 class="hover:text-blue-200 hover:underline">{{ $prefecture }}</a>
-                            @if (isset($advisorsByPrefecture[$prefecture]) && $advisorsByPrefecture[$prefecture]->count() > 0)
-                                <ul class="ml-8">
-                                    @foreach ($advisorsByPrefecture[$prefecture] as $advisor)
-                                        <li class="flex items-center">
-                                            <a href="{{ route('tax-advisors.show', $advisor->id) }}"
-                                                class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">{{ $advisor->user->name }}</a>
-                                            <img src="{{ asset('images/logotoumei.png') }}" alt="バッチ"
-                                                class="h-8 rounded-full w-8">
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
                         </li>
                     @endforeach
                 </ul>
@@ -138,18 +78,6 @@
                         <li>
                             <a href="{{ route('tax-advisors.prefecture', ['prefecture' => $prefecture]) }}"
                                 class="hover:text-blue-200 hover:underline">{{ $prefecture }}</a>
-                            @if (isset($advisorsByPrefecture[$prefecture]) && $advisorsByPrefecture[$prefecture]->count() > 0)
-                                <ul class="ml-8">
-                                    @foreach ($advisorsByPrefecture[$prefecture] as $advisor)
-                                        <li class="flex items-center">
-                                            <a href="{{ route('tax-advisors.show', $advisor->id) }}"
-                                                class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">{{ $advisor->user->name }}</a>
-                                            <img src="{{ $advisor->tax_accountant_photo ? asset('storage/' . $advisor->tax_accountant_photo) : asset('images/logotoumei.png') }}"
-                                                alt="{{ $advisor->user->name }}" class="h-12 rounded-full w-12 ml-2">
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
                         </li>
                     @endforeach
                 </ul>

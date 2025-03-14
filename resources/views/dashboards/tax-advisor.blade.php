@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
-<body class="flex flex-col min-h-full bg-gray-100">
+<body class="mt-24 flex flex-col min-h-full bg-gray-100">
     @include('components.header')
 
     <!-- ヘッダーの高さ分のスペーサー -->
@@ -105,7 +105,7 @@
 
             <!-- Tax Minutes リール動画管理 -->
             <div class="bg-gray-50 border-l-4 border-yellow-500 p-6 rounded-lg mb-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">Tax Minutes リール動画</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">TaxMinutes® リール動画</h2>
 
                 <!-- 動画アップロードフォーム -->
                 <div id="upload-video" class="mb-6 p-4 bg-white rounded-lg shadow-sm">
