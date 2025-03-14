@@ -98,7 +98,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         // 税理士特有のデータを取得
-        $taxAdvisor = $user->tax_advisor;
+        $taxAdvisor = $user->taxAdvisor;
 
         // ユーザーが投稿した動画を取得
         $taxMinutesVideos = \App\Models\TaxMinutesVideo::where('user_id', $user->id)->latest()->get();

@@ -9,36 +9,12 @@
             <div class="p-4">
                 <h5 class="text-xl font-semibold mb-3 text-blue-300 text-left">北海道・東北地方</h5>
                 <ul class="space-y-2 text-left">
-                    <li>北海道</li>
-                    <li>青森県</li>
-                    <li>岩手県</li>
-                        <ul class="ml-8">
-                            <li class="flex items-center">
-                                <a href="#"
-                                    class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">沖野匠吾</a>
-                                <img src="{{ asset('images/logotoumei.png') }}" alt="Logo"
-                                    class="h-12 rounded-full w-12">
-                            </li>
-                            <li class="flex items-center">
-                                <a href="#"
-                                    class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">大垣由騎</a>
-                                <img src="{{ asset('images/logotoumei.png') }}" alt="Logo"
-                                    class="h-12 rounded-full w-12">
-                            </li>
-                        </ul>
-                    <li>宮城県</li>
-                        <ul class="ml-8">
-                            <li class="flex items-center">
-                                <a href="#"
-                                    class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">佐藤
-                                    幸久</a>
-                                <img src="{{ asset('images/logotoumei.png') }}" alt="Logo"
-                                    class="h-12 rounded-full w-12">
-                            </li>
-                        </ul>
-                    <li>秋田県</li>
-                    <li>山形県</li>
-                    <li>福島県</li>
+                    @foreach (['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県'] as $prefecture)
+                        <li>
+                            <a href="{{ route('tax-advisors.prefecture', ['prefecture' => $prefecture]) }}"
+                                class="hover:text-blue-200 hover:underline">{{ $prefecture }}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
 
@@ -46,23 +22,12 @@
             <div class="p-4">
                 <h5 class="text-xl font-semibold mb-3 text-blue-300">関東地方</h5>
                 <ul class="space-y-2 text-left">
-                    <li>茨城県</li>
-                    <li>栃木県</li>
-                    <li>群馬県</li>
-                    <li>埼玉県</li>
-                    <li>千葉県</li>
-                    <li>東京都</li>
-                        <ul class="ml-8">
-                            <li class="flex items-center">
-                                <a href="#"
-                                    class="text-base font-medium hover:text-blue-200 hover:underline transition-colors">山崎
-                                    聖</a>
-                                <img src="{{ asset('images/logotoumei.png') }}" alt="Logo"
-                                    class="h-12 rounded-full w-12">
-                            </li>
-                        </ul>
-                    </li>
-                    <li>神奈川県</li>
+                    @foreach (['茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県'] as $prefecture)
+                        <li>
+                            <a href="{{ route('tax-advisors.prefecture', ['prefecture' => $prefecture]) }}"
+                                class="hover:text-blue-200 hover:underline">{{ $prefecture }}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
 
@@ -70,15 +35,12 @@
             <div class="p-4">
                 <h5 class="text-xl font-semibold mb-3 text-blue-300">中部地方</h5>
                 <ul class="space-y-2 text-left">
-                    <li>新潟県</li>
-                    <li>富山県</li>
-                    <li>石川県</li>
-                    <li>福井県</li>
-                    <li>山梨県</li>
-                    <li>長野県</li>
-                    <li>岐阜県</li>
-                    <li>静岡県</li>
-                    <li>愛知県</li>
+                    @foreach (['新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県'] as $prefecture)
+                        <li>
+                            <a href="{{ route('tax-advisors.prefecture', ['prefecture' => $prefecture]) }}"
+                                class="hover:text-blue-200 hover:underline">{{ $prefecture }}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
 
@@ -86,13 +48,12 @@
             <div class="p-4">
                 <h5 class="text-xl font-semibold mb-3 text-blue-300">近畿地方</h5>
                 <ul class="space-y-2 text-left">
-                    <li>三重県</li>
-                    <li>滋賀県</li>
-                    <li>京都府</li>
-                    <li>大阪府</li>
-                    <li>兵庫県</li>
-                    <li>奈良県</li>
-                    <li>和歌山県</li>
+                    @foreach (['三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県'] as $prefecture)
+                        <li>
+                            <a href="{{ route('tax-advisors.prefecture', ['prefecture' => $prefecture]) }}"
+                                class="hover:text-blue-200 hover:underline">{{ $prefecture }}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
 
@@ -100,14 +61,12 @@
             <div class="p-4">
                 <h5 class="text-xl font-semibold mb-3 text-blue-300">中国地方・四国地方</h5>
                 <ul class="space-y-2 text-left">
-                    <li>島根県</li>
-                    <li>岡山県</li>
-                    <li>広島県</li>
-                    <li>山口県</li>
-                    <li>徳島県</li>
-                    <li>香川県</li>
-                    <li>愛媛県</li>
-                    <li>高知県</li>
+                    @foreach (['鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県'] as $prefecture)
+                        <li>
+                            <a href="{{ route('tax-advisors.prefecture', ['prefecture' => $prefecture]) }}"
+                                class="hover:text-blue-200 hover:underline">{{ $prefecture }}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
 
@@ -115,14 +74,12 @@
             <div class="p-4">
                 <h5 class="text-xl font-semibold mb-3 text-blue-300">九州・沖縄地方</h5>
                 <ul class="space-y-2 text-left">
-                    <li>福岡県</li>
-                    <li>佐賀県</li>
-                    <li>長崎県</li>
-                    <li>熊本県</li>
-                    <li>大分県</li>
-                    <li>宮崎県</li>
-                    <li>鹿児島県</li>
-                    <li>沖縄県</li>
+                    @foreach (['福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'] as $prefecture)
+                        <li>
+                            <a href="{{ route('tax-advisors.prefecture', ['prefecture' => $prefecture]) }}"
+                                class="hover:text-blue-200 hover:underline">{{ $prefecture }}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>

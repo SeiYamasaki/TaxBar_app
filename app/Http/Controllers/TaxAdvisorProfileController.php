@@ -6,9 +6,33 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\TaxAdvisor;
+use App\Models\User;
+use App\Models\TaxMinutesVideo;
 
 class TaxAdvisorProfileController extends Controller
 {
+    /**
+     * 税理士プロフィール詳細ページを表示
+     */
+    public function show($id)
+    {
+        // 税理士IDから税理士を検索
+        $taxAdvisor = TaxAdvisor::findOrFail($id);
+        $user = $taxAdvisor->user;
+
+        if (!$user || $user->role !== 'tax_advisor') {
+            abort(404, '税理士情報が見つかりませんでした。');
+        }
+
+        // 税理士が投稿した動画を取得
+        $videos = TaxMinutesVideo::where('user_id', $user->id)
+            ->latest()
+            ->take(6)
+            ->get();
+
+        return view('tax_advisor.profile.show', compact('user', 'taxAdvisor', 'videos'));
+    }
+
     /**
      * 税理士プロフィール編集画面を表示
      */
@@ -88,6 +112,6 @@ class TaxAdvisorProfileController extends Controller
 
         $taxAdvisor->save();
 
-        return redirect()->route('tax_advisor.profile.edit')->with('success', 'プロフィールが更新されました。');
+        return redirect()->route('dashboard')->with('success', 'プロフィールが更新されました');
     }
 }

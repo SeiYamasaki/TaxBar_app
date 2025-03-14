@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
-<body class="flex flex-col min-h-full bg-gray-100">
+<body class="mt-24 flex flex-col min-h-full bg-gray-100">
     @include('components.header')
 
     <!-- ヘッダーの高さ分のスペーサー -->
@@ -44,24 +44,31 @@
                 <p class="py-1"><strong>名前:</strong> {{ $user->name }}</p>
                 <p class="py-1"><strong>メールアドレス:</strong> {{ $user->email }}</p>
                 <p class="py-1"><strong>ユーザー種別:</strong> 税理士</p>
+                <p class="py-1"><strong>プロフィール画像:</strong>
+                    @if ($user->taxAdvisor && $user->taxAdvisor->tax_accountant_photo)
+                        <img src="{{ asset('storage/' . $user->taxAdvisor->tax_accountant_photo) }}" alt="プロフィール画像" class="w-56 h-56">
+                    @else
+                        <span class="text-gray-500">未設定</span>
+                    @endif
+                </p>
 
-                @if ($user->tax_advisor)
+                @if ($user->taxAdvisor)
                     <!-- 税理士の場合の追加情報 -->
                     <h3 class="font-bold mt-3 mb-2 border-b pb-1">税理士プロフィール</h3>
-                    <p class="py-1"><strong>事務所名:</strong> {{ $user->tax_advisor->office_name ?? '未登録' }}</p>
-                    <p class="py-1"><strong>郵便番号:</strong> {{ $user->tax_advisor->postal_code ?? '未登録' }}</p>
-                    <p class="py-1"><strong>都道府県:</strong> {{ $user->tax_advisor->prefecture ?? '未登録' }}</p>
-                    <p class="py-1"><strong>住所:</strong> {{ $user->tax_advisor->address ?? '未登録' }}</p>
-                    <p class="py-1"><strong>事務所電話番号:</strong> {{ $user->tax_advisor->office_phone ?? '未登録' }}</p>
-                    <p class="py-1"><strong>携帯電話番号:</strong> {{ $user->tax_advisor->mobile_phone ?? '未登録' }}</p>
-                    <p class="py-1"><strong>専門分野:</strong> {{ $user->tax_advisor->specialty ?? '未登録' }}</p>
-                    @if ($user->tax_advisor->subscriptionPlan)
+                    <p class="py-1"><strong>事務所名:</strong> {{ $user->taxAdvisor->office_name ?? '未登録' }}</p>
+                    <p class="py-1"><strong>郵便番号:</strong> {{ $user->taxAdvisor->postal_code ?? '未登録' }}</p>
+                    <p class="py-1"><strong>都道府県:</strong> {{ $user->taxAdvisor->prefecture ?? '未登録' }}</p>
+                    <p class="py-1"><strong>住所:</strong> {{ $user->taxAdvisor->address ?? '未登録' }}</p>
+                    <p class="py-1"><strong>事務所電話番号:</strong> {{ $user->taxAdvisor->office_phone ?? '未登録' }}</p>
+                    <p class="py-1"><strong>携帯電話番号:</strong> {{ $user->taxAdvisor->mobile_phone ?? '未登録' }}</p>
+                    <p class="py-1"><strong>専門分野:</strong> {{ $user->taxAdvisor->specialty ?? '未登録' }}</p>
+                    @if ($user->taxAdvisor->subscriptionPlan)
                         <p class="py-1"><strong>料金プラン:</strong>
-                            {{ $user->tax_advisor->subscriptionPlan->name ?? '未登録' }}</p>
+                            {{ $user->taxAdvisor->subscriptionPlan->name ?? '未登録' }}</p>
                         <p class="py-1"><strong>プラン期間:</strong>
-                            {{ $user->tax_advisor->subscription_start_date ? $user->tax_advisor->subscription_start_date->format('Y年m月d日') : '未設定' }}
+                            {{ $user->taxAdvisor->subscription_start_date ? $user->taxAdvisor->subscription_start_date->format('Y年m月d日') : '未設定' }}
                             から
-                            {{ $user->tax_advisor->subscription_end_date ? $user->tax_advisor->subscription_end_date->format('Y年m月d日') : '未設定' }}
+                            {{ $user->taxAdvisor->subscription_end_date ? $user->taxAdvisor->subscription_end_date->format('Y年m月d日') : '未設定' }}
                         </p>
                     @endif
                 @endif
@@ -98,7 +105,7 @@
 
             <!-- Tax Minutes リール動画管理 -->
             <div class="bg-gray-50 border-l-4 border-yellow-500 p-6 rounded-lg mb-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">Tax Minutes リール動画</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">TaxMinutes® リール動画</h2>
 
                 <!-- 動画アップロードフォーム -->
                 <div id="upload-video" class="mb-6 p-4 bg-white rounded-lg shadow-sm">
@@ -175,7 +182,7 @@
                                 <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-yellow-400">
                                     <div class="flex justify-between items-start">
                                         <div>
-                                            <div class="font-medium">{{ $comment->user->name }}</div>
+                                            <div class="font-medium">{{ $comment->display_name }}</div>
                                             <div class="text-sm text-gray-500">
                                                 {{ $comment->created_at->format('Y/m/d H:i') }}</div>
 
@@ -233,7 +240,7 @@
                         <div class="space-y-4">
                             @foreach ($approvedComments as $comment)
                                 <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-400">
-                                    <div class="font-medium">{{ $comment->user->name }}</div>
+                                    <div class="font-medium">{{ $comment->display_name }}</div>
                                     <div class="text-sm text-gray-500">{{ $comment->created_at->format('Y/m/d H:i') }}
                                     </div>
 

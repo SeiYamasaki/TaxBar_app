@@ -75,8 +75,8 @@
                     @endguest
                     <li><a href="/tax-advisors" class="text-gray-700 hover:text-blue-500 text-lg">税理士の方へ</a></li>
                     <li><a href="/special" class="text-gray-700 hover:text-blue-500 text-lg">特集ページ</a></li>
-                    <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">相続でお困りの方へ</a></li>
-                    <li><a href="#" class="text-gray-700 hover:text-blue-500 text-lg">TaxBar®とは？</a></li>
+                    <li><a href="/souzoku-tax" class="text-gray-700 hover:text-blue-500 text-lg">相続でお困りの方へ</a></li>
+                    <li><a href="/taxbar-introduction" class="text-gray-700 hover:text-blue-500 text-lg">TaxBar®とは？</a></li>
                 </ul>
             </nav>
 

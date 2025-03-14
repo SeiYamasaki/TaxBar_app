@@ -48,7 +48,7 @@
                             <div class="flex-1">
                                 <!-- コメント情報 -->
                                 <div class="flex items-center mb-2">
-                                    <span class="font-bold text-gray-800 mr-2">{{ $comment->user->name }}</span>
+                                    <span class="font-bold text-gray-800 mr-2">{{ $comment->display_name }}</span>
                                     <span
                                         class="text-gray-500 text-sm">{{ $comment->created_at->format('Y年m月d日 H:i') }}</span>
                                     <span

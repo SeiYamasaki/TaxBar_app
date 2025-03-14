@@ -39,10 +39,13 @@ class PaymentController extends Controller
 
         // プラン価格の検証
         $priceInCents = (int)$plan->price;
-        if ($priceInCents >= 100000) {
-            // 既に100倍されている可能性があるので、金額を確認
-            $priceInCents = round($priceInCents / 100);
-        }
+
+        // 日本円の場合はセント変換不要（Stripeは日本円をそのまま扱う）
+        // 以前の誤った処理を削除
+        // if ($priceInCents >= 100000) {
+        //     // 既に100倍されている可能性があるので、金額を確認
+        //     $priceInCents = round($priceInCents / 100);
+        // }
 
         // 税理士ユーザーの場合はセッションに選択したプラン情報を保存
         if (Auth::check() && Auth::user()->role === 'tax_advisor') {

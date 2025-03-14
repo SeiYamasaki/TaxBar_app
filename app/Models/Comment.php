@@ -21,6 +21,7 @@ class Comment extends Model
         'user_id',
         'content',
         'is_approved',
+        'guest_name',
     ];
 
     /**
@@ -54,5 +55,13 @@ class Comment extends Model
     public function scopeApproved($query)
     {
         return $query->where('is_approved', true);
+    }
+
+    /**
+     * 表示用の名前を取得
+     */
+    public function getDisplayNameAttribute()
+    {
+        return $this->user_id ? $this->user->name : $this->guest_name;
     }
 }
