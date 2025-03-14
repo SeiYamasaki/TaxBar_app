@@ -4,6 +4,14 @@
     <div class="bg-gray-100 min-h-screen mt-32 mb-16">
         <div class="container mx-auto px-4 py-12">
             <div class="max-w-5xl mx-auto">
+                <!-- フラッシュメッセージ -->
+                @if (session('success'))
+                    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-md shadow-sm"
+                        role="alert">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
                 <!-- プロフィールカード -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
                     <div class="md:flex">

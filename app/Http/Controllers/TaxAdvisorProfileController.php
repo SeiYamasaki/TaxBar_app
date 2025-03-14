@@ -112,6 +112,6 @@ class TaxAdvisorProfileController extends Controller
 
         $taxAdvisor->save();
 
-        return redirect()->route('tax_advisor.profile.edit')->with('success', '更新ボタンを押して更新を行ってください。');
+        return redirect()->route('dashboard')->with('success', 'プロフィールが更新されました');
     }
 }
