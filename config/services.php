@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    // 🚀 Stripe の設定を `slack` の外に出す
+    'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+    ],
+
 ];
