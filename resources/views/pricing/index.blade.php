@@ -156,13 +156,17 @@
                                 </div>
 
                                 <div class="p-6 flex justify-center">
-                                    <form action="{{ route('stripe.payment') }}" method="POST">
+                                    <form id="payment-form-{{ $index }}" action="{{ route('stripe.payment') }}"
+                                        method="POST">
                                         @csrf
                                         <input type="hidden" name="plan_id" value="{{ $index + 1 }}">
                                         <input type="hidden" name="amount" value="{{ $plan['monthlyFee'] }}">
                                         <input type="hidden" name="plan_name" value="{{ $plan['name'] }}">
-                                        <button type="submit"
-                                            class="{{ $buttonColors[$index] }} text-white py-3 px-8 rounded-full text-sm font-bold transition-all transform hover:scale-105 shadow-lg">
+                                        <button type="button"
+                                            class="payment-button {{ $buttonColors[$index] }} text-white py-3 px-8 rounded-full text-sm font-bold transition-all transform hover:scale-105 shadow-lg"
+                                            data-plan-name="{{ $plan['name'] }}"
+                                            data-plan-price="¥{{ number_format($plan['monthlyFee']) }}"
+                                            data-form-id="payment-form-{{ $index }}">
                                             今すぐ申し込む
                                         </button>
                                     </form>
@@ -330,13 +334,17 @@
                                         </ul>
                                     </div>
                                     <div class="p-4 bg-gray-50 flex justify-center mt-auto">
-                                        <form action="{{ route('stripe.payment') }}" method="POST">
+                                        <form id="modal-payment-form-{{ $index }}"
+                                            action="{{ route('stripe.payment') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="plan_id" value="{{ $index + 1 }}">
                                             <input type="hidden" name="amount" value="{{ $plan['monthlyFee'] }}">
                                             <input type="hidden" name="plan_name" value="{{ $plan['name'] }}">
-                                            <button type="submit"
-                                                class="{{ $buttonColors[$index] }} text-white py-2 px-6 rounded-full text-sm font-bold transition-all transform hover:scale-105">
+                                            <button type="button"
+                                                class="payment-button {{ $buttonColors[$index] }} text-white py-2 px-6 rounded-full text-sm font-bold transition-all transform hover:scale-105"
+                                                data-plan-name="{{ $plan['name'] }}"
+                                                data-plan-price="¥{{ number_format($plan['monthlyFee']) }}"
+                                                data-form-id="modal-payment-form-{{ $index }}">
                                                 このプランを選択
                                             </button>
                                         </form>
@@ -350,11 +358,66 @@
         </div>
     @endif
 
+    <!-- 決済確認モーダルを読み込み -->
+    @include('components.payment-confirmation-modal')
+
     <!-- モーダル表示時の背景スクロール制御 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const modalElement = document.getElementById('plan-modal');
             const modalContent = document.querySelector('.p-6.overflow-y-auto');
+            const paymentConfirmationModal = document.getElementById('payment-confirmation-modal');
+            const closePaymentModalBtn = document.getElementById('close-payment-modal');
+            const cancelPaymentBtn = document.getElementById('cancel-payment-btn');
+            const confirmPaymentBtn = document.getElementById('confirm-payment-btn');
+            const modalPlanName = document.getElementById('modal-plan-name');
+            const modalPlanPrice = document.getElementById('modal-plan-price');
+
+            let currentFormId = null;
+
+            // 決済ボタンのクリックイベント
+            document.querySelectorAll('.payment-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const planName = this.getAttribute('data-plan-name');
+                    const planPrice = this.getAttribute('data-plan-price');
+                    const formId = this.getAttribute('data-form-id');
+
+                    // モーダルに情報をセット
+                    modalPlanName.textContent = planName;
+                    modalPlanPrice.textContent = planPrice;
+                    currentFormId = formId;
+
+                    // モーダルを表示
+                    paymentConfirmationModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            // 決済モーダルを閉じる
+            const closePaymentModal = function() {
+                paymentConfirmationModal.classList.add('hidden');
+                document.body.style.overflow = '';
+                currentFormId = null;
+            };
+
+            // 閉じるボタンのクリックイベント
+            if (closePaymentModalBtn) {
+                closePaymentModalBtn.addEventListener('click', closePaymentModal);
+            }
+
+            // キャンセルボタンのクリックイベント
+            if (cancelPaymentBtn) {
+                cancelPaymentBtn.addEventListener('click', closePaymentModal);
+            }
+
+            // 決済するボタンのクリックイベント
+            if (confirmPaymentBtn) {
+                confirmPaymentBtn.addEventListener('click', function() {
+                    if (currentFormId) {
+                        document.getElementById(currentFormId).submit();
+                    }
+                });
+            }
 
             // ホイールイベントを選択的に阻止する関数（モーダル内のスクロールは許可）
             const preventScrollOutsideModal = function(e) {
