@@ -27,6 +27,8 @@ class TaxAdvisor extends Model
         'subscription_end_date',
         'stripe_customer_id',
         'stripe_subscription_id',
+        'has_confirmed_payment',
+        'payment_confirmed_at',
         'specialty',
         'profile_info',
         'is_tax_accountant',
@@ -44,6 +46,8 @@ class TaxAdvisor extends Model
         'subscription_end_date' => 'date',
         'is_tax_accountant' => 'boolean',
         'terms_agreed' => 'boolean',
+        'has_confirmed_payment' => 'boolean',
+        'payment_confirmed_at' => 'datetime',
     ];
 
     /**

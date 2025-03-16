@@ -414,7 +414,16 @@
             if (confirmPaymentBtn) {
                 confirmPaymentBtn.addEventListener('click', function() {
                     if (currentFormId) {
-                        document.getElementById(currentFormId).submit();
+                        // 決済確認フラグを追加
+                        const form = document.getElementById(currentFormId);
+                        const paymentConfirmedInput = document.createElement('input');
+                        paymentConfirmedInput.type = 'hidden';
+                        paymentConfirmedInput.name = 'payment_confirmed';
+                        paymentConfirmedInput.value = 'true';
+                        form.appendChild(paymentConfirmedInput);
+
+                        // フォームを送信
+                        form.submit();
                     }
                 });
             }

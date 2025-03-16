@@ -24,6 +24,21 @@ class PaymentController extends Controller
             'plan_name' => 'required|string',
         ]);
 
+        // 決済確認フラグをチェック
+        $paymentConfirmed = $request->has('payment_confirmed') && $request->payment_confirmed === 'true';
+
+        // 認証済みユーザーで税理士の場合、決済確認状態を更新
+        if ($paymentConfirmed && Auth::check() && Auth::user()->role === 'tax_advisor') {
+            $taxAdvisor = Auth::user()->taxAdvisor;
+            if ($taxAdvisor) {
+                $taxAdvisor->update([
+                    'has_confirmed_payment' => true,
+                    'payment_confirmed_at' => now(),
+                ]);
+                Log::info('Payment confirmation recorded', ['tax_advisor_id' => $taxAdvisor->id]);
+            }
+        }
+
         // Stripeの設定
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
@@ -80,6 +95,7 @@ class PaymentController extends Controller
             'metadata' => [
                 'user_id' => Auth::id() ?? 'guest',
                 'plan_id' => $plan->id,
+                'payment_confirmed' => $paymentConfirmed ? 'true' : 'false',
             ],
         ]);
 
@@ -128,6 +144,17 @@ class PaymentController extends Controller
                         Stripe::setApiKey(env('STRIPE_SECRET'));
                         $session = Session::retrieve($request->session_id);
                         $planId = $session->metadata->plan_id ?? null;
+
+                        // 決済確認状態も取得
+                        $paymentConfirmed = ($session->metadata->payment_confirmed ?? 'false') === 'true';
+                        if ($paymentConfirmed && !$taxAdvisor->has_confirmed_payment) {
+                            $taxAdvisor->update([
+                                'has_confirmed_payment' => true,
+                                'payment_confirmed_at' => now(),
+                            ]);
+                            Log::info('Payment confirmation updated from Stripe session', ['tax_advisor_id' => $taxAdvisor->id]);
+                        }
+
                         Log::info('Retrieved plan from Stripe', ['plan_id' => $planId]);
                     } catch (\Exception $e) {
                         Log::error('Error retrieving Stripe session', ['error' => $e->getMessage()]);
@@ -199,6 +226,7 @@ class PaymentController extends Controller
                 // メタデータからユーザーIDとプランIDを取得
                 $userId = $session->metadata->user_id;
                 $planId = $session->metadata->plan_id;
+                $paymentConfirmed = ($session->metadata->payment_confirmed ?? 'false') === 'true';
 
                 // ユーザーが「guest」でない場合のみ処理
                 if ($userId !== 'guest') {
@@ -207,16 +235,24 @@ class PaymentController extends Controller
                     $plan = SubscriptionPlan::find($planId);
 
                     if ($taxAdvisor && $plan) {
-                        $taxAdvisor->update([
+                        $updateData = [
                             'subscription_plan_id' => $planId,
                             'subscription_start_date' => Carbon::now(),
                             'subscription_end_date' => Carbon::now()->addYear(),
                             'stripe_customer_id' => $session->customer,
                             'stripe_subscription_id' => $session->subscription,
-                        ]);
+                        ];
+
+                        // 決済確認状態も更新
+                        if ($paymentConfirmed) {
+                            $updateData['has_confirmed_payment'] = true;
+                            $updateData['payment_confirmed_at'] = now();
+                        }
+
+                        $taxAdvisor->update($updateData);
 
                         // 成功ログを記録
-                        Log::info('サブスクリプション更新成功: ユーザーID=' . $userId . ', プランID=' . $planId);
+                        Log::info('サブスクリプション更新成功: ユーザーID=' . $userId . ', プランID=' . $planId . ', 決済確認=' . ($paymentConfirmed ? 'あり' : 'なし'));
                     } else {
                         // 失敗ログを記録
                         Log::error('サブスクリプション更新失敗: ユーザーID=' . $userId . ', プランID=' . $planId);
