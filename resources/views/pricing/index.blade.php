@@ -16,12 +16,6 @@
             </div>
         @endif
 
-        @if (session('warning'))
-            <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-6 mx-auto max-w-4xl">
-                {{ session('warning') }}
-            </div>
-        @endif
-
         @if (session('error'))
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 mx-auto max-w-4xl">
                 {{ session('error') }}
@@ -179,199 +173,131 @@
             </div>
         </div>
     </div>
+    <!-- 決済確認モーダルを読み込み -->
+    @include('components.payment-confirmation-modal')
+    
+    <!-- 非ログインユーザー向け登録促進モーダル -->
+    <div id="register-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <!-- 背景のぼかし -->
+        <div class="fixed inset-0 bg-gray-900 bg-opacity-10 backdrop-blur-none"></div>
+    
+        <!-- モーダル本体 -->
+        <div class="relative z-10 max-w-md w-full mx-4">
+            <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+                <div class="bg-blue-600 text-white p-4 flex justify-between items-center">
+                    <h2 class="text-xl font-bold">アカウントを作成しましょう！</h2>
+                    <button type="button" id="close-register-modal" class="text-white hover:text-gray-300 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-6 text-center">
+                    <p class="text-gray-700 mb-4">TaxBarの機能をご利用いただくには、まずアカウントを作成してください。</p>
+                    <button type="button" id="go-to-register"
+                        class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-semibold transition-colors">
+                        アカウントを作成する
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- プラン選択モーダル (tax_advisorユーザー用) -->
-    @if (Auth::check() && Auth::user()->role === 'tax_advisor' && (request()->has('show_plan_modal') || session('warning')))
-        <div id="plan-modal" class="fixed inset-0 z-50 flex items-center justify-center">
-            <!-- ぼかしオーバーレイ (固定位置) -->
-            <div class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-md"></div>
+    <!-- 一般ユーザー向け無料利用モーダル -->
+    <div id="free-plan-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <!-- ぼかしオーバーレイ -->
+        <div class="fixed inset-0 bg-gray-900 bg-opacity-10 backdrop-blur-none"></div>
 
-            <!-- モーダルコンテンツ -->
-            <div class="relative z-10 max-h-screen w-full max-w-5xl px-4 py-4">
-                <div class="bg-white rounded-lg shadow-xl w-full overflow-hidden flex flex-col max-h-[90vh]">
-                    <div class="bg-gray-800 text-white p-4 flex justify-between items-center">
-                        <h2 class="text-xl font-bold">プランを選択してください</h2>
-                        <a href="{{ url('/') }}" class="text-white hover:text-gray-300 cursor-pointer"
-                            id="close-modal">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </a>
+        <!-- モーダルコンテンツ -->
+        <div class="relative z-10 max-w-md w-full mx-4">
+            <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+                <div class="bg-blue-600 text-white p-4 flex justify-between items-center">
+                    <h2 class="text-xl font-bold">無料でご利用いただけます</h2>
+                    <button type="button" id="close-free-modal" class="text-white hover:text-gray-300 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-6">
+                    <div class="mb-4 text-center">
+                        <svg class="h-16 w-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">一般、法人、個人のお客様へ</h3>
+                        <p class="text-gray-600 mb-4">TaxBarのサービスは無料でご利用いただけます。</p>
                     </div>
-
-                    <div class="p-6 overflow-y-auto">
-                        @if (session('success'))
-                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-
-                        @if (session('warning'))
-                            <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
-                                {{ session('warning') }}
-                            </div>
-                        @endif
-
-                        <p class="text-gray-700 mb-6">税理士として活動するには、プランにご登録いただく必要があります。以下からプランをお選びください。</p>
-
-                        <!-- プラン選択部分 -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                            @foreach ($corporatePlans as $index => $plan)
-                                <div
-                                    class="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow flex flex-col h-full">
-                                    <div class="p-4 {{ $headerColors[$index] }} text-white">
-                                        <h3 class="text-xl font-bold mb-1 text-center">{{ $plan['name'] }}</h3>
-                                        <p class="text-center text-xl font-bold">
-                                            ¥{{ number_format($plan['monthlyFee']) }}/月</p>
-                                    </div>
-                                    <div class="p-4 overflow-y-auto flex-grow">
-                                        <ul class="space-y-2">
-                                            <li class="flex items-center">
-                                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M5 13l4 4L19 7"></path>
-                                                </svg>
-                                                開店時間: {{ $plan['openTime'] }}
-                                            </li>
-                                            <li class="flex items-center">
-                                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M5 13l4 4L19 7"></path>
-                                                </svg>
-                                                開店回数: {{ $plan['openCountPerMonth'] }}
-                                            </li>
-                                            <li class="flex items-center">
-                                                <svg class="h-5 w-5 {{ $plan['tipping'] === '有' ? 'text-green-500' : 'text-red-500' }} mr-2"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="{{ $plan['tipping'] === '有' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
-                                                    </path>
-                                                </svg>
-                                                投銭機能: {{ $plan['tipping'] }}
-                                            </li>
-                                            <li class="flex items-center">
-                                                <svg class="h-5 w-5 {{ $plan['specialGuest'] === '有' ? 'text-green-500' : 'text-red-500' }} mr-2"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="{{ $plan['specialGuest'] === '有' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
-                                                    </path>
-                                                </svg>
-                                                スペシャルゲスト適用: {{ $plan['specialGuest'] }}
-                                            </li>
-                                            <li class="flex items-center">
-                                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M5 13l4 4L19 7"></path>
-                                                </svg>
-                                                TaxMinutes投稿: {{ Str::limit($plan['taxMinutesPost'], 30) }}
-                                            </li>
-                                            <li class="flex items-center">
-                                                <svg class="h-5 w-5 {{ $plan['videoPostingPerMonth'] !== '無' ? 'text-green-500' : 'text-red-500' }} mr-2"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="{{ $plan['videoPostingPerMonth'] !== '無' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
-                                                    </path>
-                                                </svg>
-                                                動画投稿/月: {{ Str::limit($plan['videoPostingPerMonth'], 30) }}
-                                            </li>
-                                            <li class="flex items-center">
-                                                <svg class="h-5 w-5 {{ $plan['marketingSupport'] !== '無' ? 'text-green-500' : 'text-red-500' }} mr-2"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="{{ $plan['marketingSupport'] !== '無' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
-                                                    </path>
-                                                </svg>
-                                                マーケティング支援: {{ Str::limit($plan['marketingSupport'], 30) }}
-                                            </li>
-                                            <li class="flex items-center">
-                                                <svg class="h-5 w-5 {{ $plan['aiTaxBarSupport'] === '有' ? 'text-green-500' : 'text-red-500' }} mr-2"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="{{ $plan['aiTaxBarSupport'] === '有' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
-                                                    </path>
-                                                </svg>
-                                                TaxBar®専門AI実装: {{ $plan['aiTaxBarSupport'] }}
-                                            </li>
-                                            <li class="flex items-center">
-                                                <svg class="h-5 w-5 {{ $plan['taxQASupport'] === '有' ? 'text-green-500' : 'text-red-500' }} mr-2"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="{{ $plan['taxQASupport'] === '有' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
-                                                    </path>
-                                                </svg>
-                                                税務Q&A補助: {{ $plan['taxQASupport'] }}
-                                            </li>
-                                            <li class="flex items-center">
-                                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M5 13l4 4L19 7"></path>
-                                                </svg>
-                                                相談履歴の参照: {{ $plan['pastHistoryReference'] }}
-                                            </li>
-                                            <li class="flex items-center">
-                                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M5 13l4 4L19 7"></path>
-                                                </svg>
-                                                税務助言補助: {{ $plan['taxAdviceSupport'] }}
-                                            </li>
-                                            <li class="flex items-center">
-                                                <svg class="h-5 w-5 {{ $plan['taxRevisionNotification'] !== '無' ? 'text-green-500' : 'text-red-500' }} mr-2"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="{{ $plan['taxRevisionNotification'] !== '無' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12' }}">
-                                                    </path>
-                                                </svg>
-                                                税制改正通知: {{ Str::limit($plan['taxRevisionNotification'], 30) }}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="p-4 bg-gray-50 flex justify-center mt-auto">
-                                        <form id="modal-payment-form-{{ $index }}"
-                                            action="{{ route('stripe.payment') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="plan_id" value="{{ $index + 1 }}">
-                                            <input type="hidden" name="amount" value="{{ $plan['monthlyFee'] }}">
-                                            <input type="hidden" name="plan_name" value="{{ $plan['name'] }}">
-                                            <button type="button"
-                                                class="payment-button {{ $buttonColors[$index] }} text-white py-2 px-6 rounded-full text-sm font-bold transition-all transform hover:scale-105"
-                                                data-plan-name="{{ $plan['name'] }}"
-                                                data-plan-price="¥{{ number_format($plan['monthlyFee']) }}"
-                                                data-form-id="modal-payment-form-{{ $index }}">
-                                                このプランを選択
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-2">無料でご利用いただける機能：</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>税理士への質問・相談</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>TaxMinutesの視聴</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>投銭機能</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>議事録自動生成</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" id="close-free-modal-btn"
+                            class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-semibold transition-colors">
+                            閉じる
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    @endif
-
-    <!-- 決済確認モーダルを読み込み -->
-    @include('components.payment-confirmation-modal')
+    </div>
 
     <!-- モーダル表示時の背景スクロール制御 -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const modalElement = document.getElementById('plan-modal');
+    document.addEventListener('DOMContentLoaded', function() {
+        const modalElement = document.getElementById('plan-modal');
+        const registerModal = document.getElementById('register-modal');
+        const closeRegisterModal = document.getElementById('close-register-modal');
+        const goToRegister = document.getElementById('go-to-register');
             const modalContent = document.querySelector('.p-6.overflow-y-auto');
             const paymentConfirmationModal = document.getElementById('payment-confirmation-modal');
+            const freePlanModal = document.getElementById('free-plan-modal');
             const closePaymentModalBtn = document.getElementById('close-payment-modal');
             const cancelPaymentBtn = document.getElementById('cancel-payment-btn');
             const confirmPaymentBtn = document.getElementById('confirm-payment-btn');
             const modalPlanName = document.getElementById('modal-plan-name');
             const modalPlanPrice = document.getElementById('modal-plan-price');
+            const closeFreeModalBtn = document.getElementById('close-free-modal');
+            const closeFreeModalBtnBottom = document.getElementById('close-free-modal-btn');
 
             let currentFormId = null;
 
@@ -382,7 +308,21 @@
                     const planPrice = this.getAttribute('data-plan-price');
                     const formId = this.getAttribute('data-form-id');
 
-                    // モーダルに情報をセット
+                    // ログインしていない場合は登録フォームにリダイレクト
+                    @if (!Auth::check())
+                        registerModal.classList.remove('hidden');
+                        document.body.style.overflow = 'hidden';
+                        return;
+                    @endif
+
+                    // 税理士以外のユーザーには無料プランモーダルを表示
+                    @if (Auth::check() && Auth::user()->role !== 'tax_advisor')
+                        freePlanModal.classList.remove('hidden');
+                        document.body.style.overflow = 'hidden';
+                        return;
+                    @endif
+
+                    // 税理士ユーザーには決済確認モーダルを表示
                     modalPlanName.textContent = planName;
                     modalPlanPrice.textContent = planPrice;
                     currentFormId = formId;
@@ -393,11 +333,25 @@
                 });
             });
 
-            // 決済モーダルを閉じる
+            // Register modal event listeners
+            goToRegister.addEventListener('click', function() {
+                window.location.href = "{{ route('register.select') }}";
+            });
+
+            closeRegisterModal.addEventListener('click', function() {
+                registerModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            });
             const closePaymentModal = function() {
                 paymentConfirmationModal.classList.add('hidden');
                 document.body.style.overflow = '';
                 currentFormId = null;
+            };
+
+            // 無料プランモーダルを閉じる
+            const closeFreeModal = function() {
+                freePlanModal.classList.add('hidden');
+                document.body.style.overflow = '';
             };
 
             // 閉じるボタンのクリックイベント
@@ -408,6 +362,16 @@
             // キャンセルボタンのクリックイベント
             if (cancelPaymentBtn) {
                 cancelPaymentBtn.addEventListener('click', closePaymentModal);
+            }
+
+            // 無料プランモーダルの閉じるボタンのクリックイベント
+            if (closeFreeModalBtn) {
+                closeFreeModalBtn.addEventListener('click', closeFreeModal);
+            }
+
+            // 無料プランモーダルの下部閉じるボタンのクリックイベント
+            if (closeFreeModalBtnBottom) {
+                closeFreeModalBtnBottom.addEventListener('click', closeFreeModal);
             }
 
             // 決済するボタンのクリックイベント

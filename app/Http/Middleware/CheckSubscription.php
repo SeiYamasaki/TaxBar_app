@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckSubscription
@@ -20,9 +21,12 @@ class CheckSubscription
             // 税理士ユーザーの場合、サブスクリプションプランを確認
             $taxAdvisor = Auth::user()->taxAdvisor;
             if (!$taxAdvisor || !$taxAdvisor->subscription_plan_id) {
-                // プランを選択していない場合はプラン選択画面にリダイレクト
-                return redirect()->route('pricing.index', ['show_plan_modal' => true])
-                    ->with('warning', 'サービスをご利用いただくには、プランを選択してください。');
+                // プランを選択していない場合はセッション変数を設定
+                Log::warning('Tax advisor has no subscription plan, setting showPlanModal session');
+                session(['showPlanModal' => true]);
+
+                // リダイレクトせずに次の処理へ進む
+                return $next($request);
             }
         }
 

@@ -56,8 +56,8 @@
                     <li><a href="/faq" class="text-gray-700 hover:text-blue-500 text-lg">よくある質問</a></li>
                     <li><a href="/pricing" class="text-gray-700 hover:text-blue-500 text-lg">料金表</a></li>
                     <li><a href="/view/hachimantaishi" class="text-gray-700 hover:text-blue-500 text-lg">八幡平市</a></li>
-                    <li><a href="/register/select" class="text-gray-700 hover:text-blue-500 text-lg">登録フォーム</a></li>
                     @guest
+                        <li><a href="/register/select" class="text-gray-700 hover:text-blue-500 text-lg">登録フォーム</a></li>
                         <li><a href="/login" class="text-gray-700 hover:text-blue-500 text-lg">ログイン</a></li>
                     @else
                         <li>
@@ -76,7 +76,8 @@
                     <li><a href="/tax-advisors" class="text-gray-700 hover:text-blue-500 text-lg">税理士の方へ</a></li>
                     <li><a href="/special" class="text-gray-700 hover:text-blue-500 text-lg">特集ページ</a></li>
                     <li><a href="/souzoku-tax" class="text-gray-700 hover:text-blue-500 text-lg">相続でお困りの方へ</a></li>
-                    <li><a href="/taxbar-introduction" class="text-gray-700 hover:text-blue-500 text-lg">TaxBar®とは？</a></li>
+                    <li><a href="/taxbar-introduction" class="text-gray-700 hover:text-blue-500 text-lg">TaxBar®とは？</a>
+                    </li>
                 </ul>
             </nav>
 
