@@ -279,6 +279,65 @@
             <!-- サービス提供 -->
             <div class="bg-gray-50 border-l-4 border-purple-500 p-6 rounded-lg mb-6">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">サービス提供</h2>
+
+                <!-- インボイス管理セクション -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">インボイス管理</h3>
+                    <p class="text-gray-600 mb-4">お支払い履歴とインボイスの確認ができます。</p>
+                    <a href="{{ route('invoices.index') }}"
+                        class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                        インボイス一覧を見る
+                    </a>
+                </div>
+
+                <!-- 通知セクション -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">通知</h3>
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                        @if (auth()->user()->unreadNotifications->count() > 0)
+                            <div class="space-y-3">
+                                @foreach (auth()->user()->unreadNotifications->take(5) as $notification)
+                                    <div class="p-3 bg-blue-50 rounded-lg">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                @if ($notification->type === 'App\Notifications\InvoiceNotification')
+                                                    <p class="font-medium">お支払い完了のお知らせ</p>
+                                                    <p class="text-sm text-gray-600">請求書番号:
+                                                        {{ $notification->data['invoice_number'] }}</p>
+                                                    <p class="text-sm text-gray-600">金額:
+                                                        {{ number_format($notification->data['amount']) }}円</p>
+                                                @else
+                                                    <p class="font-medium">
+                                                        {{ $notification->data['message'] ?? '新しい通知' }}</p>
+                                                @endif
+                                                <p class="text-xs text-gray-500 mt-1">
+                                                    {{ $notification->created_at->diffForHumans() }}</p>
+                                            </div>
+                                            <form
+                                                action="{{ route('notifications.mark-as-read', $notification->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="text-xs text-blue-600 hover:text-blue-800">
+                                                    既読にする
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="mt-3 text-center">
+                                <a href="{{ route('notifications.index') }}"
+                                    class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                    すべての通知を見る
+                                </a>
+                            </div>
+                        @else
+                            <p class="text-center text-gray-500">新しい通知はありません</p>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <a href="#"
                         class="block bg-white p-4 rounded-lg shadow-sm hover:bg-purple-50 transition duration-200">

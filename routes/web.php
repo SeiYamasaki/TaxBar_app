@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PricingController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\InquiryController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\SouzokuTaxController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TaxAdvisorController;
 use App\Http\Controllers\TaxAdvisorProfileController;
+use App\Http\Controllers\NotificationController;
 
 
 
@@ -75,6 +77,15 @@ Route::middleware('auth')->group(function () {
     // 税理士プロフィール編集ルート
     Route::get('/tax-advisor/profile', [TaxAdvisorProfileController::class, 'edit'])->name('tax_advisor.profile.edit');
     Route::patch('/tax-advisor/profile', [TaxAdvisorProfileController::class, 'update'])->name('tax_advisor.profile.update');
+
+    // インボイス関連のルート
+    Route::get('/dashboard/invoices', [PaymentController::class, 'invoices'])->name('invoices.index');
+    Route::get('/dashboard/invoices/{id}', [PaymentController::class, 'showInvoice'])->name('invoices.show');
+
+    // 通知関連のルート
+    Route::get('/dashboard/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/dashboard/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
+    Route::post('/dashboard/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-as-read');
 });
 
 // コメント投稿ルート（認証不要）

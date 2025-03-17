@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Models\TaxAdvisor;
 use App\Models\SubscriptionPlan;
+use App\Models\User;
+use App\Models\Invoice;
+use App\Services\InvoiceService;
+use App\Notifications\InvoiceNotification;
 use Carbon\Carbon;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
@@ -264,8 +268,45 @@ class PaymentController extends Controller
 
             case 'invoice.payment_succeeded':
                 // 請求書支払い成功時の処理
-                $invoice = $event->data->object;
-                // ここに請求書処理のコードを追加
+                $stripeInvoice = $event->data->object;
+
+                // 顧客IDからユーザーを検索
+                $customerId = $stripeInvoice->customer;
+                $taxAdvisor = TaxAdvisor::where('stripe_customer_id', $customerId)->first();
+
+                if ($taxAdvisor) {
+                    $user = User::find($taxAdvisor->user_id);
+
+                    if ($user) {
+                        // インボイスサービスを使用してインボイスを作成
+                        $invoiceService = new InvoiceService();
+
+                        // インボイスデータの準備
+                        $paymentData = [
+                            'invoice_id' => $stripeInvoice->id,
+                            'customer_id' => $stripeInvoice->customer,
+                            'amount' => $stripeInvoice->amount_paid / 100, // Stripeは金額をセントで保存
+                            'currency' => $stripeInvoice->currency,
+                            'description' => $stripeInvoice->description,
+                            'payment_method' => $stripeInvoice->payment_intent ? 'card' : 'other',
+                            'items' => [
+                                [
+                                    'description' => $stripeInvoice->lines->data[0]->description ?? 'TaxBarサービス利用料',
+                                    'amount' => $stripeInvoice->lines->data[0]->amount ?? $stripeInvoice->amount_paid,
+                                ]
+                            ],
+                        ];
+
+                        // インボイスを作成して通知を送信
+                        $invoice = $invoiceService->createInvoiceFromStripePayment($paymentData, $user);
+
+                        Log::info('インボイス作成成功: インボイスID=' . $invoice->id . ', ユーザーID=' . $user->id);
+                    } else {
+                        Log::error('インボイス作成失敗: ユーザーが見つかりません。顧客ID=' . $customerId);
+                    }
+                } else {
+                    Log::error('インボイス作成失敗: 税理士が見つかりません。顧客ID=' . $customerId);
+                }
                 break;
 
             case 'customer.subscription.deleted':
@@ -276,5 +317,31 @@ class PaymentController extends Controller
         }
 
         return response()->json(['status' => 'success']);
+    }
+
+    /**
+     * インボイス一覧を表示
+     */
+    public function invoices()
+    {
+        $user = Auth::user();
+        $invoices = Invoice::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('invoices.index', compact('invoices'));
+    }
+
+    /**
+     * インボイス詳細を表示
+     */
+    public function showInvoice($id)
+    {
+        $user = Auth::user();
+        $invoice = Invoice::where('user_id', $user->id)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        return view('invoices.show', compact('invoice'));
     }
 }
