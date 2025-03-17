@@ -54,7 +54,8 @@ class InquiryController extends Controller
 
         // メール送信
         Mail::send('emails.inquiry', $data, function ($message) use ($data) {
-            $message->to('your_admin_email@example.com') // 管理者のメールアドレス
+            $message->to(config('mail.addresses.contact')) // 問い合わせ用メールアドレス
+                ->from(config('mail.addresses.info'), 'TaxBar お問い合わせ')
                 ->subject('新しいお問い合わせ')
                 ->replyTo($data['email']); // 送信者のメールアドレスを設定
         });

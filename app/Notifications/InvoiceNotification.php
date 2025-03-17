@@ -41,6 +41,7 @@ class InvoiceNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         $message = (new MailMessage)
+            ->from(config('mail.addresses.billing'), 'TaxBar 請求担当')
             ->subject('TaxBar - お支払い完了のお知らせ')
             ->greeting('お支払いありがとうございます')
             ->line('TaxBarのサービスをご利用いただきありがとうございます。')
