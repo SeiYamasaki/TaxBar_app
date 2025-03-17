@@ -65,7 +65,7 @@ Route::get('/register/individual', [RegisterController::class, 'showIndividualRe
 Route::post('/register/individual', [RegisterController::class, 'registerIndividual'])->name('register.individual.post'); //登録処理
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])->name('dashboard');
+    ->middleware(['auth', 'verified', \App\Http\Middleware\CheckSubscription::class])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

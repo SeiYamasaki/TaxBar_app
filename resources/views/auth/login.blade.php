@@ -51,7 +51,7 @@
             <!-- ✅ 登録リンク -->
             <p class="text-center text-gray-800 text-sm mt-3">
                 アカウントをお持ちでないですか？
-                <a href="{{ route('register') }}" class="text-yellow-600 hover:underline">登録する</a>
+                <a href="{{ route('register.select') }}" class="text-yellow-600 hover:underline">登録する</a>
             </p>
         </div>
     </div>

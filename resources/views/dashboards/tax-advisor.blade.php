@@ -46,7 +46,8 @@
                 <p class="py-1"><strong>ユーザー種別:</strong> 税理士</p>
                 <p class="py-1"><strong>プロフィール画像:</strong>
                     @if ($user->taxAdvisor && $user->taxAdvisor->tax_accountant_photo)
-                        <img src="{{ asset('storage/' . $user->taxAdvisor->tax_accountant_photo) }}" alt="プロフィール画像" class="w-56 h-56">
+                        <img src="{{ asset('storage/' . $user->taxAdvisor->tax_accountant_photo) }}" alt="プロフィール画像"
+                            class="w-56 h-56">
                     @else
                         <span class="text-gray-500">未設定</span>
                     @endif
@@ -304,6 +305,55 @@
         </div>
     </main>
 
+    <!-- Plan Registration Modal -->
+    <div id="planRegistrationModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <div
+                class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                プラン登録が必要です
+                            </h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">
+                                    TaxBarの機能をご利用いただくには、プランの登録が必要です。料金表ページからご登録をお願いいたします。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 flex justify-center">
+                    <a href="{{ route('pricing.index') }}"
+                        class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-6 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
+                        料金表を見る
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('showPlanModal'))
+                // Show the modal on the dashboard
+                const modal = document.getElementById('planRegistrationModal');
+                modal.classList.remove('hidden');
+            @endif
+        });
+    </script>
     @include('components.footer')
 </body>
 

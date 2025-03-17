@@ -93,8 +93,9 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
-        // プラン選択画面にリダイレクト
-        return redirect()->route('pricing.index', ['show_plan_modal' => true])->with('success', '税理士アカウントが登録されました！プランを選択してください。');
+        // ダッシュボードにリダイレクトし、セッションにフラグを設定
+        session(['showPlanModal' => true]);
+        return redirect()->route('dashboard')->with('success', '税理士アカウントが登録されました！プランを選択してください。');
     }
 
     /**

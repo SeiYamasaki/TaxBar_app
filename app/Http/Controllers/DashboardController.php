@@ -52,13 +52,20 @@ class DashboardController extends Controller
 
                 Log::info('Created new TaxAdvisor record');
 
-                return redirect()->route('pricing.index', ['show_plan_modal' => true])
-                    ->with('warning', 'サービスをご利用いただくには、プランを選択してください。');
+                // 料金表へのリダイレクトではなく、セッションにフラグを設定してダッシュボードを表示
+                session(['showPlanModal' => true]);
+                return $this->taxAdvisorDashboard()->with('warning', 'サービスをご利用いただくには、プランを選択してください。');
             }
 
             // サブスクリプションがない場合でも既にTaxAdvisorレコードがあれば強制リダイレクトしない
             if (!$taxAdvisor->subscription_plan_id) {
                 Log::warning('Tax advisor has no subscription plan, but allowing dashboard access');
+                // サブスクリプションプランがない場合もモーダルを表示
+                session(['showPlanModal' => true]);
+            } else {
+                // サブスクリプションプランがある場合はセッション変数を削除
+                Log::info('Tax advisor has subscription plan, removing showPlanModal session');
+                session()->forget('showPlanModal');
             }
         }
 
