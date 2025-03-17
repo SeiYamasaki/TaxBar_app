@@ -195,7 +195,7 @@
                     </button>
                 </div>
                 <div class="p-6 text-center">
-                    <p class="text-gray-700 mb-4">TaxBarの機能をご利用いただくには、まずアカウントを作成してください。</p>
+                    <p class="text-gray-700 mb-4">TaxBar®の機能をご利用いただくには、まずアカウントを作成してください。</p>
                     <button type="button" id="go-to-register"
                         class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-semibold transition-colors">
                         アカウントを作成する
@@ -231,50 +231,7 @@
                                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         <h3 class="text-xl font-bold text-gray-800 mb-2">一般、法人、個人のお客様へ</h3>
-                        <p class="text-gray-600 mb-4">TaxBarのサービスは無料でご利用いただけます。</p>
-                    </div>
-                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
-                        <h4 class="font-semibold text-gray-800 mb-2">無料でご利用いただける機能：</h4>
-                        <ul class="space-y-2">
-                            <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <span>税理士への質問・相談</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <span>TaxMinutesの視聴</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <span>投銭機能</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <span>議事録自動生成</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="text-center">
-                        <button type="button" id="close-free-modal-btn"
-                            class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-semibold transition-colors">
-                            閉じる
-                        </button>
+                        <p class="text-gray-600 mb-4">TaxBar®のサービスは無料でご利用いただけます。</p>
                     </div>
                 </div>
             </div>
