@@ -62,6 +62,10 @@ class DashboardController extends Controller
                 Log::warning('Tax advisor has no subscription plan, but allowing dashboard access');
                 // サブスクリプションプランがない場合もモーダルを表示
                 session(['showPlanModal' => true]);
+            } else {
+                // サブスクリプションプランがある場合はセッション変数を削除
+                Log::info('Tax advisor has subscription plan, removing showPlanModal session');
+                session()->forget('showPlanModal');
             }
         }
 

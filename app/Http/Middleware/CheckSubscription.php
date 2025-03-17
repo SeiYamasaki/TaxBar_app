@@ -27,6 +27,10 @@ class CheckSubscription
 
                 // リダイレクトせずに次の処理へ進む
                 return $next($request);
+            } else {
+                // サブスクリプションプランがある場合はセッション変数を削除
+                Log::info('Tax advisor has subscription plan, removing showPlanModal session');
+                session()->forget('showPlanModal');
             }
         }
 

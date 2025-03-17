@@ -177,6 +177,8 @@ class PaymentController extends Controller
 
                 // セッションからプラン情報を削除
                 session()->forget('selected_plan');
+                // モーダル表示フラグも削除
+                session()->forget('showPlanModal');
 
                 $planName = $selectedPlan['plan_name'] ?? 'サブスクリプション';
                 return redirect()->route('dashboard')->with('success', $planName . 'プランの契約が完了しました！');
