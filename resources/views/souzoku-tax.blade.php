@@ -51,7 +51,7 @@
             background: rgba(0, 0, 0, 0.5) !important;
             padding: 50px 20px !important;
             color: white !important;
-            max-width: 1200px !important;
+            max-width: 1800px !important;
             margin: auto !important;
         }
 
@@ -106,14 +106,14 @@
             <p class="mt-4">公認会計士･税理士によるTaxBar®相談を受け付けています。</p>
         </section>
 
-        <section class="max-w-4xl mx-auto mt-10 bg-white text-gray-900 p-6 rounded-lg shadow-lg">
+        <section class="max-w-6xl w-full mx-auto mt-10 bg-white text-gray-900 p-6 rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold">相続税とは？</h2>
             <p class="mt-2">相続税は、亡くなった方（被相続人）の財産を相続した際に発生する税金です。<br>主に現金、土地、建物、株式などの資産が課税対象となります。</p>
             <p class="mt-2">相続税の計算は、基礎控除額（3,000万円＋600万円×法定相続人の数）を超えた金額に対して税率が適用されます。</p>
         </section>
 
         <div class="flex justify-center items-center mt-10">
-            <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full text-center">
+            <div class="bg-white p-6 rounded-lg shadow-lg max-w-6xl w-full text-center">
                 <h2 class="text-2xl font-bold text-gray-800">相続税についてもっと知りたい方へ</h2>
                 <p class="mt-2 text-gray-700">相続税の仕組みや節税対策について、詳しく解説した無料ガイドブックを配布しています。</p>
                 <p class="mt-2 text-gray-700">お気軽にダウンロードし、必要な情報を得てください。</p>
@@ -127,7 +127,7 @@
         </div>
 
         <!-- ここからコンテンツ -->
-        <section class="max-w-4xl mx-auto mt-10 flex items-center gap-6">
+        <section class="max-w-6xl w-full mx-auto mt-10 flex items-center gap-6">
             <div class="w-1/3 flex-shrink-0">
                 <img src="{{ asset('images/souzoku_1.jpeg') }}" alt="メッセージ画像"
                     class="w-full h-auto rounded-lg shadow-lg">
@@ -142,7 +142,8 @@
                 </div>
             </div>
         </section>
-        <section class="max-w-4xl mx-auto mt-10 flex items-center gap-6">
+
+        <section class="max-w-6xl w-full mx-auto mt-10 flex items-center gap-6">
             <div class="w-2/3 bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center">
                 <h2 class="text-xl font-bold text-gray-800">相続手続きの流れ</h2>
                 <p class="mt-2 text-gray-700">相続には複雑な手続きが伴いますが、専門家のサポートを受けることでスムーズに進めることが可能です。</p>
@@ -157,7 +158,8 @@
                     class="w-full h-auto rounded-lg shadow-lg">
             </div>
         </section>
-        <section class="max-w-4xl mx-auto mt-10 flex items-center gap-6">
+
+        <section class="max-w-6xl w-full mx-auto mt-10 flex items-center gap-6">
             <div class="w-1/3 flex-shrink-0">
                 <img src="{{ asset('images/souzoku_3.jpeg') }}" alt="相続の準備"
                     class="w-full h-auto rounded-lg shadow-lg">
@@ -172,7 +174,7 @@
             </div>
         </section>
 
-        <section class="max-w-4xl mx-auto mt-10 flex items-center gap-6">
+        <section class="max-w-6xl w-full mx-auto mt-10 flex items-center gap-6">
             <div class="w-2/3 bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center">
                 <h2 class="text-xl font-bold text-gray-800">相続税の計算方法</h2>
                 <p class="mt-2 text-gray-700">相続税の計算方法を正しく理解し、納税計画を立てることが重要です。基本的な計算式と控除の仕組みをご紹介します。</p>
@@ -187,7 +189,9 @@
             </div>
         </section>
 
-        <section class="max-w-4xl mx-auto mt-10 flex items-center gap-6">
+
+
+        <section class="max-w-6xl w-full mx-auto mt-10 flex items-center gap-6">
             <div class="w-1/3 flex-shrink-0">
                 <img src="{{ asset('images/souzoku_5.jpeg') }}" alt="節税対策"
                     class="w-full h-auto rounded-lg shadow-lg">
@@ -202,7 +206,7 @@
             </div>
         </section>
 
-        <section class="max-w-4xl mx-auto mt-10 flex items-center gap-6">
+        <section class="max-w-6xl w-full mx-auto mt-10 flex items-center gap-6">
             <div class="w-2/3 bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center">
                 <h2 class="text-xl font-bold text-gray-800">相続トラブルを防ぐ</h2>
                 <p class="mt-2 text-gray-700">相続に関するトラブルを未然に防ぐためのポイントを解説します。円満な相続を実現するための方法を学びましょう。</p>
@@ -217,7 +221,7 @@
             </div>
         </section>
 
-        <section class="max-w-4xl mx-auto mt-10 flex items-center gap-6">
+        <section class="max-w-6xl w-full mx-auto mt-10 flex items-center gap-6">
             <div class="w-1/3 flex-shrink-0">
                 <img src="{{ asset('images/souzoku_7.jpeg') }}" alt="相続相談"
                     class="w-full h-auto rounded-lg shadow-lg">
@@ -231,7 +235,8 @@
                 </div>
             </div>
         </section>
-        <section class="max-w-4xl mx-auto mt-10 flex items-center gap-6">
+
+        <section class="max-w-6xl w-full mx-auto mt-10 flex items-center gap-6">
             <div class="w-2/3 bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center">
                 <h2 class="text-xl font-bold text-gray-800">相続財産の評価</h2>
                 <p class="mt-2 text-gray-700">相続財産の評価は、税額計算の基礎となります。評価方法を正しく理解し、適正な申告を行いましょう。</p>
@@ -246,7 +251,7 @@
             </div>
         </section>
 
-        <section class="max-w-4xl mx-auto mt-10 flex items-center gap-6">
+        <section class="max-w-6xl w-full mx-auto mt-10 flex items-center gap-6">
             <div class="w-1/3 flex-shrink-0">
                 <img src="{{ asset('images/souzoku_9.jpeg') }}" alt="相続税の納税方法"
                     class="w-full h-auto rounded-lg shadow-lg">
@@ -260,6 +265,7 @@
                 </div>
             </div>
         </section>
+
     </main>
 
 </body>
