@@ -72,7 +72,7 @@ html {
 /* 背景動画コンテナ */
 .video-container {
     position: relative;
-    margin-top: 120px;
+    margin-top: 80px;
     width: 100%;
     height: calc(100vh - 65px);
     overflow: hidden;
@@ -193,7 +193,7 @@ html {
 
 /* H1のスタイル */
 .start-heading {
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: bold;
     background: rgba(0, 0, 0, 0);
     /* 半透明の背景 */
@@ -227,7 +227,7 @@ html {
 .timeline-item {
     text-align: center;
     width: 100%;
-    max-width: 600px;
+    max-width: 1200px;
     margin: auto;
 }
 
@@ -246,7 +246,9 @@ html {
 
 /* お知らせエリア（PC用） */
 #news-content {
-    width: 600px;
+    width: 1200px;
+    max-width: 100%;
+    /* 画面幅に収まるよう調整 */
     padding: 15px;
     background: #f9f9f9;
     border: 2px solid #ddd;
@@ -257,12 +259,13 @@ html {
     color: #333;
 }
 
+
 /* お知らせアイテム */
 .news-item {
     padding: 8px;
     margin: 5px 0;
     border-bottom: 1px solid #ccc;
-    font-size: 1rem;
+    font-size: 1.5rem;
     text-align: left;
 }
 
@@ -336,18 +339,23 @@ html {
 /* ゲスト情報 */
 .guest-item {
     text-align: center;
-    width: 300px;
+    width: 450px;
+    /* 一回り大きく */
 }
 
 /* 🖼️ ゲスト画像の枠（スタイリッシュなフレーム付き） */
 .image-preview {
-    width: 320px; /* 一回り大きく */
-    height: 440px;
+    width: 450px;
+    /* 以前の320pxから拡大 */
+    height: 600px;
+    /* 以前の440pxから拡大 */
     position: relative;
-    border-radius: 15px; /* 角を丸く */
+    border-radius: 15px;
+    /* 角を丸く */
     overflow: hidden;
     background: linear-gradient(135deg, #ff9800, #ff5722);
-    padding: 5px; /* フレームの太さ */
+    padding: 6px;
+    /* フレームの太さを調整 */
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -355,14 +363,14 @@ html {
 .image-preview::before {
     content: "";
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
     border-radius: 15px;
-    border: 3px solid transparent;
-    background: linear-gradient(135deg, #ff5722, #ff9800) padding-box, 
-                linear-gradient(135deg, #ff5722, #ff9800, #ffcc00) border-box;
+    border: 4px solid transparent;
+    background: linear-gradient(135deg, #ff5722, #ff9800) padding-box,
+        linear-gradient(135deg, #ff5722, #ff9800, #ffcc00) border-box;
     z-index: 1;
 }
 
@@ -371,7 +379,7 @@ html {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 12px;
     position: relative;
     z-index: 2;
     transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
@@ -380,14 +388,15 @@ html {
 /* ✨ ホバー時のエフェクト（ズーム＆シャドウ強化） */
 .image-preview:hover {
     transform: scale(1.05);
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.6);
 }
 
 /* 🖥️ ホバー時にフレームを光らせる */
 .image-preview:hover::before {
-    background: linear-gradient(135deg, #ffcc00, #ff5722, #ff9800) padding-box, 
-                linear-gradient(135deg, #ffcc00, #ff5722, #ff9800) border-box;
+    background: linear-gradient(135deg, #ffcc00, #ff5722, #ff9800) padding-box,
+        linear-gradient(135deg, #ffcc00, #ff5722, #ff9800) border-box;
 }
+
 
 /* 📱 スマホ対応 */
 @media (max-width: 768px) {
@@ -516,13 +525,16 @@ footer {
 
 /* 🏷️ h1.x2txt の基本スタイル（PC用） */
 .x2txt {
-    font-size: 1.4rem;  /* PCでは大きめのサイズ */
+    font-size: 2rem;
+    /* PCでは大きめのサイズ */
     font-weight: bold;
-    color: #333;  /* 黒に近い濃いグレー */
+    color: #333;
+    /* 黒に近い濃いグレー */
     text-align: center;
     margin: 20px 0;
     padding: 10px;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* 軽い影で立体感を出す */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    /* 軽い影で立体感を出す */
     transition: transform 0.3s ease-in-out;
 }
 
@@ -534,9 +546,11 @@ footer {
 /* 📱 スマホ対応 */
 @media (max-width: 768px) {
     .x2txt {
-        font-size: 2rem;  /* スマホでは少し小さめに */
+        font-size: 2rem;
+        /* スマホでは少し小さめに */
         padding: 8px;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* スマホでは影を少し控えめに */
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        /* スマホでは影を少し控えめに */
     }
 }
 
@@ -545,9 +559,11 @@ footer {
     0% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.02);
     }
+
     100% {
         transform: scale(1);
     }

@@ -8,44 +8,84 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
+        html {
+            font-size: 18px !important;
+            /* デフォルトの16pxより大きく */
+        }
+
+        body {
+            font-size: 1.3rem !important;
+            /* 16px × 1.3 = 約20.8px */
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden !important;
+        }
+
         /* 背景動画のスタイル */
         .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            z-index: -1 !important;
         }
 
         .content-container {
-            position: relative;
-            z-index: 10;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding-bottom: 50px;
-            text-align: center;
+            position: relative !important;
+            z-index: 10 !important;
+            color: white !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7) !important;
+            min-height: 100vh !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-end !important;
+            padding: 50px 20px !important;
+            text-align: center !important;
         }
 
         main {
-            position: relative;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 50px 20px;
-            color: white;
+            position: relative !important;
+            z-index: 10 !important;
+            background: rgba(0, 0, 0, 0.5) !important;
+            padding: 50px 20px !important;
+            color: white !important;
+            max-width: 1200px !important;
+            margin: auto !important;
         }
 
         .spacer {
-            height: 300px;
-            /* 動画の下に余白を拡張 */
-            background-color: white;
+            height: 300px !important;
+            background-color: white !important;
+        }
+
+        /* スマホ対応 */
+        @media screen and (max-width: 768px) {
+            html {
+                font-size: 16px !important;
+            }
+
+            body {
+                font-size: 1.2rem !important;
+            }
+
+            .content-container {
+                padding: 10px 10px !important;
+                text-align: center !important;
+                justify-content: center !important;
+            }
+
+            main {
+                padding: 30px 15px !important;
+            }
+
+            .spacer {
+                height: 150px !important;
+            }
         }
     </style>
+
 </head>
 
 <body class="bg-gray-100">
@@ -109,7 +149,7 @@
                 <p class="mt-2 text-gray-700">相続財産の調査、遺産分割協議、税務申告など、一連の流れを詳しくご案内します。</p>
                 <div class="mt-4">
                     <a href="/process"
-                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">詳しく見る</a>
+                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">予約する</a>
                 </div>
             </div>
             <div class="w-1/3 flex-shrink-0">
@@ -127,7 +167,7 @@
                 <p class="mt-2 text-gray-700">相続の準備を進めることで、将来的なトラブルを回避できます。遺言書の作成や財産の整理について詳しくご案内します。</p>
                 <div class="mt-4">
                     <a href="/preparation"
-                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">詳細を見る</a>
+                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">予約する</a>
                 </div>
             </div>
         </section>
@@ -138,7 +178,7 @@
                 <p class="mt-2 text-gray-700">相続税の計算方法を正しく理解し、納税計画を立てることが重要です。基本的な計算式と控除の仕組みをご紹介します。</p>
                 <div class="mt-4">
                     <a href="/tax-calculation"
-                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">計算方法を見る</a>
+                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">予約する</a>
                 </div>
             </div>
             <div class="w-1/3 flex-shrink-0">
@@ -157,7 +197,7 @@
                 <p class="mt-2 text-gray-700">相続税を最小限に抑えるための節税対策をご紹介します。生前贈与や保険の活用など、具体的な方法を解説します。</p>
                 <div class="mt-4">
                     <a href="/tax-saving"
-                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">節税対策を見る</a>
+                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">予約する</a>
                 </div>
             </div>
         </section>
@@ -168,7 +208,7 @@
                 <p class="mt-2 text-gray-700">相続に関するトラブルを未然に防ぐためのポイントを解説します。円満な相続を実現するための方法を学びましょう。</p>
                 <div class="mt-4">
                     <a href="/trouble-prevention"
-                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">詳しく見る</a>
+                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">予約する</a>
                 </div>
             </div>
             <div class="w-1/3 flex-shrink-0">
@@ -197,7 +237,7 @@
                 <p class="mt-2 text-gray-700">相続財産の評価は、税額計算の基礎となります。評価方法を正しく理解し、適正な申告を行いましょう。</p>
                 <div class="mt-4">
                     <a href="/property-valuation"
-                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">評価方法を見る</a>
+                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">予約する</a>
                 </div>
             </div>
             <div class="w-1/3 flex-shrink-0">
@@ -216,7 +256,7 @@
                 <p class="mt-2 text-gray-700">相続税の納付にはいくつかの方法があります。延納や物納などの選択肢を知り、計画的に納税を行いましょう。</p>
                 <div class="mt-4">
                     <a href="/tax-payment"
-                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">納税方法を見る</a>
+                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">予約する</a>
                 </div>
             </div>
         </section>

@@ -25,8 +25,9 @@
 
 @section('content')
     <div class="faq-header">
-        <h1 class="py-10 text-gray-800 text-3xl font-bold">📌 TaxBar&regFAQ</h1>
-        <p class="pb-10 text-gray-800 text-xl">TaxBar&regに寄せられた質問を記載しています｡</p>
+        <h1 class="py-10 text-gray-800 text-5xl font-bold">📌 TaxBar&regFAQ</h1>
+        <p class="pb-10 text-gray-800 text-2xl">TaxBar&regに寄せられた質問を記載しています｡</p>
+
     </div>
 
     <!-- 検索フォーム -->
@@ -134,7 +135,7 @@
         /* FAQ全体のコンテナ */
         .faq-wrapper {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1600px;
             background: white;
             padding: 100px;
             border-radius: 10px;
@@ -176,7 +177,7 @@
 
         /* 質問のスタイル */
         .faq-question {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #2c786c;
             margin-bottom: 5px;
@@ -185,7 +186,7 @@
         /* 回答のスタイル */
         .faq-answer {
             color: #333;
-            font-size: 1rem;
+            font-size: 1.5rem;
         }
 
         /* 検索フォームの左寄せ */
