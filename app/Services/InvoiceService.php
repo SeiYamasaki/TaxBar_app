@@ -86,7 +86,7 @@ class InvoiceService
      * @param string $description 説明
      * @return string|null Stripe Invoice ID
      */
-    public function createStripeInvoice(User $user, array $items, string $description = null): ?string
+    public function createStripeInvoice(User $user, array $items): ?string
     {
         try {
             // Stripeの設定

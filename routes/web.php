@@ -44,7 +44,10 @@ Route::get('/inquiry', [InquiryController::class, 'showForm'])->name('inquiry.fo
 Route::post('/inquiry/confirm', [InquiryController::class, 'confirm'])->name('inquiry.confirm');
 Route::post('/inquiry/send', [InquiryController::class, 'sendInquiry'])->name('inquiry.send');
 Route::post('/stripe-payment', [PaymentController::class, 'createPayment'])->name('stripe.payment');
-Route::post('/stripe-webhook', [PaymentController::class, 'handleWebhook'])->name('stripe.webhook');
+Route::post('/stripe-webhook', [PaymentController::class, 'handleWebhook'])
+    ->name('stripe.webhook')
+    ->middleware('stripe-webhook')
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 Route::get('/view/theme', [ThemeController::class, 'show']); // テーマルート
