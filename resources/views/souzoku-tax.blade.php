@@ -106,6 +106,14 @@
             <p class="mt-4">公認会計士･税理士によるTaxBar®相談を受け付けています。</p>
         </section>
 
+        <div class="flex justify-center items-center w-full">
+            <div class="max-w-7xl flex justify-center">
+                <img src="{{ asset('images/souzoku_10.jpeg') }}" alt="メッセージ画像"
+                    class="w-full h-auto rounded-lg shadow-lg opacity-50">
+            </div>
+        </div>
+
+
         <section class="max-w-6xl w-full mx-auto mt-10 bg-white text-gray-900 p-6 rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold">相続税とは？</h2>
             <p class="mt-2">相続税は、亡くなった方（被相続人）の財産を相続した際に発生する税金です。<br>主に現金、土地、建物、株式などの資産が課税対象となります。</p>
@@ -265,9 +273,14 @@
                 </div>
             </div>
         </section>
-
+        <div class="flex justify-center items-center w-full">
+            <div class="max-w-7xl flex justify-center">
+                <img src="{{ asset('images/souzoku_11.jpeg') }}" alt="メッセージ画像"
+                    class="w-full h-auto rounded-lg shadow-lg opacity-60">
+            </div>
+        </div>
     </main>
-
+    @include('components.footer')
 </body>
 
 </html>
