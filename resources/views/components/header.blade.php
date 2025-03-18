@@ -76,7 +76,7 @@
                     <li><a href="/tax-advisors" class="text-gray-700 hover:text-blue-500 text-lg">税理士の方へ</a></li>
                     <li><a href="/special" class="text-gray-700 hover:text-blue-500 text-lg">特集ページ</a></li>
                     <li><a href="/souzoku-tax" class="text-gray-700 hover:text-blue-500 text-lg">相続でお困りの方へ</a></li>
-                    <li><a href="/taxbar-introduction" class="text-gray-700 hover:text-blue-500 text-lg">TaxBar®とは？</a>
+                    <li><a href="/about-taxbar" class="text-gray-700 hover:text-blue-500 text-lg">TaxBar®とは？</a>
                     </li>
                 </ul>
             </nav>
@@ -127,11 +127,14 @@
                         <li><a href="/special"
                                 class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">特集ページ</a>
                         </li>
-                        <li><a href="#"
+                        <li><a href="/souzoku-tax"
                                 class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">相続でお困りの方へ</a>
                         </li>
                         <li><a href="/register/select"
                                 class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">登録フォーム</a>
+                        </li>
+                        <li><a href="/about-taxbar"
+                                class="block px-4 py-2 text-white bg-gradient-to-r from-red-500 via-yellow-400 via-green-500 via-blue-400 to-purple-500 rounded-md shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:brightness-200 animate-gradient">TaxBar®とは？</a>
                         </li>
                         @guest
                             <li><a href="/login"
