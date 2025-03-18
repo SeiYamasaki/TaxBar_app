@@ -3,7 +3,8 @@
 @section('title', '料金表')
 
 @section('content')
-    <div class="container mt-12 mx-auto py-12">
+    <div class="container-fluid mt-12 mx-auto py-12">
+
 
         <h1 class="text-3xl font-bold text-center mb-8 text-white">料金表／月払い</h1>
         <h1 class="text-3xl font-bold text-center mb-8 text-white">契約期間／1年</h1>
@@ -76,7 +77,8 @@
         <div id="corporate" class="mx-auto py-12">
             <div class="overflow-x-auto">
                 <div class="flex justify-center">
-                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-0 max-w-5xl shadow-2xl rounded-lg overflow-hidden">
+                    <div
+                        class="grid grid-cols-1 sm:grid-cols-4 gap-0 max-w-screen-2xl w-full shadow-2xl rounded-lg overflow-hidden">
 
                         <!-- PC用: 左側の項目列 -->
                         <div class="hidden sm:block bg-gradient-to-b from-gray-100 to-gray-200">
@@ -85,7 +87,7 @@
                             </div>
                             @foreach ($items as $label => $key)
                                 <div class="p-4 flex items-center h-16 {{ $loop->even ? 'bg-gray-50' : '' }}">
-                                    <span class="text-sm font-medium">{{ $label }}</span>
+                                    <span class="text-2xl font-bold">{{ $label }}</span>
                                 </div>
                             @endforeach
                         </div>
@@ -137,13 +139,13 @@
                                             class="p-4 flex items-center justify-center h-16 {{ $loop->even ? 'bg-opacity-50 bg-white' : '' }}">
                                             @if ($key === 'monthlyFee')
                                                 <span
-                                                    class="text-lg font-bold">¥{{ number_format($plan['monthlyFee']) }}</span>
+                                                    class="text-3xl font-extrabold">¥{{ number_format($plan['monthlyFee']) }}</span>
                                             @elseif ($plan[$key] === '有')
                                                 ✅
                                             @elseif ($plan[$key] === '無')
                                                 ❌
                                             @else
-                                                <span class="text-sm font-medium">{{ $plan[$key] }}</span>
+                                                <span class="text-xl font-semibold">{{ $plan[$key] }}</span>
                                             @endif
                                         </div>
                                     @endforeach
@@ -175,12 +177,12 @@
     </div>
     <!-- 決済確認モーダルを読み込み -->
     @include('components.payment-confirmation-modal')
-    
+
     <!-- 非ログインユーザー向け登録促進モーダル -->
     <div id="register-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
         <!-- 背景のぼかし -->
         <div class="fixed inset-0 bg-gray-900 bg-opacity-10 backdrop-blur-none"></div>
-    
+
         <!-- モーダル本体 -->
         <div class="relative z-10 max-w-md w-full mx-4">
             <div class="bg-white rounded-lg shadow-xl overflow-hidden">
@@ -240,11 +242,11 @@
 
     <!-- モーダル表示時の背景スクロール制御 -->
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const modalElement = document.getElementById('plan-modal');
-        const registerModal = document.getElementById('register-modal');
-        const closeRegisterModal = document.getElementById('close-register-modal');
-        const goToRegister = document.getElementById('go-to-register');
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalElement = document.getElementById('plan-modal');
+            const registerModal = document.getElementById('register-modal');
+            const closeRegisterModal = document.getElementById('close-register-modal');
+            const goToRegister = document.getElementById('go-to-register');
             const modalContent = document.querySelector('.p-6.overflow-y-auto');
             const paymentConfirmationModal = document.getElementById('payment-confirmation-modal');
             const freePlanModal = document.getElementById('free-plan-modal');
