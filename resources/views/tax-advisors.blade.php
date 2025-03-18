@@ -17,18 +17,24 @@
 
     <!-- ✅ ヘッダーの高さ分だけ余白を確保 (mt-32) -->
     <div class="max-w-screen-lg mx-auto mt-32 px-6 sm:px-10 py-6">
-        <h2 class="text-center text-2xl font-bold mb-6">公認会計士･税理士又は税理士の方へ</h2>
+        <h2 class="text-center text-3xl font-bold mb-6">
+            公認会計士･税理士又は税理士の方へ</h2>
 
         <!-- ✅ 1. TaxBar®の目的 -->
         <div class="mb-8">
-            <h4 class="text-xl font-semibold mb-2">1. TaxBar®の目的はなにか</h4>
+            <h4 class="text-3xl font-semibold mb-2">1. TaxBar®の目的はなにか</h4>
             <div class="w-full h-1 bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 mb-4"></div>
-            <p class="leading-relaxed text-sm sm:text-base">
+            <p class="leading-relaxed text-lg sm:text-xl">
                 税理士の｢不便｣や｢不安｣を解消すること､及び税理士による｢集客｣に貢献するためのWebアプリサイトです｡<br />
                 開業したばかりの税理士にも始めやすいように､高額な初期投資を抑えるためサブスクリプション制としています｡<br />
                 本Webアプリサイトによるサービスのみならず､税理士のご要望や現在のお困りごとを、細部に渡ってお伺いします。<br />
                 ご不明な点や他のご要望等のご相談は遠慮なく<a href="/inquiry" class="text-blue-600 underline">お問い合わせ</a>ください｡<br />
                 4,200所以上の税理士事務所、Engineer500名超の体制により培ったノウハウをもとに、税理士の潜在的なニーズまでも掘り起こし、税理士の先生方々又は税理士法人に貢献いたします｡
+                私たちのWebアプリは、税理士の先生方が直面するさまざまな課題を解決し、より効率的で生産的な業務運営を可能にすることを目的としています。現代のビジネス環境において、税理士の役割は単なる税務申告の代行にとどまらず、経営者の財務パートナーとしての役割も担っています。そのため、業務の効率化や新規顧客の獲得、継続的なクライアントの満足度向上が重要なポイントとなります。
+                特に新しいクライアントを獲得することは、特に開業間もない税理士にとって大きな課題です。TaxBar®は、集客を強力にサポートします。
+                税理士業務は個人で行うことが多いため、専門家同士のつながりを持つことは重要です。TaxBar®は、税理士間の情報共有を促進し、協業の機会を創出します。
+                TaxBar®は、税理士の皆様が直面する課題を解決し、よりスムーズで効率的な業務運営を可能にします。新規顧客獲得、業務の効率化、ネットワークの拡大など、多方面にわたる支援を提供することで、税理士業界全体の発展に貢献します。
+                ぜひ、TaxBar®を活用し、業務の可能性を広げてください。今後のサービス向上に向けたご意見やご要望も随時受け付けておりますので、お気軽にお問い合わせください。
                 <br />
                 <a href="/register/select" class="text-blue-600 underline">▶ TaxBar® に登録する</a>
             </p>
@@ -39,10 +45,10 @@
         </div>
 
         <div class="mb-8">
-            <h4 class="text-xl font-semibold mb-2">2. 税理士のペイン</h4>
+            <h4 class="text-3xl font-semibold mb-2">2. 税理士のペイン</h4>
             <div class="w-full h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 mb-4"></div>
             <!-- レインボー罫線 -->
-            <p class="leading-relaxed text-sm sm:text-base">
+            <p class="leading-relaxed text-lg sm:text-xl">
                 TaxBar®のFounderは､約20年の会計税務の業務経験があります｡<br />
                 税理士試験及び公認会計士試験の経験者でもあります｡<br />
                 法人税1000社以上､所得税500社以上の処理を経験しています｡<br />
@@ -67,10 +73,11 @@
         </div>
 
         <div class="mb-8">
-            <h4 class="text-xl font-semibold mb-2">3. 税理士業界の市場規模</h4>
+            <p class="leading-relaxed text-lg sm:text-xl">
+                <h4 class="text-3xl font-semibold mb-2">3. 税理士業界の市場規模</h4>
             <div class="w-full h-1 bg-gradient-to-r from-green-500 via-teal-500 to-cyan-500 mb-4"></div>
             <!-- レインボー罫線 -->
-            <p class="leading-relaxed text-sm sm:text-base">
+            <p class="leading-relaxed text-lg sm:text-xl">
                 日本の税理士業界は、全国で約8万人の税理士が登録され、約4万2,000の税理士事務所が存在し、市場規模は約2兆円と推定されている。税理士業務は、法人税・所得税の申告支援、相続税対策、記帳代行、経営コンサルティングなど多岐にわたり、特に中小企業や個人事業主の支援が中心となっている。
                 近年、電子申告の普及やAI・RPAの導入により、従来の記帳代行業務の需要は減少傾向にあるが、税務相談や経営アドバイスなどの高付加価値業務の需要は増加している。特に、企業の税務リスク管理やM&A、事業承継の支援業務は成長分野となっている。
                 しかし、税理士の高齢化が進み、平均年齢は60歳を超えており、後継者不足が深刻な課題となっている。新規参入者が減少する中、IT技術を活用した業務効率化が求められている。
@@ -86,10 +93,11 @@
         </div>
 
         <div class="mb-8">
-            <h4 class="text-xl font-semibold mb-2">4. 税理士に対する支援体制</h4>
+            <p class="leading-relaxed text-lg sm:text-xl">
+                <h4 class="text-3xl font-semibold mb-2">4. 税理士に対する支援体制</h4>
             <div class="w-full h-1 bg-gradient-to-r from-orange-500 via-yellow-500 to-lime-500 mb-4"></div>
             <!-- レインボー罫線 -->
-            <p class="leading-relaxed text-sm sm:text-base">
+            <p class="leading-relaxed text-lg sm:text-xl">
                 税理士業界では、新規顧客の獲得と安定した顧問契約の維持が大きな課題となっています。特に、開業税理士や独立を考えている税理士にとって、競争の激しい市場で効率的に集客を行うことは難しく、既存の広告手法では高額なコストがかかるケースも多く見られます。そこで、TaxBar®
                 は、<a href="https://note.com/spqrjp/n/ne8056785ebff"
                     class="text-blue-600 underline">「スパルタキャンプ（SpartaCamp）」</a>で鍛えられた500名超のエンジニアチーム
@@ -110,10 +118,10 @@
         </div>
         <!-- ✅ 5. TaxBar® の今後の展望 -->
         <div class="mb-8">
-            <h4 class="text-xl font-semibold mb-2">5. TaxBar® の今後の展望</h4>
+            <h4 class="text-3xl font-semibold mb-2">5. TaxBar® の今後の展望</h4>
             <div class="w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mb-4"></div>
             <!-- レインボー罫線 -->
-            <p class="leading-relaxed text-sm sm:text-base">
+            <p class="leading-relaxed text-lg sm:text-xl">
                 TaxBar® は、税理士業界のデジタルトランスフォーメーション（DX）を推進し、より多くの税理士が効率的に業務を遂行できるよう支援することを目指しています。<br />
                 その中核として、<a href="https://note.com/spqrjp/n/ne8056785ebff" class="text-blue-600 underline">SpartaCamp</a>
                 出身のエンジニア500名以上が開発に携わり、革新的なシステムとサービスを提供します。今後は、AIを活用した税務相談機能の導入、オンライン会議機能の強化、さらに税理士同士のネットワークを広げるためのプラットフォーム化を進めていきます。<br /><br />
@@ -130,13 +138,10 @@
                 また、税理士事務所の運営最適化を支援するために、**「TaxBar® クラウド管理システム」**
                 を導入予定。契約管理、請求処理、クライアントデータの統合管理を可能にし、事務作業の負担を軽減します。<br /><br />
 
-                今後のサービス拡充についての最新情報は、随時<a href="/news" class="text-blue-600 underline">こちら</a>にてお知らせいたします。<br />
-                ぜひ、今後の展開にご期待ください。<br />
-                <br />
                 <a href="/register/select" class="text-blue-600 underline">▶ TaxBar® に登録する</a>
             </p>
             <div class="text-center mt-4">
-                <img src="{{ asset('images/gest_v1.jpg') }}" alt="TaxBar® の今後の展望"
+                <img src="{{ asset('images/TaxBar_9.jpeg') }}" alt="TaxBar® の今後の展望"
                     class="mx-auto rounded-lg shadow-lg w-56">
             </div>
         </div>
