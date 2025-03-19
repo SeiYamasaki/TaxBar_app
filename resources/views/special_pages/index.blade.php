@@ -176,11 +176,80 @@
             }
         }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(() => { // JavaScriptの実行を遅延させてキャッシュの影響を減らす
+                const videos = [{
+                        title: "黒瀬公認会計士事務所",
+                        src: "https://www.canva.com/design/DAGhZo_GWrg/hfSCwsydYaIJJwePclnYqw/view?embed&fit=cover"
+                    },
+                    {
+                        title: "酒井公認会計士事務所",
+                        src: "https://www.canva.com/design/DAGiJeDkHbQ/aUWAACq034TrI4VClz6LSg/view?embed"
+                    }
+                ];
+
+                // 正しくシャッフルできているか確認
+                console.log("シャッフル前:", JSON.stringify(videos));
+                videos.sort(() => Math.random() - 0.5);
+                console.log("シャッフル後:", JSON.stringify(videos));
+
+                // `video-container` が正しく存在するか確認
+                const container = document.getElementById("video-container");
+                if (!container) {
+                    console.error("video-container が見つかりません");
+                    return;
+                }
+
+                // コンテナをクリアしてランダムに配置
+                container.innerHTML = "";
+
+                videos.forEach(video => {
+                    const videoHtml = `
+                    <h1 class="text-center">${video.title}</h1>
+                    <div class="iframe-wrapper">
+                        <div class="page-text prev-text">画像をクリックして前へ⏭️⏭️</div>
+                        <div class="iframe-container">
+                            <iframe loading="lazy"
+                                style="position: absolute; width: 100%; height: 100%; min-height: 60vh; top: 0; left: 0; border: none; padding: 0; margin: 0; border-radius: 8px; background: white;"
+                                src="${video.src}"
+                                allowfullscreen="allowfullscreen" allow="fullscreen">
+                            </iframe>
+                        </div>
+                        <div class="page-text next-text">⏪️⏪️画像をクリックして次へ</div>
+                    </div>`;
+                    container.innerHTML += videoHtml;
+                });
+
+            }, 300); // 300ms 遅延
+        });
+    </script>
 
     <div class="title-container" style="margin-top: 7em; background-color: white; padding: 5em; border-radius: 10px;">
         <!-- 左上にTaxBar® 特集ページを表示（レインボーグラデーション） -->
         <div
-            style="margin-bottom: 0.3em; font-size: 26px; font-weight: bold; 
+            style="margin-bottom: 0.3em; font-size: 50px; font-weight: bold;
+        background-image: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+        background-size: 400% 400%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: rainbowAnimation 6s infinite linear;">
+            TaxBar® 特集ページ
+        </div>
+
+        <!-- ランダム配置される動画 -->
+        <div id="video-container"></div>
+
+        <p class="text-center" style="margin-top: 0.5em; color: black; font-size: 20px; font-weight: bold;">
+            特別なコンテンツをお楽しみください！
+        </p>
+    </div>
+
+
+    {{-- <div class="title-container" style="margin-top: 7em; background-color: white; padding: 5em; border-radius: 10px;">
+        <!-- 左上にTaxBar® 特集ページを表示（レインボーグラデーション） -->
+        <div
+            style="margin-bottom: 0.3em; font-size: 50px; font-weight: bold; 
         background-image: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
         background-size: 400% 400%;
         -webkit-background-clip: text;
@@ -204,13 +273,31 @@
                     src="https://www.canva.com/design/DAGhZo_GWrg/hfSCwsydYaIJJwePclnYqw/view?embed&fit=cover"
                     allowfullscreen="allowfullscreen" allow="fullscreen">
                 </iframe>
+            </div>
+
+            <div class="page-text next-text">⏪️⏪️画像をクリックして次へ</div>
+        </div>
+        <!-- タイトル -->
+        <h1 class="text-center">
+            酒井公認会計士事務所
+        </h1>
+
+        <!-- iframeとナビゲーションのテキストを含むコンテナ -->
+        <div class="iframe-wrapper">
+            <div class="page-text prev-text">画像をクリックして前へ⏭️⏭️</div>
+
+            <div class="iframe-container">
+                <iframe loading="lazy"
+                    style="position: absolute; width: 100%; height: 100%; min-height: 60vh; top: 0; left: 0; border: none; padding: 0; margin: 0; border-radius: 8px; background: white;"
+                    src="https://www.canva.com/design/DAGiJeDkHbQ/aUWAACq034TrI4VClz6LSg/view?embed"
+                    allowfullscreen="allowfullscreen" allow="fullscreen">
+                </iframe>
 
             </div>
 
             <div class="page-text next-text">⏪️⏪️画像をクリックして次へ</div>
         </div>
-
         <p class="text-center" style="margin-top: 0.5em; color: black; font-size: 20px; font-weight: bold;">
             特別なコンテンツをお楽しみください！
         </p>
-    </div>
+    </div> --}}
