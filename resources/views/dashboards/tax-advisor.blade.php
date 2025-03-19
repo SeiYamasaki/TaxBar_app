@@ -17,7 +17,7 @@
     <div class="flex-1 ml-64">
         <!-- ヘッダー -->
         <header class="bg-transparent fixed top-0 right-0 left-64 z-40">
-            <div class="flex justify-end items-center h-16 px-6">
+            <div class="flex justify-end items-center px-6">
                 <!-- アカウントメニュー -->
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" class="flex items-center space-x-3 focus:outline-none">
@@ -47,7 +47,7 @@
 
                     <!-- ドロップダウンメニュー -->
                     <div x-show="open" @click.away="open = false"
-                        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[9999]">
                         <a href="{{ route('tax_advisor.profile.edit') }}"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             プロフィール編集
@@ -62,9 +62,9 @@
                                 </span>
                             @endif
                         </a>
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" action="{{ route('logout') }}" x-data>
                             @csrf
-                            <button type="submit"
+                            <button type="submit" @click.prevent="$el.closest('form').submit()"
                                 class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 ログアウト
                             </button>
@@ -77,7 +77,7 @@
         <x-parallax-header />
 
         <!-- メインコンテンツのパディング調整 -->
-        <div class="relative w-full pt-12 -mt-32 z-50">
+        <div class="relative w-full -mt-24 z-50">
             <main class="container mx-auto px-6 py-8">
                 <!-- ダッシュボードの概要 -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -88,7 +88,7 @@
                     </div>
 
                     <div class="bg-white rounded-lg shadow p-6">
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Tax Minutes 動画</h3>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">TaxMinutes® 動画</h3>
                         <p class="text-3xl font-bold text-green-600">{{ $taxMinutesVideos->count() }}</p>
                         <p class="text-sm text-gray-500">アップロード済み動画</p>
                     </div>

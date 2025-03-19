@@ -100,6 +100,7 @@ Route::middleware(['auth'])->group(function () {
     // 固定パスのルートを先に定義
     Route::get('/taxminivideos/manage', [TaxMinutesVideoController::class, 'manage'])->name('taxminivideos.manage');
 
+    Route::get('/taxminivideos/create', [TaxMinutesVideoController::class, 'create'])->name('taxminivideos.create');
     Route::post('/taxminivideos', [TaxMinutesVideoController::class, 'store'])->name('taxminivideos.store');
     Route::get('/taxminivideos/{video}/edit', [TaxMinutesVideoController::class, 'edit'])->name('taxminivideos.edit');
     Route::put('/taxminivideos/{video}', [TaxMinutesVideoController::class, 'update'])->name('taxminivideos.update');
