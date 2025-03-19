@@ -20,7 +20,8 @@
                     ダッシュボード
                 </a>
                 <!-- TaxBar®️ 予約 -->
-                <a href="#" class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('taxbar') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
+                <a href="#"
+                    class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('taxbar') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
@@ -52,7 +53,8 @@
                 </a>
 
                 <!-- クライアント管理 -->
-                <a href="#" class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('clients') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
+                <a href="#"
+                    class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('clients') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
@@ -62,7 +64,8 @@
                 </a>
 
                 <!-- ユーザー設定 -->
-                <a href="#" class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('user.settings') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
+                <a href="#"
+                    class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('user.settings') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
@@ -86,23 +89,60 @@
             </div>
         </nav>
 
-        <!-- ユーザー情報 -->
+        <!-- 契約プラン -->
+        <p class="text-center text-sm font-medium text-gray-700">
+            ご契約中プラン
+        </p>
         <div class="p-4 border-t">
             <div class="flex items-center">
-                @if ($user->taxAdvisor && $user->taxAdvisor->tax_accountant_photo)
-                    <img src="{{ asset('storage/' . $user->taxAdvisor->tax_accountant_photo) }}" alt="プロフィール画像"
-                        class="w-10 h-10 rounded-full">
-                @else
-                    <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
-                    </div>
-                @endif
-                <div class="ml-3">
-                    <p class="text-sm font-medium text-gray-700">{{ $user->name }}</p>
-                    <p class="text-xs text-gray-500">税理士</p>
+                <div class="flex-1">
+                    @if ($user->taxAdvisor && $user->taxAdvisor->subscriptionPlan)
+                        @php
+                            $plan = $user->taxAdvisor->subscriptionPlan;
+                            $colors = [
+                                'ゴールドプラン' => [
+                                    'bg' => 'bg-gradient-to-r from-yellow-500 to-yellow-600',
+                                    'badge' => 'bg-yellow-300 text-yellow-800',
+                                    'label' => 'おすすめ',
+                                ],
+                                'プラチナプラン' => [
+                                    'bg' => 'bg-gradient-to-r from-blue-500 to-blue-600',
+                                    'badge' => 'bg-blue-300 text-blue-800',
+                                    'label' => '人気',
+                                ],
+                                'VIPプラン' => [
+                                    'bg' => 'bg-gradient-to-r from-purple-600 to-purple-700',
+                                    'badge' => 'bg-purple-300 text-purple-800',
+                                    'label' => '最上級',
+                                ],
+                            ];
+                            $planColor = $colors[$plan->name] ?? [
+                                'bg' => 'bg-gray-500',
+                                'badge' => 'bg-gray-300 text-gray-800',
+                                'label' => '契約中',
+                            ];
+                        @endphp
+                        <div class="rounded-lg overflow-hidden shadow-sm">
+                            <div class="p-3 {{ $planColor['bg'] }} text-white">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm font-bold">{{ $plan->name }}</p>
+                                    <span class="text-xs {{ $planColor['badge'] }} px-2 py-1 rounded-full font-bold">
+                                        {{ $planColor['label'] }}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    @else
+                        <div class="rounded-lg overflow-hidden shadow-sm">
+                            <div class="p-3 bg-gray-500 text-white">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm font-bold">契約プランなし</p>
+                                </div>
+                                <p class="text-xs mt-1">プランを選択してください</p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

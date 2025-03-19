@@ -103,7 +103,7 @@ class DashboardController extends Controller
      */
     protected function taxAdvisorDashboard()
     {
-        $user = Auth::user();
+        $user = \App\Models\User::with(['taxAdvisor.subscriptionPlan'])->find(Auth::id());
         // 税理士特有のデータを取得
         $taxAdvisor = $user->taxAdvisor;
 

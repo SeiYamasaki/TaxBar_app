@@ -90,7 +90,6 @@
             <main class="container mx-auto px-6 py-8">
                 <div class="bg-white shadow-md rounded-lg p-8 max-w-6xl mx-auto">
                     <div class="flex justify-between items-center mb-6">
-                        <h1 class="text-3xl font-bold text-gray-800">動画管理</h1>
                         <a href="{{ route('dashboard') }}"
                             class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -100,6 +99,18 @@
                             </svg>
                             ダッシュボードに戻る
                         </a>
+
+                        <!-- 新規動画アップロードボタン -->
+
+                        <a href="{{ route('taxminivideos.create') }}"
+                            class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            新しい動画をアップロード
+                        </a>
+
                     </div>
 
                     <!-- フラッシュメッセージ表示 -->
@@ -193,7 +204,7 @@
                                                     <td class="py-3 px-4 border-b">
                                                         <div class="flex space-x-2">
                                                             <a href="{{ route('taxminivideos.edit', $video->id) }}"
-                                                                class="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded-lg text-sm flex items-center">
+                                                                class="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded-lg text-sm flex items-center">
                                                                 <svg class="w-4 h-4 mr-1" fill="none"
                                                                     stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path stroke-linecap="round"
@@ -246,18 +257,6 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
-
-                    <!-- 新規動画アップロードボタン -->
-                    <div class="flex justify-center mt-8">
-                        <a href="{{ route('taxminivideos.create') }}"
-                            class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                            </svg>
-                            新しい動画をアップロード
-                        </a>
                     </div>
                 </div>
             </main>

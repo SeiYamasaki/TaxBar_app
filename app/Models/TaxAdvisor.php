@@ -63,6 +63,6 @@ class TaxAdvisor extends Model
      */
     public function subscriptionPlan(): BelongsTo
     {
-        return $this->belongsTo(SubscriptionPlan::class);
+        return $this->belongsTo(SubscriptionPlan::class, 'subscription_plan_id');
     }
 }
