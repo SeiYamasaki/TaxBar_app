@@ -17,7 +17,7 @@
     <div class="flex-1 ml-64">
         <!-- ヘッダー -->
         <header class="bg-transparent fixed top-0 right-0 left-64 z-40">
-            <div class="flex justify-end items-center px-6">
+            <div class="flex justify-end items-center h-16 px-6">
                 <!-- アカウントメニュー -->
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" class="flex items-center space-x-3 focus:outline-none">
@@ -113,12 +113,12 @@
                             <p class="text-gray-500 text-center py-4">動画がありません</p>
                         @else
                             <div class="space-y-4">
-                                @foreach ($taxMinutesVideos->take(5) as $video)
+                                @foreach ($taxMinutesVideos->take(3) as $video)
                                     <div class="flex items-center space-x-4">
                                         <div class="flex-shrink-0">
-                                            @if ($video->thumbnail)
-                                                <img src="{{ asset('storage/' . $video->thumbnail) }}" alt="サムネイル"
-                                                    class="w-16 h-16 object-cover rounded">
+                                            @if ($video->thumbnail_path)
+                                                <img src="{{ asset('storage/' . $video->thumbnail_path) }}"
+                                                    alt="サムネイル" class="w-16 h-16 object-cover rounded">
                                             @else
                                                 <div
                                                     class="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
@@ -155,20 +155,34 @@
                             <p class="text-gray-500 text-center py-4">コメントはありません</p>
                         @else
                             <div class="space-y-4">
-                                @foreach ($pendingComments->merge($approvedComments)->take(5) as $comment)
+                                @foreach ($pendingComments->merge($approvedComments)->take(3) as $comment)
                                     <div class="flex items-center space-x-4">
                                         <div class="flex-shrink-0">
                                             <div
                                                 class="w-2 h-2 rounded-full {{ $comment->is_approved ? 'bg-green-500' : 'bg-yellow-500' }}">
                                             </div>
                                         </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-gray-900 truncate">
-                                                {{ $comment->display_name }}</p>
-                                            <p class="text-sm text-gray-500 truncate">
-                                                {{ Str::limit($comment->content, 50) }}</p>
-                                            <p class="text-xs text-gray-400">
-                                                {{ $comment->created_at->format('Y/m/d H:i') }}</p>
+                                        <div class="flex items-center space-x-2 min-w-0">
+                                            @if (optional($comment->user)->profile_photo)
+                                                <img src="{{ asset('storage/' . optional($comment->user)->profile_photo) }}"
+                                                    alt="ユーザーの写真" class="w-10 h-10 rounded-full">
+                                            @else
+                                                <svg class="w-12 h-12 text-gray-400 bg-gray-100 rounded-full border-2 border-gray-200 p-1"
+                                                    fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                            @endif
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate">
+                                                    {{ $comment->display_name }}</p>
+                                                <p class="text-sm text-gray-500 truncate">
+                                                    {{ Str::limit($comment->content, 50) }}</p>
+                                                <p class="text-xs text-gray-400">
+                                                    {{ $comment->created_at->format('Y/m/d H:i') }}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach

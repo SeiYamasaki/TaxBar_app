@@ -171,11 +171,11 @@ class TaxMinutesVideoController extends Controller
             $video->update($data);
             Log::info('動画更新成功: ID=' . $video->id);
 
-            return redirect()->route('dashboard')
+            return redirect()->route('taxminivideos.manage')
                 ->with('success', '動画が更新されました');
         } catch (\Exception $e) {
             Log::error('動画更新エラー: ' . $e->getMessage());
-            return redirect()->route('dashboard')
+            return redirect()->route('taxminivideos.manage')
                 ->with('error', '動画の更新に失敗しました: ' . $e->getMessage());
         }
     }
@@ -205,11 +205,11 @@ class TaxMinutesVideoController extends Controller
             $video->delete();
             Log::info('動画削除成功: ID=' . $video->id);
 
-            return redirect()->route('dashboard')
+            return redirect()->route('taxminivideos.manage')
                 ->with('success', '動画が削除されました');
         } catch (\Exception $e) {
             Log::error('動画削除エラー: ' . $e->getMessage());
-            return redirect()->route('dashboard')
+            return redirect()->route('taxminivideos.manage')
                 ->with('error', '動画の削除に失敗しました: ' . $e->getMessage());
         }
     }
