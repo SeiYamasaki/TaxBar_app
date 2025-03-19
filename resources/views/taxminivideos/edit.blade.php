@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="h-full">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>動画を編集 - TaxBar®️</title>
+    <title>TaxBar®️ | 動画を編集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     @vite('resources/css/app.css')
     <style>
@@ -79,10 +81,6 @@
             opacity: 0.8;
         }
 
-        .container {
-            margin-top: 100px !important;
-        }
-
         /* フェードインアニメーション */
         .animate-fade-in {
             animation: fadeIn 0.5s ease-in-out;
@@ -113,199 +111,262 @@
     </style>
 </head>
 
-<body class="flex h-screen bg-gray-100 font-sans">
+<body class="flex h-full bg-gray-100">
     <!-- サイドバー -->
-    @include('components.tax-advisor.sidebar')
-    <!-- パララックスヘッダー -->
-    @include('components.parallax-header')  
+    <x-tax-advisor.sidebar :user="auth()->user()" />
+
     <!-- メインコンテンツ -->
-    <main class="flex-1 container mt-12 mx-auto px-4 py-16 animate-fade-in">
-        <!-- 動画タイトル -->
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10 text-center">動画編集</h1>
+    <div class="flex-1 ml-64">
+        <!-- ヘッダー -->
+        <header class="bg-transparent fixed top-0 right-0 left-64 z-40">
+            <div class="flex justify-end items-center px-6">
+                <!-- アカウントメニュー -->
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="flex items-center space-x-3 focus:outline-none">
+                        <div class="flex items-center space-x-4">
+                            @if (auth()->user()->taxAdvisor && auth()->user()->taxAdvisor->tax_accountant_photo)
+                                <img src="{{ asset('storage/' . auth()->user()->taxAdvisor->tax_accountant_photo) }}"
+                                    alt="プロフィール画像" class="w-10 h-10 rounded-full">
+                            @else
+                                <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            @endif
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium text-white">{{ auth()->user()->name }}</span>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
 
-        @if (session('error'))
-            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 w-full max-w-4xl">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-            <!-- 左側：動画プレイヤー -->
-            <div class="lg:col-span-3 flex justify-center">
-                <div class="video-container bg-white rounded-lg shadow-lg overflow-hidden relative">
-                    <!-- 動画が読み込めない場合のプレースホルダー -->
-                    <div id="videoPlaceholder" class="video-placeholder">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                        </svg>
-                        <p>動画を読み込み中...</p>
-                    </div>
-
-                    <video id="videoPlayer" playsinline preload="metadata" class="w-full h-full" controls>
-                        <source src="{{ asset('storage/' . $video->video_path) }}" type="video/mp4">
-                        お使いのブラウザは動画再生に対応していません。
-                    </video>
-
-                    <!-- 再生ボタンのオーバーレイ -->
-                    <div id="playOverlay"
-                        class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-20 transition-all duration-300">
-                        <svg class="w-12 h-12 text-white opacity-80" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z" />
-                        </svg>
+                    <!-- ドロップダウンメニュー -->
+                    <div x-show="open" @click.away="open = false"
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[9999]">
+                        <a href="{{ route('tax_advisor.profile.edit') }}"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            プロフィール編集
+                        </a>
+                        <a href="{{ route('notifications.index') }}"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            通知
+                            @if (auth()->user()->unreadNotifications->count() > 0)
+                                <span
+                                    class="ml-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
+                                    {{ auth()->user()->unreadNotifications->count() }}
+                                </span>
+                            @endif
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}" x-data>
+                            @csrf
+                            <button type="submit" @click.prevent="$el.closest('form').submit()"
+                                class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                ログアウト
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-            <!-- 右側：動画詳細情報 -->
-            <div class="lg:col-span-2">
-                <form action="{{ route('taxminivideos.update', $video->id) }}" method="POST"
-                    enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="bg-white rounded-lg shadow-lg p-8">
-                        <h2 class="text-lg font-semibold text-gray-800 mb-5 border-b-2 border-indigo-500 pb-3">
-                            動画詳細</h2>
-                        <div class="space-y-5 text-gray-700 text-base">
-                            <div>
-                                <label for="title" class="flex items-center font-medium text-gray-900 mb-2">
-                                    <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
-                                        </path>
+        </header>
+
+        <x-parallax-header />
+
+        <!-- メインコンテンツのパディング調整 -->
+        <div class="relative w-full -mt-24 z-50">
+            <main class="container mx-auto px-6 py-8">
+
+                @if (session('error'))
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
+                        {{ session('error') }}
+                    </div>
+                @endif
+                <div class="mb-8">
+                    <h1 class="text-2xl font-bold text-gray-800">TaxMinutes®️ - 動画編集</h1>
+                    <p class="text-gray-600">動画を編集します</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- 左側：動画プレイヤー -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white rounded-lg shadow-lg p-4">
+                            <div class="video-container bg-black rounded-lg overflow-hidden relative">
+                                <!-- 動画が読み込めない場合のプレースホルダー -->
+                                <div id="videoPlaceholder" class="video-placeholder">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                     </svg>
-                                    タイトル:
-                                </label>
-                                <input type="text" name="title" id="title"
-                                    value="{{ old('title', $video->title) }}" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                @error('title')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div>
-                                <label for="description" class="flex items-center font-medium text-gray-900 mb-2">
-                                    <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M2 3h16a2 2 0 012 2v10a2 2 0 01-2-2H2a2 2 0 01-2-2V5a2 2 0 012-2zm1 2v10h14V5H3z" />
-                                    </svg>
-                                    説明:
-                                </label>
-                                <textarea name="description" id="description" rows="4"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">{{ old('description', $video->description) }}</textarea>
-                                @error('description')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <!-- サムネイル画像の設定 -->
-                            <div>
-                                <label for="thumbnail" class="flex items-center font-medium text-gray-900 mb-2">
-                                    <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                    サムネイル画像:
-                                </label>
-
-                                <!-- 現在のサムネイル表示 -->
-                                @if ($video->thumbnail_path)
-                                    <div class="mb-3 flex items-center">
-                                        <img src="{{ asset('storage/' . $video->thumbnail_path) }}" alt="現在のサムネイル"
-                                            class="w-24 h-16 object-cover rounded border">
-                                        <span class="ml-3 text-sm text-gray-600">現在設定されているサムネイル</span>
-                                    </div>
-                                @endif
-
-                                <input type="file" name="thumbnail" id="thumbnail" accept="image/*"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <p class="text-xs text-gray-500 mt-1">推奨サイズ: 720×1280px（9:16）。設定しない場合は現在のサムネイルが維持されます。
-                                </p>
-                                @error('thumbnail')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div class="flex items-center">
-                                <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M10 12a4 4 0 100-8 4 4 0 000 8zm0-10a6 6 0 016 6c0 2.22-1.21 4.16-3 5.2V15a1 1 0 01-1 1h-4a1 1 0 01-1-1v-1.8C5.21 12.16 4 10.22 4 8a6 6 0 016-6z" />
-                                </svg>
-                                <span class="font-medium text-gray-900">閲覧数:</span>
-                                <span class="ml-2">{{ $video->views }} 回</span>
-                            </div>
-                            <div class="flex items-center">
-                                <svg class="w-5 h-5 text-indigo-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M10 12a4 4 0 100-8 4 4 0 000 8zm0-10a6 6 0 016 6c0 2.22-1.21 4.16-3 5.2V15a1 1 0 01-1 1h-4a1 1 0 01-1-1v-1.8C5.21 12.16 4 10.22 4 8a6 6 0 016-6z" />
-                                </svg>
-                                コメント一覧
-                            </div>
-                            @foreach ($video->comments as $comment)
-                                <div class="mb-2">
-                                    @if (
-                                        $comment->user &&
-                                            $comment->user->isTaxAdvisor() &&
-                                            $comment->user->taxAdvisor &&
-                                            $comment->user->taxAdvisor->expert_photo_url)
-                                        <img src="{{ asset('storage/' . $comment->user->taxAdvisor->expert_photo_url) }}"
-                                            alt="ユーザーアイコン" class="w-8 h-8 rounded-full">
-                                    @else
-                                        <svg class="w-8 h-8 text-gray-400 bg-gray-100 rounded-full border-2 border-gray-200 p-1 mr-2"
-                                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                    @endif
-                                    <span
-                                        class="font-medium text-gray-900">{{ $comment->display_name ?? ($comment->user ? $comment->user->name : '一般') }}</span>
-                                    <span class="ml-2">{{ $comment->content }}</span>
+                                    <p>動画を読み込み中...</p>
                                 </div>
-                            @endforeach
+
+                                <video id="videoPlayer" playsinline preload="metadata" class="w-full h-full" controls>
+                                    <source src="{{ asset('storage/' . $video->video_path) }}" type="video/mp4">
+                                    お使いのブラウザは動画再生に対応していません。
+                                </video>
+
+                                <!-- 再生ボタンのオーバーレイ -->
+                                <div id="playOverlay"
+                                    class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-20 transition-all duration-300">
+                                    <svg class="w-12 h-12 text-white opacity-80" fill="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 text-center">
+                                <p class="text-sm text-gray-500">閲覧数: {{ $video->views }} 回</p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- アクションボタン -->
-                    <div class="mt-8 flex justify-between">
-                        <div class="flex space-x-2">
-                            <a href="{{ route('dashboard') }}"
-                                class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300">
-                                キャンセル
-                            </a>
-                            <button type="submit" name="action" value="update"
-                                class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300">
-                                更新する
-                            </button>
+                    <!-- 右側：動画詳細情報 -->
+                    <div class="lg:col-span-2">
+                        <form action="{{ route('taxminivideos.update', $video->id) }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="bg-white rounded-lg shadow-lg p-6">
+                                <h2 class="text-xl font-semibold text-gray-800 mb-6 border-b pb-2">動画詳細情報</h2>
+
+                                <div class="space-y-4">
+                                    <div>
+                                        <label for="title"
+                                            class="block text-sm font-medium text-gray-700 mb-1">タイトル</label>
+                                        <input type="text" name="title" id="title"
+                                            value="{{ old('title', $video->title) }}" required
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        @error('title')
+                                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div>
+                                        <label for="description"
+                                            class="block text-sm font-medium text-gray-700 mb-1">説明</label>
+                                        <textarea name="description" id="description" rows="4"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('description', $video->description) }}</textarea>
+                                        @error('description')
+                                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <!-- サムネイル画像の設定 -->
+                                    <div>
+                                        <label for="thumbnail"
+                                            class="block text-sm font-medium text-gray-700 mb-1">サムネイル画像</label>
+
+                                        <!-- 現在のサムネイル表示 -->
+                                        @if ($video->thumbnail_path)
+                                            <div class="mb-3 flex items-center">
+                                                <img src="{{ asset('storage/' . $video->thumbnail_path) }}"
+                                                    alt="現在のサムネイル" class="w-24 h-16 object-cover rounded border">
+                                                <span class="ml-3 text-sm text-gray-600">現在設定されているサムネイル</span>
+                                            </div>
+                                        @endif
+
+                                        <input type="file" name="thumbnail" id="thumbnail" accept="image/*"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <p class="text-xs text-gray-500 mt-1">推奨サイズ:
+                                            720×1280px（9:16）。設定しない場合は現在のサムネイルが維持されます。</p>
+                                        @error('thumbnail')
+                                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <!-- コメント一覧 -->
+                                    @if ($video->comments->count() > 0)
+                                        <div class="mt-6">
+                                            <h3 class="text-lg font-medium text-gray-800 mb-2">コメント一覧</h3>
+                                            <div class="space-y-3 max-h-60 overflow-y-auto p-2">
+                                                @foreach ($video->comments as $comment)
+                                                    <div class="bg-gray-50 p-3 rounded">
+                                                        <div class="flex items-start">
+                                                            @if (
+                                                                $comment->user &&
+                                                                    $comment->user->isTaxAdvisor() &&
+                                                                    $comment->user->taxAdvisor &&
+                                                                    $comment->user->taxAdvisor->expert_photo_url)
+                                                                <img src="{{ asset('storage/' . $comment->user->taxAdvisor->expert_photo_url) }}"
+                                                                    alt="ユーザーアイコン" class="w-8 h-8 rounded-full mr-2">
+                                                            @else
+                                                                <div
+                                                                    class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-2">
+                                                                    <svg class="w-4 h-4 text-gray-500"
+                                                                        fill="currentColor" viewBox="0 0 20 20">
+                                                                        <path fill-rule="evenodd"
+                                                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                                            clip-rule="evenodd"></path>
+                                                                    </svg>
+                                                                </div>
+                                                            @endif
+                                                            <div>
+                                                                <p class="font-medium text-sm">
+                                                                    {{ $comment->display_name ?? ($comment->user ? $comment->user->name : '一般') }}
+                                                                </p>
+                                                                <p class="text-gray-700 text-sm">
+                                                                    {{ $comment->content }}</p>
+                                                                <p class="text-xs text-gray-500 mt-1">
+                                                                    {{ $comment->created_at->format('Y/m/d H:i') }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <!-- アクションボタン -->
+                                <div class="mt-8 flex flex-col sm:flex-row sm:justify-between gap-4">
+                                    <button type="submit" name="action" value="update"
+                                        class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors">
+                                        更新する
+                                    </button>
+
+                                    <a href="{{ route('dashboard') }}"
+                                        class="w-full sm:w-auto text-center bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-lg transition-colors">
+                                        キャンセル
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- 削除ボタン -->
+                        <div class="mt-4">
+                            <form action="{{ route('taxminivideos.destroy', $video->id) }}" method="POST"
+                                onsubmit="return confirm('この動画を削除してもよろしいですか？');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" name="action" value="delete"
+                                    class="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                                    動画を削除
+                                </button>
+                            </form>
                         </div>
                     </div>
-            </div>
-            </form>
+                </div>
 
-            <form action="{{ route('taxminivideos.destroy', $video->id) }}" method="POST" class="mt-4"
-                onsubmit="return confirm('この動画を削除してもよろしいですか？');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" name="action" value="delete"
-                    class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300">
-                    削除
-                </button>
-            </form>
+                <!-- 一覧に戻るボタン -->
+                <div class="mt-8 text-center">
+                    <a href="{{ route('taxminivideos.manage') }}"
+                        class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-5 rounded-lg transition-colors">
+                        動画一覧に戻る
+                    </a>
+                </div>
+            </main>
         </div>
-        </div>
+    </div>
 
-        <!-- アクションボタン -->
-        <div class="mt-10 text-center">
-            <a href="{{ route('dashboard') }}"
-                class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all duration-300">
-                一覧に戻る
-            </a>
-        </div>
-    </main>
-
-    <!-- フッター -->
-    @include('components.footer')
+    @stack('scripts')
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

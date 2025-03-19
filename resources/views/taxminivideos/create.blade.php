@@ -87,7 +87,7 @@
                     <h1 class="text-2xl font-bold text-gray-800">TaxMinutes®️ - 動画投稿</h1>
                     <p class="text-gray-600">クライアント向けの動画を投稿します</p>
                 </div>
-                    <form x-data="{ showModal: false, title: '', description: '', visibility: 'public', videoSelected: false }" x-ref="form" action="{{ route('taxminivideos.store') }}" method="POST" enctype="multipart/form-data"
+                    <form x-ref="form" action="{{ route('taxminivideos.store') }}" method="POST" enctype="multipart/form-data"
                         class="space-y-6">
                         @csrf
 
@@ -95,7 +95,7 @@
                         <div>
                             <label for="title" class="block text-sm font-medium text-gray-700 mb-1">動画タイトル <span
                                     class="text-red-500">*</span></label>
-                            <input type="text" name="title" id="title" x-model="title"
+                            <input type="text" name="title" id="title"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('title') border-red-500 @enderror"
                                 required>
                             @error('title')
@@ -106,7 +106,7 @@
                         <!-- 動画説明 -->
                         <div>
                             <label for="description" class="block text-sm font-medium text-gray-700 mb-1">動画説明</label>
-                            <textarea name="description" id="description" rows="4" x-model="description"
+                            <textarea name="description" id="description" rows="4"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('description') border-red-500 @enderror"></textarea>
                             @error('description')
                                 <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -142,7 +142,7 @@
                         <div>
                             <label for="video" class="block text-sm font-medium text-gray-700 mb-1">動画ファイル <span
                                     class="text-red-500">*</span></label>
-                            <input type="file" name="video" id="video" accept="video/*" x-on:change="videoSelected = $event.target.files.length > 0"
+                            <input type="file" name="video" id="video" accept="video/*"
                                 class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 @error('video') border-red-500 @enderror"
                                 required>
                             <p class="mt-1 text-xs text-gray-500">対応形式: MP4, MOV, AVI, 最大サイズ: 100MB</p>
@@ -156,12 +156,12 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">公開設定</label>
                             <div class="flex items-center space-x-6">
                                 <div class="flex items-center">
-                                    <input type="radio" name="visibility" id="visibility_public" value="public" x-model="visibility"
+                                    <input type="radio" name="visibility" id="visibility_public" value="public"
                                         class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300" checked>
                                     <label for="visibility_public" class="ml-2 block text-sm text-gray-700">公開</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="radio" name="visibility" id="visibility_private" value="private" x-model="visibility"
+                                    <input type="radio" name="visibility" id="visibility_private" value="private"
                                         class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
                                     <label for="visibility_private"
                                         class="ml-2 block text-sm text-gray-700">非公開</label>
@@ -173,25 +173,8 @@
                         <div class="flex justify-end">
                             <a href="{{ route('taxminivideos.manage') }}"
                                 class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">キャンセル</a>
-                            <button type="button" @click.prevent="showModal = true" x-bind:disabled="title === '' || !videoSelected"
+                            <button type="submit"
                                 class="ml-3 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">動画を投稿</button>
-                        </div>
-
-                        <!-- Confirmation Modal -->
-                        <div x-show="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50" style="display: none;">
-                            <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full mx-4">
-                                <p class="mb-4">この内容でいいですか？</p>
-                                <div class="mb-4">
-                                    <p class="font-semibold">登録情報:</p>
-                                    <p>タイトル: <span x-text="title"></span></p>
-                                    <p>動画説明: <span x-text="description"></span></p>
-                                    <p>公開設定: <span x-text="visibility"></span></p>
-                                </div>
-                                <div class="flex justify-end">
-                                    <button @click="showModal = false" class="px-4 py-2 bg-gray-300 rounded-md mr-2">キャンセル</button>
-                                    <button @click="$refs.form.submit()" class="px-4 py-2 bg-blue-600 text-white rounded-md">確認</button>
-                                </div>
-                            </div>
                         </div>
                     </form>
                 </div>
