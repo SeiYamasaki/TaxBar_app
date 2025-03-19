@@ -149,4 +149,44 @@ Route::get('/taxbar-introduction', function () {
     return view('taxbar-introduction');
 })->name('taxbar-introduction');  // ここで名前を付ける
 
+//相続に関する重要なメッセージ
+Route::get('/inheritance-tax', function () {
+    return view('inheritance_tax');
+})->name('inheritance_tax');
+
+//相続手続きの流れ
+Route::get('/inheritance-process', function () {
+    return view('process');
+})->name('process');
+
+//相続の準備
+Route::get('/inheritance-preparation', function () {
+    return view('preparation');
+})->name('inheritance-preparation');
+
+//相続税計算
+Route::get('/tax-calculation', function () {
+    return view('tax_calculation');
+})->name('tax-calculation');
+
+//相続税の節税対策
+Route::get('/tax-saving', function () {
+    return view('tax_saving');
+})->name('tax-saving');
+
+//相続トラブルを防ぐ
+Route::get('/trouble-prevention', function () {
+    return view('trouble_prevention');
+})->name('trouble-prevention');
+
+//財産評価方法
+Route::get('/property-valuation', function () {
+    return view('property_valuation');
+})->name('property-valuation');
+
+//相続税納付方法
+Route::get('/tax-payment', function () {
+    return view('tax_payment');
+})->name('tax-payment');
+
 require __DIR__ . '/auth.php';
