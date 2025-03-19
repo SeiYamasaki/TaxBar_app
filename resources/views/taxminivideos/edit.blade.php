@@ -113,12 +113,13 @@
     </style>
 </head>
 
-<body class="bg-gray-100 font-sans">
-    <!-- ヘッダー -->
-    @include('components.header')
-
+<body class="flex h-screen bg-gray-100 font-sans">
+    <!-- サイドバー -->
+    @include('components.tax-advisor.sidebar')
+    <!-- パララックスヘッダー -->
+    @include('components.parallax-header')  
     <!-- メインコンテンツ -->
-    <main class="container mt-12 mx-auto px-4 py-16 animate-fade-in">
+    <main class="flex-1 container mt-12 mx-auto px-4 py-16 animate-fade-in">
         <!-- 動画タイトル -->
         <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10 text-center">動画編集</h1>
 

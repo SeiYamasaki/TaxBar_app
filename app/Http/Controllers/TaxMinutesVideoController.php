@@ -234,6 +234,6 @@ class TaxMinutesVideoController extends Controller
             ->latest()
             ->paginate(10); // ページネーション機能を追加
 
-        return view('taxminivideos.manage', compact('videos'));
+        return view('taxminivideos.manage', compact('videos', 'user'));
     }
 }
