@@ -89,10 +89,6 @@
         <div class="relative w-full -mt-24 z-50">
             <main class="container mx-auto px-6 py-8">
                 <div class="bg-white shadow-md rounded-lg p-8 max-w-6xl mx-auto">
-                    <div class="flex justify-center mb-6">
-                        <img src="/images/logotoumei.png" alt="ロゴ" class="h-24">
-                    </div>
-
                     <div class="flex justify-between items-center mb-6">
                         <h1 class="text-3xl font-bold text-gray-800">動画管理</h1>
                         <a href="{{ route('dashboard') }}"
