@@ -1,4 +1,3 @@
-<!-- サイドバー -->
 <aside class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-50">
     <div class="flex flex-col h-full">
         <!-- ロゴ -->
@@ -20,8 +19,8 @@
                     ダッシュボード
                 </a>
                 <!-- TaxBar®️ 予約 -->
-                <a href="{{ route('taxbar.reserve') }}"
-                    class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('taxbar') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
+                <a href="{{ route('calendar') }}"
+                    class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('calendar') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
@@ -92,15 +91,15 @@
                     @csrf
                     <button type="submit"
                         class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('logout') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v2a2 2 0 01-2 2H9a2 2 0 01-2-2v-2">
                             </path>
-                    </svg>
+                        </svg>
                         ログアウト
                     </button>
                 </form>
-            </div>            
+            </div>
         </nav>
 
         <!-- 契約プラン -->

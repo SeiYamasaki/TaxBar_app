@@ -8,6 +8,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body class="dashboard-body flex h-full bg-gray-100">
@@ -15,6 +20,52 @@
 
     <!-- メインコンテンツ -->
     <div class="flex-1 ml-64">
+        <!-- プラン契約モーダル -->
+        <div x-data="{ showModal: {{ !$user->taxAdvisor->subscription_plan_id ? 'true' : 'false' }} }" x-show="showModal" class="fixed inset-0 z-[9999] overflow-y-auto" x-cloak>
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 transition-opacity z-[9999]" aria-hidden="true">
+                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full relative z-[10000]">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div
+                                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <svg class="h-6 w-6 text-yellow-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                    プラン契約が必要です
+                                </h3>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-500">
+                                        この機能を利用するには、専門家プランの契約が必要です。料金プランをご確認ください。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <a href="{{ route('pricing.index') }}"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            料金プランを見る
+                        </a>
+                        <button type="button" @click="window.location.href='{{ url('/') }}'"
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                            閉じる
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ヘッダー -->
         <header class="bg-transparent fixed top-0 right-0 left-64 z-40">
             <div class="flex justify-end items-center h-16 px-6">
@@ -47,7 +98,7 @@
 
                     <!-- ドロップダウンメニュー -->
                     <div x-show="open" @click.away="open = false"
-                        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[9999]">
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[10000]">
                         <a href="{{ route('tax_advisor.profile.edit') }}"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             プロフィール編集
@@ -195,6 +246,13 @@
     </div>
 
     @stack('scripts')
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('modalData', () => ({
+                showModal: {{ !$user->taxAdvisor->subscription_plan_id ? 'true' : 'false' }}
+            }))
+        })
+    </script>
 </body>
 
 </html>

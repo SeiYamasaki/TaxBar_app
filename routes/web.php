@@ -17,6 +17,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TaxAdvisorController;
 use App\Http\Controllers\TaxAdvisorProfileController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\CalendarController;
 
 
 
@@ -71,6 +72,9 @@ Route::post('/register/individual', [RegisterController::class, 'registerIndivid
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified', \App\Http\Middleware\CheckSubscription::class])->name('dashboard');
+
+// カレンダールートを認証ミドルウェアの外に移動
+Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
