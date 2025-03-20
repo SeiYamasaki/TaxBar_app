@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
-<body class="flex h-full bg-gray-100">
+<body class="dashboard-body flex h-full bg-gray-100">
     <x-tax-advisor.sidebar :user="$user" />
 
     <!-- メインコンテンツ -->
@@ -82,9 +82,9 @@
                 <!-- ダッシュボードの概要 -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="bg-white rounded-lg shadow p-6">
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">クライアント数</h3>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">参加者数</h3>
                         <p class="text-3xl font-bold text-blue-600">0</p>
-                        <p class="text-sm text-gray-500">登録済みクライアント</p>
+                        <p class="text-sm text-gray-500">登録済み参加者</p>
                     </div>
 
                     <div class="bg-white rounded-lg shadow p-6">

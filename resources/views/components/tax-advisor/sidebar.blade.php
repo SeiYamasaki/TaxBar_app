@@ -27,10 +27,10 @@
                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                         </path>
                     </svg>
-                    TaxBar®️ 予約
+                    TaxBar® 予約
                 </a>
 
-                <!-- Tax Minutes 動画管理 -->
+                <!-- Tax Minutes® 動画管理 -->
                 <a href="{{ route('taxminivideos.manage') }}"
                     class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('taxminivideos.manage') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,7 +38,7 @@
                             d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
                         </path>
                     </svg>
-                    TaxMinutes® 管理
+                    Tax Minutes® 管理
                 </a>
 
                 <!-- コメント管理 -->
@@ -60,7 +60,7 @@
                             d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
                         </path>
                     </svg>
-                    クライアント管理
+                    参加者リスト
                 </a>
 
                 <!-- ユーザー設定 -->
@@ -86,7 +86,21 @@
                     </svg>
                     プラン変更
                 </a>
-            </div>
+
+                <!-- ログアウト -->
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('logout') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v2a2 2 0 01-2 2H9a2 2 0 01-2-2v-2">
+                            </path>
+                    </svg>
+                        ログアウト
+                    </button>
+                </form>
+            </div>            
         </nav>
 
         <!-- 契約プラン -->
