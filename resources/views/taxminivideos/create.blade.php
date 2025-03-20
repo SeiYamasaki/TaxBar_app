@@ -10,16 +10,19 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
-<body class="flex h-full bg-gray-100">
+<body class="flex h-full bg-gray-100 relative">
     <x-tax-advisor.sidebar :user="$user" />
 
     <!-- メインコンテンツ -->
-    <div class="flex-1 ml-64">
+    <div class="flex-1 md:ml-64 transition-all duration-300 ease-in-out">
         <!-- ヘッダー -->
-        <header class="bg-transparent fixed top-0 right-0 left-64 z-40">
-            <div class="flex justify-end items-center px-6">
+        <header class="fixed top-0 right-0 left-0 md:left-64 z-[999] bg-white md:bg-transparent shadow md:shadow-none">
+            <div class="flex justify-between items-center h-16 px-4 md:px-6">
+                <!-- モバイル用のハンバーガーメニューのスペース -->
+                <div class="w-10 md:hidden"></div>
+
                 <!-- アカウントメニュー -->
-                <div class="relative" x-data="{ open: false }">
+                <div class="relative ml-auto" x-data="{ open: false }">
                     <button @click="open = !open" class="flex items-center space-x-3 focus:outline-none">
                         <div class="flex items-center space-x-4">
                             @if ($user->taxAdvisor && $user->taxAdvisor->tax_accountant_photo)
@@ -36,7 +39,7 @@
                                 </div>
                             @endif
                             <div class="flex flex-col">
-                                <span class="text-sm font-medium text-white">{{ $user->name }}</span>
+                                <span class="text-sm font-medium text-gray-700 md:text-white">{{ $user->name }}</span>
                             </div>
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -83,12 +86,12 @@
 
                 <!-- 投稿フォーム -->
                 <div class="bg-white rounded-lg shadow p-6">
-                <div class="mb-8">
-                    <h1 class="text-2xl font-bold text-gray-800">TaxMinutes®️ - 動画投稿</h1>
-                    <p class="text-gray-600">クライアント向けの動画を投稿します</p>
-                </div>
-                    <form x-ref="form" action="{{ route('taxminivideos.store') }}" method="POST" enctype="multipart/form-data"
-                        class="space-y-6">
+                    <div class="mb-8">
+                        <h1 class="text-2xl font-bold text-gray-800">TaxMinutes®️ - 動画投稿</h1>
+                        <p class="text-gray-600">クライアント向けの動画を投稿します</p>
+                    </div>
+                    <form x-ref="form" action="{{ route('taxminivideos.store') }}" method="POST"
+                        enctype="multipart/form-data" class="space-y-6">
                         @csrf
 
                         <!-- 動画タイトル -->

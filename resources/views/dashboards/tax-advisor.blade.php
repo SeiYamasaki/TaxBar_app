@@ -15,11 +15,12 @@
     </style>
 </head>
 
-<body class="dashboard-body flex h-full bg-gray-100">
+<body class="dashboard-body flex h-full bg-gray-100 relative">
+    <!-- サイドバーコンポーネント：z-indexを60に変更 -->
     <x-tax-advisor.sidebar :user="$user" />
 
     <!-- メインコンテンツ -->
-    <div class="flex-1 ml-64">
+    <div class="flex-1 md:ml-64 transition-all duration-300 ease-in-out">
         <!-- プラン契約モーダル -->
         <div x-data="{ showModal: {{ !$user->taxAdvisor->subscription_plan_id ? 'true' : 'false' }} }" x-show="showModal" class="fixed inset-0 z-[9999] overflow-y-auto" x-cloak>
             <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
@@ -66,11 +67,14 @@
             </div>
         </div>
 
-        <!-- ヘッダー -->
-        <header class="bg-transparent fixed top-0 right-0 left-64 z-40">
-            <div class="flex justify-end items-center h-16 px-6">
-                <!-- アカウントメニュー -->
-                <div class="relative" x-data="{ open: false }">
+        <!-- ヘッダー：スマホ表示のときだけ有色に -->
+        <header class="fixed top-0 right-0 left-0 md:left-64 z-[999] bg-white md:bg-transparent shadow md:shadow-none">
+            <div class="flex justify-between items-center h-16 px-4 md:px-6">
+                <!-- モバイル用のハンバーガーメニューのスペース -->
+                <div class="w-10 md:hidden"></div>
+
+                <!-- アカウントメニュー - 右寄せ -->
+                <div class="relative ml-auto" x-data="{ open: false }">
                     <button @click="open = !open" class="flex items-center space-x-3 focus:outline-none">
                         <div class="flex items-center space-x-4">
                             @if ($user->taxAdvisor && $user->taxAdvisor->tax_accountant_photo)
@@ -87,7 +91,7 @@
                                 </div>
                             @endif
                             <div class="flex flex-col">
-                                <span class="text-sm font-medium text-white">{{ $user->name }}</span>
+                                <span class="text-sm font-medium text-gray-700 md:text-white">{{ $user->name }}</span>
                             </div>
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -97,7 +101,7 @@
                     </button>
 
                     <!-- ドロップダウンメニュー -->
-                    <div x-show="open" @click.away="open = false"
+                    <div x-show="open" x-cloak @click.away="open = false"
                         class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[10000]">
                         <a href="{{ route('tax_advisor.profile.edit') }}"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -125,13 +129,14 @@
             </div>
         </header>
 
+        <!-- パララックスヘッダー -->
         <x-parallax-header />
 
-        <!-- メインコンテンツのパディング調整 -->
-        <div class="relative w-full -mt-24 z-50">
-            <main class="container mx-auto px-6 py-8">
+        <!-- メインコンテンツのパディング調整：z-indexを上げる -->
+        <div class="relative w-full -mt-24 z-[50]">
+            <main class="container mx-auto px-4 sm:px-6 py-8">
                 <!-- ダッシュボードの概要 -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
                     <div class="bg-white rounded-lg shadow p-6">
                         <h3 class="text-lg font-semibold text-gray-700 mb-2">参加者数</h3>
                         <p class="text-3xl font-bold text-blue-600">0</p>
@@ -152,7 +157,7 @@
                 </div>
 
                 <!-- メインコンテンツ -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                     <!-- 最近の動画 -->
                     <div class="bg-white rounded-lg shadow p-6">
                         <div class="flex justify-between items-center mb-4">

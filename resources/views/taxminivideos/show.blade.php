@@ -53,6 +53,29 @@
                 transform: translateY(0);
             }
         }
+
+        /* モバイル対応の追加スタイル */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .comment-form,
+            .comments-list {
+                width: 100%;
+            }
+
+            .tax-advisor-info {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .tax-advisor-info img {
+                margin-bottom: 0.5rem;
+            }
+        }
     </style>
 </head>
 
