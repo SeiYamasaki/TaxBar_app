@@ -1,9 +1,29 @@
+<!-- モバイルハンバーガーボタン -->
+<div class="fixed top-4 left-4 z-[1000] block md:hidden">
+    <button id="sidebar-toggle" class="p-2 rounded-md text-gray-700 bg-white hover:bg-gray-100 focus:outline-none shadow">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+</div>
+
 <!-- サイドバー -->
-<aside class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-50">
+<aside id="sidebar"
+    class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-[950] transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto">
     <div class="flex flex-col h-full">
         <!-- ロゴ -->
         <div class="flex justify-center p-4 border-b">
             <img src="/images/logotoumei.png" alt="ロゴ" class="h-12">
+        </div>
+
+        <!-- 閉じるボタン（モバイル用） -->
+        <div class="absolute top-4 right-4 md:hidden">
+            <button id="sidebar-close" class="p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
         </div>
 
         <!-- メニュー -->
@@ -20,8 +40,8 @@
                     ダッシュボード
                 </a>
                 <!-- TaxBar®️ 予約 -->
-                <a href="#"
-                    class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('taxbar') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
+                <a href="{{ route('calendar') }}"
+                    class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('calendar') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
@@ -64,8 +84,8 @@
                 </a>
 
                 <!-- ユーザー設定 -->
-                <a href="#"
-                    class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('user.settings') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
+                <a href="{{ route('tax_advisor.profile.edit') }}"
+                    class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('tax_advisor.profile.edit') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
@@ -73,7 +93,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
-                    ユーザー設定
+                    プロフィール編集
                 </a>
 
                 <!-- プラン変更 -->
@@ -92,15 +112,15 @@
                     @csrf
                     <button type="submit"
                         class="flex items-center px-4 py-2 text-gray-600 {{ request()->routeIs('logout') ? 'bg-gray-100' : '' }} hover:bg-gray-100 rounded-lg">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v2a2 2 0 01-2 2H9a2 2 0 01-2-2v-2">
                             </path>
-                    </svg>
+                        </svg>
                         ログアウト
                     </button>
                 </form>
-            </div>            
+            </div>
         </nav>
 
         <!-- 契約プラン -->
@@ -162,3 +182,52 @@
         </div>
     </div>
 </aside>
+
+<!-- オーバーレイ（モバイル用） -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[949] hidden"></div>
+
+<script>
+    // サイドバーの開閉機能
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarClose = document.getElementById('sidebar-close');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        // 初期状態の設定
+        if (window.innerWidth < 768) {
+            sidebar.classList.add('-translate-x-full');
+        } else {
+            sidebar.classList.remove('-translate-x-full');
+        }
+
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        });
+
+        sidebarClose.addEventListener('click', function() {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        });
+
+        overlay.addEventListener('click', function() {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        });
+
+        // ウィンドウサイズ変更時の処理
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) { // md breakpoint
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
+    });
+</script>

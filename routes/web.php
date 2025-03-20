@@ -17,6 +17,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TaxAdvisorController;
 use App\Http\Controllers\TaxAdvisorProfileController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\CalendarController;
 
 
 
@@ -72,6 +73,9 @@ Route::post('/register/individual', [RegisterController::class, 'registerIndivid
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified', \App\Http\Middleware\CheckSubscription::class])->name('dashboard');
 
+// カレンダールートを認証ミドルウェアの外に移動
+Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -89,6 +93,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/dashboard/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
     Route::post('/dashboard/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-as-read');
+
+    // TaxBar® 予約関連のルート
+    Route::get('/taxbar/reserve', [DashboardController::class, 'taxBarReserve'])->name('taxbar.reserve');
 });
 
 // コメント投稿ルート（認証不要）

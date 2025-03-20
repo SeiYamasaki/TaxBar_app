@@ -7,6 +7,22 @@
     <title>TaxBar&reg | TaxMinutes&reg</title>
     <link rel="stylesheet" href="{{ asset('css/taxministyle.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 
 <body>

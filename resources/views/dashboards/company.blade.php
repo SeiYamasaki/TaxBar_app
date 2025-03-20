@@ -161,6 +161,18 @@
                     </div>
                 </div>
             </div>
+
+            <!-- カレンダーセクション -->
+            <div class="col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">スケジュール管理</h3>
+                    </div>
+                    <div class="card-body">
+                        <x-calendar :events="$events" />
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 

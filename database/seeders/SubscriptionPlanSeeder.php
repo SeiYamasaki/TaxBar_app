@@ -28,6 +28,7 @@ class SubscriptionPlanSeeder extends Seeder
             [
                 'name'                   => 'ゴールドプラン',
                 'price'                  => 50000,   // 月額
+                'zoom_meeting_duration'  => 40,      // ミーティング時間
                 'description'            => 'ゴールドプラン - 月額50,000円',
                 'duration_days'          => 365,     // 1年
                 'features'               => [
@@ -49,6 +50,7 @@ class SubscriptionPlanSeeder extends Seeder
             [
                 'name'                   => 'プラチナプラン',
                 'price'                  => 70000,
+                'zoom_meeting_duration'  => 60,      // ミーティング時間
                 'description'            => 'プラチナプラン - 月額70,000円',
                 'duration_days'          => 365,
                 'features'               => [
@@ -70,6 +72,7 @@ class SubscriptionPlanSeeder extends Seeder
             [
                 'name'                   => 'VIPプラン',
                 'price'                  => 100000,
+                'zoom_meeting_duration'  => null,      // ミーティング時間
                 'description'            => 'VIPプラン - 月額100,000円',
                 'duration_days'          => 365,
                 'features'               => [
@@ -96,6 +99,7 @@ class SubscriptionPlanSeeder extends Seeder
                 'id' => $index + 1,
                 'name' => $plan['name'],
                 'price' => $plan['price'],
+                'zoom_meeting_duration' => $plan['zoom_meeting_duration'],
                 'description' => $plan['description'],
                 'features' => $plan['features'],
                 'duration_days' => $plan['duration_days'],

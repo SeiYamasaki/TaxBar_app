@@ -8,16 +8,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 </head>
 
-<body class="flex h-full bg-gray-100">
+<body class="flex h-full bg-gray-100 relative">
     <x-tax-advisor.sidebar :user="auth()->user()" />
 
     <!-- メインコンテンツ -->
-    <div class="flex-1 ml-64">
+    <div class="flex-1 md:ml-64 transition-all duration-300 ease-in-out">
         <!-- ヘッダー -->
-        <header class="bg-transparent fixed top-0 right-0 left-64 z-40">
-            <div class="flex justify-end items-center px-6">
+        <header class="fixed top-0 right-0 left-0 md:left-64 z-[999] bg-white md:bg-transparent shadow md:shadow-none">
+            <div class="flex justify-between items-center h-16 px-4 md:px-6">
+                <!-- モバイル用のハンバーガーメニューのスペース -->
+                <div class="w-10 md:hidden"></div>
+
                 <!-- 通知ベル -->
                 <div class="relative mr-4" x-data="{ notificationOpen: false }">
                     <button @click="notificationOpen = !notificationOpen"
@@ -36,7 +44,7 @@
                     </button>
 
                     <!-- 通知ドロップダウン -->
-                    <div x-show="notificationOpen" @click.away="notificationOpen = false"
+                    <div x-show="notificationOpen" x-cloak @click.away="notificationOpen = false"
                         class="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-1 z-[9999]">
                         <div class="px-4 py-2 border-b border-gray-100">
                             <h3 class="text-sm font-semibold text-gray-900">通知</h3>
@@ -86,13 +94,18 @@
                                 </div>
                             @endif
                             <div class="flex flex-col">
-                                <span class="text-sm font-medium text-white">{{ auth()->user()->name }}</span>
+                                <span
+                                    class="text-sm font-medium text-gray-700 md:text-white">{{ auth()->user()->name }}</span>
                             </div>
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
                         </div>
                     </button>
 
                     <!-- ドロップダウンメニュー -->
-                    <div x-show="open" @click.away="open = false"
+                    <div x-show="open" x-cloak @click.away="open = false"
                         class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[9999]">
                         <a href="{{ route('tax_advisor.profile.edit') }}"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">プロフィール編集</a>
@@ -112,7 +125,7 @@
 
         <!-- メインコンテンツのパディング調整 -->
         <div class="relative w-full -mt-24 z-50">
-            <main class="container mx-auto px-6 py-8">
+            <main class="container mx-auto px-4 sm:px-6 py-8">
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <div class="flex justify-between items-center mb-6">
                         <h1 class="text-2xl font-bold text-gray-900">通知一覧</h1>
@@ -187,7 +200,8 @@
                                                     {{ $notification->created_at->format('Y年m月d日 H:i') }}</p>
                                             </div>
                                             @unless ($notification->read_at)
-                                                <form action="{{ route('notifications.mark-as-read', $notification->id) }}"
+                                                <form
+                                                    action="{{ route('notifications.mark-as-read', $notification->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     <button type="submit"

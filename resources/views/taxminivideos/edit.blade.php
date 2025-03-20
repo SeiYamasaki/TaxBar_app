@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     @vite('resources/css/app.css')
     <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
         .video-container {
             position: relative;
             width: 100%;
@@ -111,17 +115,20 @@
     </style>
 </head>
 
-<body class="flex h-full bg-gray-100">
+<body class="flex h-full bg-gray-100 relative">
     <!-- サイドバー -->
     <x-tax-advisor.sidebar :user="auth()->user()" />
 
     <!-- メインコンテンツ -->
-    <div class="flex-1 ml-64">
+    <div class="flex-1 md:ml-64 transition-all duration-300 ease-in-out">
         <!-- ヘッダー -->
-        <header class="bg-transparent fixed top-0 right-0 left-64 z-40">
-            <div class="flex justify-end items-center px-6">
-                <!-- アカウントメニュー -->
-                <div class="relative" x-data="{ open: false }">
+        <header class="fixed top-0 right-0 left-0 md:left-64 z-[999] bg-white md:bg-transparent shadow md:shadow-none">
+            <div class="flex justify-between items-center h-16 px-4 md:px-6">
+                <!-- モバイル用のハンバーガーメニューのスペース -->
+                <div class="w-10 md:hidden"></div>
+
+                <!-- アカウントメニュー - 右寄せ -->
+                <div class="relative ml-auto" x-data="{ open: false }">
                     <button @click="open = !open" class="flex items-center space-x-3 focus:outline-none">
                         <div class="flex items-center space-x-4">
                             @if (auth()->user()->taxAdvisor && auth()->user()->taxAdvisor->tax_accountant_photo)
@@ -138,7 +145,8 @@
                                 </div>
                             @endif
                             <div class="flex flex-col">
-                                <span class="text-sm font-medium text-white">{{ auth()->user()->name }}</span>
+                                <span
+                                    class="text-sm font-medium text-gray-700 md:text-white">{{ auth()->user()->name }}</span>
                             </div>
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -148,7 +156,7 @@
                     </button>
 
                     <!-- ドロップダウンメニュー -->
-                    <div x-show="open" @click.away="open = false"
+                    <div x-show="open" x-cloak @click.away="open = false"
                         class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[9999]">
                         <a href="{{ route('tax_advisor.profile.edit') }}"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -179,8 +187,8 @@
         <x-parallax-header />
 
         <!-- メインコンテンツのパディング調整 -->
-        <div class="relative w-full -mt-24 z-50">
-            <main class="container mx-auto px-6 py-8">
+        <div class="relative w-full z-50">
+            <main class="container mx-auto px-4 sm:px-6 py-8">
 
                 @if (session('error'))
                     <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
@@ -188,7 +196,7 @@
                     </div>
                 @endif
                 <div class="mb-8">
-                    <h1 class="text-2xl font-bold text-gray-800">TaxMinutes®️ - 動画編集</h1>
+                    <h1 class="text-2xl font-bold text-gray-800">Tax Minutes® - 動画編集</h1>
                     <p class="text-gray-600">動画を編集します</p>
                 </div>
 
@@ -356,17 +364,32 @@
                 </div>
 
                 <!-- 一覧に戻るボタン -->
-                <div class="mt-8 text-center">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
                     <a href="{{ route('taxminivideos.manage') }}"
-                        class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-5 rounded-lg transition-colors">
-                        動画一覧に戻る
+                        class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center justify-center md:justify-start w-full md:w-auto">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        一覧に戻る
                     </a>
                 </div>
             </main>
         </div>
     </div>
 
-    @stack('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('scroll', function() {
+                const parallax = document.querySelector('#parallax-bg');
+                if (parallax) {
+                    const scrolled = window.pageYOffset;
+                    parallax.style.transform = 'translateY(' + (scrolled * 0.5) + 'px)';
+                }
+            });
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

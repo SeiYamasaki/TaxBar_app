@@ -18,17 +18,20 @@
     </style>
 </head>
 
-<body class="flex h-full bg-gray-100">
+<body class="flex h-full bg-gray-100 relative">
     <!-- サイドバー -->
     <x-tax-advisor.sidebar :user="$user" />
 
     <!-- メインコンテンツ -->
-    <div class="flex-1 ml-64">
+    <div class="flex-1 md:ml-64 transition-all duration-300 ease-in-out">
         <!-- ヘッダー -->
-        <header class="bg-transparent fixed top-0 right-0 left-64 z-40">
-            <div class="flex justify-end items-center h-16 px-6">
+        <header class="fixed top-0 right-0 left-0 md:left-64 z-[999] bg-white md:bg-transparent shadow md:shadow-none">
+            <div class="flex justify-between items-center h-16 px-4 md:px-6">
+                <!-- モバイル用のハンバーガーメニューのスペース -->
+                <div class="w-10 md:hidden"></div>
+
                 <!-- アカウントメニュー -->
-                <div class="relative" id="accountMenu">
+                <div class="relative ml-auto" id="accountMenu">
                     <button id="menuToggle" class="flex items-center space-x-3 focus:outline-none">
                         <div class="flex items-center space-x-4">
                             @if ($user->taxAdvisor && $user->taxAdvisor->tax_accountant_photo)
@@ -45,7 +48,7 @@
                                 </div>
                             @endif
                             <div class="flex flex-col">
-                                <span class="text-sm font-medium text-white">{{ $user->name }}</span>
+                                <span class="text-sm font-medium text-gray-700 md:text-white">{{ $user->name }}</span>
                             </div>
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -89,9 +92,9 @@
         <div class="relative w-full -mt-24 z-50">
             <main class="container mx-auto px-6 py-8">
                 <div class="bg-white shadow-md rounded-lg p-8 max-w-6xl mx-auto">
-                    <div class="flex justify-between items-center mb-6">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
                         <a href="{{ route('dashboard') }}"
-                            class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center">
+                            class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center justify-center md:justify-start w-full md:w-auto">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -103,7 +106,7 @@
                         <!-- 新規動画アップロードボタン -->
 
                         <a href="{{ route('taxminivideos.create') }}"
-                            class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded flex items-center">
+                            class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded flex items-center justify-center md:justify-start w-full md:w-auto">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -141,10 +144,10 @@
                                             <tr class="bg-gray-100 text-gray-700">
                                                 <th class="py-3 px-4 border-b text-left">サムネイル</th>
                                                 <th class="py-3 px-4 border-b text-left">タイトル</th>
-                                                <th class="py-3 px-4 border-b text-left">説明</th>
-                                                <th class="py-3 px-4 border-b text-left">投稿日</th>
-                                                <th class="py-3 px-4 border-b text-left">再生数</th>
-                                                <th class="py-3 px-4 border-b text-left">コメント数</th>
+                                                <th class="py-3 px-4 border-b text-left md:table-cell hidden">説明</th>
+                                                <th class="py-3 px-4 border-b text-left md:table-cell hidden">投稿日</th>
+                                                <th class="py-3 px-4 border-b text-left md:table-cell hidden">再生数</th>
+                                                <th class="py-3 px-4 border-b text-left md:table-cell hidden">コメント数</th>
                                                 <th class="py-3 px-4 border-b text-left">アクション</th>
                                             </tr>
                                         </thead>
@@ -171,14 +174,37 @@
                                                     </td>
                                                     <td class="py-3 px-4 border-b">
                                                         <div class="font-medium">{{ $video->title }}</div>
+                                                        <!-- モバイル向けの追加情報 -->
+                                                        <div class="md:hidden mt-2 space-y-1 text-xs text-gray-500">
+                                                            <div>{{ $video->created_at->format('Y/m/d') }}</div>
+                                                            <div class="flex items-center">
+                                                                <svg class="w-3 h-3 text-gray-400 mr-1"
+                                                                    fill="currentColor" viewBox="0 0 20 20">
+                                                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                                                                        clip-rule="evenodd"></path>
+                                                                </svg>
+                                                                {{ $video->views }}
+                                                            </div>
+                                                            <div class="flex items-center">
+                                                                <svg class="w-3 h-3 text-gray-400 mr-1"
+                                                                    fill="currentColor" viewBox="0 0 20 20">
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
+                                                                        clip-rule="evenodd"></path>
+                                                                </svg>
+                                                                {{ $video->comments->count() }}
+                                                            </div>
+                                                        </div>
                                                     </td>
-                                                    <td class="py-3 px-4 border-b">
+                                                    <td class="py-3 px-4 border-b md:table-cell hidden">
                                                         <div class="max-w-xs truncate">{{ $video->description }}</div>
                                                     </td>
-                                                    <td class="py-3 px-4 border-b">
+                                                    <td class="py-3 px-4 border-b md:table-cell hidden">
                                                         {{ $video->created_at->format('Y/m/d') }}
                                                     </td>
-                                                    <td class="py-3 px-4 border-b">
+                                                    <td class="py-3 px-4 border-b md:table-cell hidden">
                                                         <div class="flex items-center">
                                                             <svg class="w-4 h-4 text-gray-400 mr-1"
                                                                 fill="currentColor" viewBox="0 0 20 20">
@@ -190,7 +216,7 @@
                                                             {{ $video->views }}
                                                         </div>
                                                     </td>
-                                                    <td class="py-3 px-4 border-b">
+                                                    <td class="py-3 px-4 border-b md:table-cell hidden">
                                                         <div class="flex items-center">
                                                             <svg class="w-4 h-4 text-gray-400 mr-1"
                                                                 fill="currentColor" viewBox="0 0 20 20">
@@ -202,9 +228,10 @@
                                                         </div>
                                                     </td>
                                                     <td class="py-3 px-4 border-b">
-                                                        <div class="flex space-x-2">
+                                                        <div
+                                                            class="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0">
                                                             <a href="{{ route('taxminivideos.edit', $video->id) }}"
-                                                                class="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded-lg text-sm flex items-center">
+                                                                class="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded-lg text-sm flex items-center justify-center">
                                                                 <svg class="w-4 h-4 mr-1" fill="none"
                                                                     stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path stroke-linecap="round"
@@ -221,7 +248,7 @@
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit"
-                                                                    class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg text-sm flex items-center">
+                                                                    class="w-full bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg text-sm flex items-center justify-center">
                                                                     <svg class="w-4 h-4 mr-1" fill="none"
                                                                         stroke="currentColor" viewBox="0 0 24 24">
                                                                         <path stroke-linecap="round"
