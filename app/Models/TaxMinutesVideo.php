@@ -19,10 +19,10 @@ class TaxMinutesVideo extends Model
         'user_id',
         'title',
         'description',
-        'prefecture',
         'video_path',
         'thumbnail_path',
         'views',
+        'visibility',
     ];
 
     /**

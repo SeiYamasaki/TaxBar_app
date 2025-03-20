@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Http\Controllers\TaxAdvisorController;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,5 +23,8 @@ class AppServiceProvider extends ServiceProvider
     {
         // 税理士一覧をフッターに表示するためのビューコンポーザーを登録
         TaxAdvisorController::registerViewComposer();
+
+        // コンポーネントの登録
+        Blade::componentNamespace('App\\View\\Components', 'tax-advisor');
     }
 }

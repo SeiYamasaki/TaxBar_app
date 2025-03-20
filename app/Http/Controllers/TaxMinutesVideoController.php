@@ -31,19 +31,6 @@ class TaxMinutesVideoController extends Controller
     }
 
     /**
-     * 動画を都道府県でフィルター
-     */
-    public function byPrefecture($prefecture)
-    {
-        $videos = TaxMinutesVideo::where('prefecture', $prefecture)
-            ->with(['user', 'user.taxAdvisor'])
-            ->latest()
-            ->paginate(12);
-
-        return view('taxminivideos.index', compact('videos', 'prefecture'));
-    }
-
-    /**
      * 動画詳細ページを表示
      */
     public function show(TaxMinutesVideo $video)
@@ -60,6 +47,12 @@ class TaxMinutesVideoController extends Controller
         $video->increment('views');
 
         return view('taxminivideos.show', compact('video'));
+    }
+
+    public function create()
+    {
+        $user = Auth::user();
+        return view('taxminivideos.create', compact('user'));
     }
 
     /**
@@ -109,10 +102,10 @@ class TaxMinutesVideoController extends Controller
 
             Log::info('動画アップロード成功: ID=' . $video->id);
 
-            return back()->with('success', '動画がアップロードされました');
+            return redirect()->route('taxminivideos.manage')->with('success', '動画がアップロードされました');
         } catch (\Exception $e) {
             Log::error('動画アップロードエラー: ' . $e->getMessage());
-            return back()->withInput()->with('error', '動画のアップロードに失敗しました: ' . $e->getMessage());
+            return redirect()->route('taxminivideos.manage')->withInput()->with('error', '動画のアップロードに失敗しました: ' . $e->getMessage());
         }
     }
 
@@ -178,11 +171,11 @@ class TaxMinutesVideoController extends Controller
             $video->update($data);
             Log::info('動画更新成功: ID=' . $video->id);
 
-            return redirect()->route('dashboard')
+            return redirect()->route('taxminivideos.manage')
                 ->with('success', '動画が更新されました');
         } catch (\Exception $e) {
             Log::error('動画更新エラー: ' . $e->getMessage());
-            return redirect()->route('dashboard')
+            return redirect()->route('taxminivideos.manage')
                 ->with('error', '動画の更新に失敗しました: ' . $e->getMessage());
         }
     }
@@ -212,11 +205,11 @@ class TaxMinutesVideoController extends Controller
             $video->delete();
             Log::info('動画削除成功: ID=' . $video->id);
 
-            return redirect()->route('dashboard')
+            return redirect()->route('taxminivideos.manage')
                 ->with('success', '動画が削除されました');
         } catch (\Exception $e) {
             Log::error('動画削除エラー: ' . $e->getMessage());
-            return redirect()->route('dashboard')
+            return redirect()->route('taxminivideos.manage')
                 ->with('error', '動画の削除に失敗しました: ' . $e->getMessage());
         }
     }
@@ -234,6 +227,6 @@ class TaxMinutesVideoController extends Controller
             ->latest()
             ->paginate(10); // ページネーション機能を追加
 
-        return view('taxminivideos.manage', compact('videos'));
+        return view('taxminivideos.manage', compact('videos', 'user'));
     }
 }
