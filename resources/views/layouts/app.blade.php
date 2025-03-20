@@ -17,6 +17,11 @@
     {{-- <!-- FontAwesome -->登録フォームのデザイン --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
+    <!-- FullCalendar CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.11/main.min.css' rel='stylesheet' />
+    <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.11/main.min.css' rel='stylesheet' />
+    <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.11/main.min.css' rel='stylesheet' />
+
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <!-- ✅ Alpine.js を追加 -->
@@ -71,6 +76,12 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- FullCalendar JavaScript -->
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.11/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.11/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.11/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.11/main.min.js'></script>
 </head>
 
 <!-- ✅ `@yield('body-class')` で特定のページだけクラスを変更可能 -->

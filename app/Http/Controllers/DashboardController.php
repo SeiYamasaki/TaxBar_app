@@ -107,6 +107,20 @@ class DashboardController extends Controller
         // 税理士特有のデータを取得
         $taxAdvisor = $user->taxAdvisor;
 
+        // カレンダーイベントデータを準備
+        $events = [
+            [
+                'title' => 'サンプルイベント1',
+                'start' => now()->format('Y-m-d'),
+                'end' => now()->addDays(1)->format('Y-m-d'),
+            ],
+            [
+                'title' => 'サンプルイベント2',
+                'start' => now()->addDays(3)->format('Y-m-d'),
+                'end' => now()->addDays(4)->format('Y-m-d'),
+            ],
+        ];
+
         // ユーザーが投稿した動画を取得
         $taxMinutesVideos = \App\Models\TaxMinutesVideo::where('user_id', $user->id)->latest()->get();
 
@@ -161,7 +175,7 @@ class DashboardController extends Controller
             ->take(5) // 最新5件のみ
             ->get();
 
-        return view('dashboards.tax-advisor', compact('user', 'taxAdvisor', 'pendingComments', 'approvedComments', 'taxMinutesVideos'));
+        return view('dashboards.tax-advisor', compact('user', 'taxAdvisor', 'pendingComments', 'approvedComments', 'taxMinutesVideos', 'events'));
     }
 
     /**
@@ -172,7 +186,16 @@ class DashboardController extends Controller
         $user = Auth::user();
         // 企業特有のデータを取得
 
-        return view('dashboards.company', compact('user'));
+        // カレンダーイベントデータを準備
+        $events = [
+            [
+                'title' => '会社イベント1',
+                'start' => now()->format('Y-m-d'),
+                'end' => now()->addDays(1)->format('Y-m-d'),
+            ],
+        ];
+
+        return view('dashboards.company', compact('user', 'events'));
     }
 
     /**
@@ -183,6 +206,15 @@ class DashboardController extends Controller
         $user = Auth::user();
         // 個人特有のデータを取得
 
-        return view('dashboards.individual', compact('user'));
+        // カレンダーイベントデータを準備
+        $events = [
+            [
+                'title' => '個人イベント1',
+                'start' => now()->format('Y-m-d'),
+                'end' => now()->addDays(1)->format('Y-m-d'),
+            ],
+        ];
+
+        return view('dashboards.individual', compact('user', 'events'));
     }
 }

@@ -89,6 +89,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/dashboard/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
     Route::post('/dashboard/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-as-read');
+
+    // TaxBar® 予約関連のルート
+    Route::get('/taxbar/reserve', [DashboardController::class, 'taxBarReserve'])->name('taxbar.reserve');
 });
 
 // コメント投稿ルート（認証不要）
