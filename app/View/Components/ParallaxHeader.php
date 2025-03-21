@@ -10,7 +10,7 @@ class ParallaxHeader extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public $backgroundImage = '/images/bar_7.jpeg'
+        public $backgroundImage = '/images/bar_8.jpeg'
     ) {}
 
     /**

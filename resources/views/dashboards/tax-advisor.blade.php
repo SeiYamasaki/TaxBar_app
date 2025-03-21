@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaxBar®️ | 税理士ダッシュボード</title>
+    <title>TaxBar® | 税理士ダッシュボード</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -136,49 +136,51 @@
         <div class="relative w-full -mt-24 z-[50]">
             <main class="container mx-auto px-4 sm:px-6 py-8">
                 <!-- ダッシュボードの概要 -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">参加者数</h3>
-                        <p class="text-3xl font-bold text-blue-600">0</p>
-                        <p class="text-sm text-gray-500">登録済み参加者</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 lg:gap-8 mb-8">
+                    <div class="bg-white rounded-lg shadow p-8">
+                        <h3 class="text-2xl font-bold text-gray-700 mb-2">参加者数</h3>
+                        <p class="text-5xl font-extrabold text-blue-600">0</p>
+                        <p class="text-base text-gray-500">登録済み参加者</p>
                     </div>
 
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">TaxMinutes® 動画</h3>
-                        <p class="text-3xl font-bold text-green-600">{{ $taxMinutesVideos->count() }}</p>
-                        <p class="text-sm text-gray-500">アップロード済み動画</p>
+                    <div class="bg-white rounded-lg shadow p-8">
+                        <h3 class="text-2xl font-bold text-gray-700 mb-2">TaxMinutes® 動画</h3>
+                        <p class="text-5xl font-extrabold text-green-600">{{ $taxMinutesVideos->count() }}</p>
+                        <p class="text-base text-gray-500">アップロード済み動画</p>
                     </div>
 
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">未承認コメント</h3>
-                        <p class="text-3xl font-bold text-yellow-600">{{ count($pendingComments) }}</p>
-                        <p class="text-sm text-gray-500">承認待ちのコメント</p>
+
+                    <div class="bg-white rounded-lg shadow p-8">
+                        <h3 class="text-2xl font-bold text-gray-700 mb-2">未承認コメント</h3>
+                        <p class="text-5xl font-extrabold text-yellow-600">{{ count($pendingComments) }}</p>
+                        <p class="text-base text-gray-500">承認待ちのコメント</p>
                     </div>
                 </div>
 
                 <!-- メインコンテンツ -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                     <!-- 最近の動画 -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <h2 class="text-xl font-semibold text-gray-800">最近の動画</h2>
+                    <div class="bg-white rounded-lg shadow p-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800">最近の動画</h2>
                             <a href="{{ route('taxminivideos.manage') }}"
-                                class="text-blue-600 hover:text-blue-800 text-sm font-medium">すべて見る</a>
+                                class="text-blue-600 hover:text-blue-800 text-base font-semibold">すべて見る</a>
                         </div>
+
                         @if ($taxMinutesVideos->isEmpty())
-                            <p class="text-gray-500 text-center py-4">動画がありません</p>
+                            <p class="text-gray-500 text-center py-6 text-xl font-semibold">動画がありません</p>
                         @else
-                            <div class="space-y-4">
+                            <div class="space-y-6">
                                 @foreach ($taxMinutesVideos->take(3) as $video)
-                                    <div class="flex items-center space-x-4">
+                                    <div class="flex items-center space-x-6">
                                         <div class="flex-shrink-0">
                                             @if ($video->thumbnail_path)
                                                 <img src="{{ asset('storage/' . $video->thumbnail_path) }}"
-                                                    alt="サムネイル" class="w-16 h-16 object-cover rounded">
+                                                    alt="サムネイル" class="w-40 h-40 object-cover rounded-lg">
                                             @else
                                                 <div
-                                                    class="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
-                                                    <svg class="w-8 h-8 text-gray-400" fill="none"
+                                                    class="w-40 h-40 bg-gray-200 rounded-lg flex items-center justify-center">
+                                                    <svg class="w-10 h-10 text-gray-400" fill="none"
                                                         stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2"
@@ -189,9 +191,11 @@
                                             @endif
                                         </div>
                                         <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-gray-900 truncate">{{ $video->title }}
+                                            <p class="text-2xl font-bold text-gray-900 truncate">
+                                                {{ $video->title }}
                                             </p>
-                                            <p class="text-sm text-gray-500">{{ $video->created_at->format('Y/m/d') }}
+                                            <p class="text-lg text-gray-500">
+                                                {{ $video->created_at->format('Y/m/d') }}
                                             </p>
                                         </div>
                                     </div>
@@ -200,30 +204,32 @@
                         @endif
                     </div>
 
+
                     <!-- 最近のコメント -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <h2 class="text-xl font-semibold text-gray-800">最近のコメント</h2>
+                    <div class="bg-white rounded-lg shadow p-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800">最近のコメント</h2>
                             <a href="{{ route('comments.received') }}"
-                                class="text-blue-600 hover:text-blue-800 text-sm font-medium">すべて見る</a>
+                                class="text-blue-600 hover:text-blue-800 text-base font-semibold">すべて見る</a>
                         </div>
+
                         @if (count($pendingComments) === 0 && count($approvedComments) === 0)
-                            <p class="text-gray-500 text-center py-4">コメントはありません</p>
+                            <p class="text-gray-500 text-center py-6 text-xl font-semibold">コメントはありません</p>
                         @else
-                            <div class="space-y-4">
+                            <div class="space-y-6">
                                 @foreach ($pendingComments->merge($approvedComments)->take(3) as $comment)
-                                    <div class="flex items-center space-x-4">
+                                    <div class="flex items-center space-x-6">
                                         <div class="flex-shrink-0">
                                             <div
-                                                class="w-2 h-2 rounded-full {{ $comment->is_approved ? 'bg-green-500' : 'bg-yellow-500' }}">
+                                                class="w-3 h-3 rounded-full {{ $comment->is_approved ? 'bg-green-500' : 'bg-yellow-500' }}">
                                             </div>
                                         </div>
-                                        <div class="flex items-center space-x-2 min-w-0">
+                                        <div class="flex items-center space-x-4 min-w-0">
                                             @if (optional($comment->user)->profile_photo)
                                                 <img src="{{ asset('storage/' . optional($comment->user)->profile_photo) }}"
-                                                    alt="ユーザーの写真" class="w-10 h-10 rounded-full">
+                                                    alt="ユーザーの写真" class="w-14 h-14 rounded-full">
                                             @else
-                                                <svg class="w-12 h-12 text-gray-400 bg-gray-100 rounded-full border-2 border-gray-200 p-1"
+                                                <svg class="w-14 h-14 text-gray-400 bg-gray-100 rounded-full border-2 border-gray-200 p-1"
                                                     fill="currentColor" viewBox="0 0 20 20"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd"
@@ -232,11 +238,11 @@
                                                 </svg>
                                             @endif
                                             <div class="flex-1 min-w-0">
-                                                <p class="text-sm font-medium text-gray-900 truncate">
+                                                <p class="text-lg font-semibold text-gray-900 truncate">
                                                     {{ $comment->display_name }}</p>
-                                                <p class="text-sm text-gray-500 truncate">
+                                                <p class="text-lg text-gray-500 truncate">
                                                     {{ Str::limit($comment->content, 50) }}</p>
-                                                <p class="text-xs text-gray-400">
+                                                <p class="text-base text-gray-400">
                                                     {{ $comment->created_at->format('Y/m/d H:i') }}</p>
                                             </div>
                                         </div>
