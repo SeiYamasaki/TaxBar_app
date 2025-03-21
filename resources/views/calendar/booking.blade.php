@@ -119,71 +119,111 @@
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                var calendarEl = document.getElementById('calendar');
+                const calendarEl = document.getElementById('calendar');
 
-                // 🎨 カラフルな色リスト
-                var colors = [
-                    "#E63946", // 赤（明るめ）
-                    "#F4A261", // オレンジ
-                    "#2A9D8F", // 緑（深め）
-                    "#264653", // 青（ダーク）
-                    "#457B9D", // 青（やや明るめ）
-                    "#8A4FFF", // 紫
-                    "#E76F51", // ピンク系オレンジ
-                    "#D62828", // 深い赤
-                    "#1D3557", // 濃い青
-                    "#F77F00" // 濃いオレンジ
+                const colors = [
+                    "#8B0000", // Dark Red（深い赤）
+                    "#A0522D", // Sienna Brown（シエナブラウン）
+                    "#556B2F", // Dark Olive Green（ダークオリーブグリーン）
+                    "#2F4F4F", // Dark Slate Gray（ダークスレートグレー）
+                    "#3B4252", // Midnight Blue（ミッドナイトブルー）
+                    "#4B0082", // Indigo（インディゴ）
+                    "#6A5ACD", // Slate Blue（スレートブルー）
+                    "#8B4513", // Saddle Brown（サドルブラウン）
+                    "#483D8B", // Dark Slate Blue（ダークスレートブルー）
+                    "#2C3E50" // Charcoal Blue（チャコールブルー）
                 ];
 
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    locale: 'ja',
-                    headerToolbar: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                    },
-                    buttonText: {
-                        today: '今日',
-                        month: '月表示',
-                        week: '週表示',
-                        day: '日表示'
-                    },
-                    allDaySlot: false,
-                    slotMinTime: '09:00:00',
-                    slotMaxTime: '18:00:00',
-                    height: 900,
+                // 🇯🇵 祝日API（最新の祝日を取得）
+                fetch('https://holidays-jp.github.io/api/v1/date.json')
+                    .then(response => response.json())
+                    .then(holidays => {
+                        const calendar = new FullCalendar.Calendar(calendarEl, {
+                            initialView: 'dayGridMonth',
+                            locale: 'ja',
+                            headerToolbar: {
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                            },
+                            buttonText: {
+                                today: '今日',
+                                month: '月表示',
+                                week: '週表示',
+                                day: '日表示'
+                            },
+                            allDaySlot: false,
+                            slotMinTime: '09:00:00',
+                            slotMaxTime: '18:00:00',
+                            height: 1000,
 
-                    // ✅ カラフルな日付数字スタイル
-                    dayCellDidMount: function(info) {
-                        const dayNumberEl = info.el.querySelector('.fc-daygrid-day-number');
-                        if (dayNumberEl) {
-                            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                            dayNumberEl.style.color = randomColor;
-                            dayNumberEl.style.fontWeight = "bold";
-                            dayNumberEl.style.fontSize = "1.1em";
-                        }
-                    },
+                            dayCellDidMount: function(info) {
+                                const dayNumberEl = info.el.querySelector('.fc-daygrid-day-number');
+                                if (dayNumberEl) {
+                                    const randomColor = colors[Math.floor(Math.random() * colors
+                                        .length)];
+                                    dayNumberEl.style.color = randomColor;
+                                    dayNumberEl.style.fontWeight = "bold";
+                                    dayNumberEl.style.fontSize = "1.1em";
+                                    dayNumberEl.style.display = "inline-block";
+                                    dayNumberEl.style.padding = "3px 6px";
+                                    dayNumberEl.style.borderRadius = "6px";
+                                    dayNumberEl.style.position = "relative"; // 🎯 祝日名の位置調整
 
-                    // ✅ 予約イベント
-                    events: [{
-                            title: '予約1',
-                            start: '2025-03-20',
-                            end: '2025-03-20',
-                            backgroundColor: '#007bff',
-                            borderColor: '#007bff'
-                        },
-                        {
-                            title: '予約2',
-                            start: '2025-03-21',
-                            end: '2025-03-21',
-                            backgroundColor: '#28a745',
-                            borderColor: '#28a745'
-                        }
-                    ]
-                });
+                                    // ✅ JST (日本時間) に変換して日付を取得
+                                    const localDate = new Date(info.date.getTime() + (9 * 60 * 60 *
+                                        1000));
+                                    const dateStr = localDate.toISOString().split("T")[
+                                        0]; // YYYY-MM-DD 形式
 
-                calendar.render();
+                                    // 🌸 土日・祝日ハイライト
+                                    if (info.date.getDay() === 0) {
+                                        dayNumberEl.style.backgroundColor = "#FFB6C1"; // 日曜ピンク
+                                    } else if (info.date.getDay() === 6) {
+                                        dayNumberEl.style.backgroundColor = "#87CEFA"; // 土曜青
+                                    }
+
+                                    if (holidays[dateStr]) {
+                                        dayNumberEl.style.backgroundColor = "#FFD700"; // ゴールド
+                                        dayNumberEl.style.color = "#000";
+
+                                        // 🏷️ **祝日名を日付の真横に表示**
+                                        const holidayLabel = document.createElement("span");
+                                        holidayLabel.textContent =
+                                            ` ${holidays[dateStr]}`; // スペースで少し空ける
+                                        holidayLabel.style.fontSize = "1em";
+                                        holidayLabel.style.fontWeight = "bold";
+                                        holidayLabel.style.color = "#000";
+                                        holidayLabel.style.marginLeft = "5px"; // 🎯 日付のすぐ横に配置
+                                        holidayLabel.style.verticalAlign = "middle"; // 🎯 位置を揃える
+                                        dayNumberEl.parentNode.insertBefore(holidayLabel, dayNumberEl
+                                            .nextSibling);
+                                    }
+                                }
+                            },
+
+                            events: [{
+                                    title: '予約1',
+                                    start: '2025-03-20',
+                                    end: '2025-03-20',
+                                    backgroundColor: '#007bff',
+                                    borderColor: '#007bff'
+                                },
+                                {
+                                    title: '予約2',
+                                    start: '2025-03-21',
+                                    end: '2025-03-21',
+                                    backgroundColor: '#28a745',
+                                    borderColor: '#28a745'
+                                }
+                            ]
+                        });
+
+                        calendar.render();
+                    })
+                    .catch(error => {
+                        console.error("祝日データの取得に失敗しました:", error);
+                    });
             });
         </script>
     @endpush
