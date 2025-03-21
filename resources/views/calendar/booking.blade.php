@@ -88,16 +88,19 @@
 
         <!-- メインコンテンツのパディング調整 -->
         <div class="relative w-full -mt-24 z-50">
-            <main class="container mx-auto px-4 sm:px-6 py-8">
-                <!-- カレンダー -->
-                <div class="bg-white rounded-lg shadow p-6">
+            <main class="w-full px-4 sm:px-6 py-8">
+                <!-- カレンダー本体 -->
+                <div class="bg-white rounded-lg shadow p-6 w-full max-w-[1800px] mx-auto">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800">予約カレンダー</h2>
+                        <h2 class="text-xl font-semibold text-gray-800">TaxBar®予約管理カレンダー</h2>
                     </div>
-                    <div id="calendar" class="calendar-container"></div>
+                    <!-- カレンダー表示エリア -->
+                    <div id="calendar" class="w-full"></div>
                 </div>
             </main>
         </div>
+
+
     </div>
 
     @push('styles')
@@ -117,6 +120,21 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');
+
+                // 🎨 カラフルな色リスト
+                var colors = [
+                    "#E63946", // 赤（明るめ）
+                    "#F4A261", // オレンジ
+                    "#2A9D8F", // 緑（深め）
+                    "#264653", // 青（ダーク）
+                    "#457B9D", // 青（やや明るめ）
+                    "#8A4FFF", // 紫
+                    "#E76F51", // ピンク系オレンジ
+                    "#D62828", // 深い赤
+                    "#1D3557", // 濃い青
+                    "#F77F00" // 濃いオレンジ
+                ];
+
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
                     locale: 'ja',
@@ -127,14 +145,27 @@
                     },
                     buttonText: {
                         today: '今日',
-                        month: '月',
-                        week: '週',
-                        day: '日'
+                        month: '月表示',
+                        week: '週表示',
+                        day: '日表示'
                     },
                     allDaySlot: false,
                     slotMinTime: '09:00:00',
                     slotMaxTime: '18:00:00',
-                    height: 'auto',
+                    height: 900,
+
+                    // ✅ カラフルな日付数字スタイル
+                    dayCellDidMount: function(info) {
+                        const dayNumberEl = info.el.querySelector('.fc-daygrid-day-number');
+                        if (dayNumberEl) {
+                            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                            dayNumberEl.style.color = randomColor;
+                            dayNumberEl.style.fontWeight = "bold";
+                            dayNumberEl.style.fontSize = "1.1em";
+                        }
+                    },
+
+                    // ✅ 予約イベント
                     events: [{
                             title: '予約1',
                             start: '2025-03-20',
@@ -151,6 +182,7 @@
                         }
                     ]
                 });
+
                 calendar.render();
             });
         </script>
