@@ -17,4 +17,14 @@ class AuthServiceProvider extends ServiceProvider
             return $user->is_tax_accountant; // `is_tax_accountant` が true の場合のみ許可
         });
     }
+
+    /**
+     * The model to policy mappings for the application.
+     *
+     * @var array<class-string, class-string>
+     */
+    protected $policies = [
+        // ... existing policies
+        \App\Models\Booking::class => \App\Policies\BookingPolicy::class,
+    ];
 }

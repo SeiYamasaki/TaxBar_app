@@ -62,7 +62,12 @@ class InvoiceService
     {
         try {
             // Stripeの設定
-            Stripe::setApiKey(env('STRIPE_SECRET'));
+            $stripeSecret = config('services.stripe.secret') ?: env('STRIPE_SECRET');
+            if (empty($stripeSecret)) {
+                Log::error('Stripe APIキーが設定されていません');
+                throw new \Exception('Stripe API設定が見つかりません');
+            }
+            Stripe::setApiKey($stripeSecret);
 
             // Stripeからインボイス情報を取得
             $stripeInvoice = StripeInvoice::retrieve($invoice->stripe_invoice_id);
@@ -90,7 +95,12 @@ class InvoiceService
     {
         try {
             // Stripeの設定
-            Stripe::setApiKey(env('STRIPE_SECRET'));
+            $stripeSecret = config('services.stripe.secret') ?: env('STRIPE_SECRET');
+            if (empty($stripeSecret)) {
+                Log::error('Stripe APIキーが設定されていません');
+                throw new \Exception('Stripe API設定が見つかりません');
+            }
+            Stripe::setApiKey($stripeSecret);
 
             // ユーザーのStripe顧客IDを取得
             $customerId = $this->getOrCreateStripeCustomer($user);

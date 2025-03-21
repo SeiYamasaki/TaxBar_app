@@ -73,9 +73,6 @@ Route::post('/register/individual', [RegisterController::class, 'registerIndivid
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified', \App\Http\Middleware\CheckSubscription::class])->name('dashboard');
 
-// カレンダールートを認証ミドルウェアの外に移動
-Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -196,5 +193,14 @@ Route::get('/property-valuation', function () {
 Route::get('/tax-payment', function () {
     return view('tax_payment');
 })->name('tax-payment');
+
+// 予約関連のルート
+Route::middleware(['auth'])->group(function () {
+    Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
+    Route::get('/bookings', [CalendarController::class, 'getBookings'])->name('bookings.index');
+    Route::post('/bookings', [CalendarController::class, 'store'])->name('bookings.store');
+    Route::put('/bookings/{booking}', [CalendarController::class, 'update'])->name('bookings.update');
+    Route::delete('/bookings/{booking}', [CalendarController::class, 'destroy'])->name('bookings.destroy');
+});
 
 require __DIR__ . '/auth.php';

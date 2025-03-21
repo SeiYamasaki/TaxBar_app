@@ -42,4 +42,11 @@ return [
         'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
     ],
 
+    'zoom' => [
+        'account_id' => env('ZOOM_ACCOUNT_ID'),
+        'client_id' => env('ZOOM_CLIENT_ID'),
+        'client_secret' => env('ZOOM_CLIENT_SECRET'),
+        'api_base_url' => env('ZOOM_API_BASE_URL', 'https://api.zoom.us/v2'),
+    ],
+
 ];
