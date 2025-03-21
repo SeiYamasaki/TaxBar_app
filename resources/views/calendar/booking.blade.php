@@ -86,9 +86,11 @@
 
         <x-parallax-header />
 
+        
         <!-- メインコンテンツのパディング調整 -->
         <div class="relative w-full -mt-24 z-50">
-            <main class="w-full px-4 sm:px-6 py-8">
+            <main class="w-full px-8 sm:px-10 py-16">
+
                 <!-- カレンダー本体 -->
                 <div class="bg-white rounded-lg shadow p-6 w-full max-w-[1800px] mx-auto">
                     <div class="flex justify-between items-center mb-4">

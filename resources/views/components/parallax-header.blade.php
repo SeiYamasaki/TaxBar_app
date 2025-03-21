@@ -1,6 +1,6 @@
-@props(['backgroundImage' => '/images/bar_7.jpeg'])
+@props(['backgroundImage' => '/images/bar_3.jpeg'])
 
-<div class="relative h-[250px] overflow-hidden bg-gradient-to-b from-[#1a237e] to-[#283593] z-0">
+<div class="relative h-[350px] overflow-hidden bg-gradient-to-b from-[#1a237e] to-[#283593] z-0">
     <div id="parallax-bg" class="absolute inset-0 w-full h-[120%] bg-cover bg-center opacity-50 transform translate-z-0"
         style="background-image: url('{{ $backgroundImage }}'); will-change: transform;">
     </div>
