@@ -193,7 +193,7 @@
                                             ` ${holidays[dateStr]}`; // スペースで少し空ける
                                         holidayLabel.style.fontSize = "1em";
                                         holidayLabel.style.fontWeight = "bold";
-                                        holidayLabel.style.color = "#000";
+                                        holidayLabel.style.color = "#006400"; // 深緑
                                         holidayLabel.style.marginLeft = "5px"; // 🎯 日付のすぐ横に配置
                                         holidayLabel.style.verticalAlign = "middle"; // 🎯 位置を揃える
                                         dayNumberEl.parentNode.insertBefore(holidayLabel, dayNumberEl
