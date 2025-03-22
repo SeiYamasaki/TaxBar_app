@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TaxAdvisor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -21,7 +22,7 @@ class ZoomController extends Controller
         $user = Auth::user();
 
         // 税理士ユーザーでない場合はダッシュボードにリダイレクト
-        if ($user->role !== 'tax_advisor' && $user->role !== 'admin') {
+        if (!($user->role === 'tax_advisor' || $user->role === 'admin')) {
             return redirect()->route('dashboard')->with('error', '税理士ユーザーのみアクセスできます。');
         }
 
@@ -39,7 +40,7 @@ class ZoomController extends Controller
         $user = Auth::user();
 
         // 税理士ユーザーでない場合はダッシュボードにリダイレクト
-        if ($user->role !== 'tax_advisor' && $user->role !== 'admin') {
+        if (!($user->role === 'tax_advisor' || $user->role === 'admin')) {
             return redirect()->route('dashboard')->with('error', '税理士ユーザーのみアクセスできます。');
         }
 
@@ -63,7 +64,7 @@ class ZoomController extends Controller
         $user = Auth::user();
 
         // 税理士ユーザーでない場合はダッシュボードにリダイレクト
-        if ($user->role !== 'tax_advisor' && $user->role !== 'admin') {
+        if (!($user->role === 'tax_advisor' || $user->role === 'admin')) {
             return redirect()->route('dashboard')->with('error', '税理士ユーザーのみアクセスできます。');
         }
 
@@ -155,7 +156,7 @@ class ZoomController extends Controller
         $user = Auth::user();
 
         // 税理士ユーザーでない場合はダッシュボードにリダイレクト
-        if ($user->role !== 'tax_advisor' && $user->role !== 'admin') {
+        if (!($user->role === 'tax_advisor' || $user->role === 'admin')) {
             return redirect()->route('dashboard')->with('error', '税理士ユーザーのみアクセスできます。');
         }
 

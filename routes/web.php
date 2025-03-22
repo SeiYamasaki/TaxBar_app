@@ -212,7 +212,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // ZoomControllerのルートを税理士のみアクセス可能なルートグループに追加
-Route::middleware(['auth', 'role:tax_advisor'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     // Zoom連携関連のルート
     Route::get('/tax-advisor/zoom/settings', [App\Http\Controllers\ZoomController::class, 'settings'])->name('tax-advisor.zoom.settings');
     Route::get('/tax-advisor/zoom/connect', [App\Http\Controllers\ZoomController::class, 'redirectToZoom'])->name('tax-advisor.zoom.connect');

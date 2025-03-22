@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Services\ZoomService;
 use Illuminate\Support\Facades\Schema;
@@ -21,16 +23,42 @@ class BookingApiController extends Controller
     /**
      * 予約一覧を取得 (カレンダー用)
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
             // 予約一覧データリクエスト受信をログに記録
             Log::info('予約一覧データリクエスト受信');
 
-            // 全予約データを取得
+            // 予約データを取得（現在ログインしているユーザーの税理士IDに関連するもののみ）
             $bookingEvents = [];
 
-            $bookings = Booking::all();
+            // 現在ログインしているユーザーを取得
+            $user = null;
+            $taxAdvisorId = null;
+
+            // Authファサードからユーザー情報を取得
+            if (Auth::check()) {
+                $user = Auth::user();
+                // ユーザーが税理士または管理者で、税理士情報を持っているか確認
+                if (($user->role === 'tax_advisor' || $user->role === 'admin') && $user->taxAdvisor) {
+                    $taxAdvisorId = $user->taxAdvisor->id;
+                }
+            }
+
+            if (!$taxAdvisorId) {
+                Log::warning('ログインユーザーの税理士情報が見つかりません', [
+                    'user_id' => $user ? $user->id : null,
+                    'role' => $user ? $user->role : null,
+                    'is_authenticated' => Auth::check()
+                ]);
+                return response()->json($bookingEvents, 200, [
+                    'Content-Type' => 'application/json; charset=utf-8',
+                    'Cache-Control' => 'no-store, max-age=0'
+                ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            }
+
+            // 現在ログインしている税理士に関連する予約のみを取得
+            $bookings = Booking::where('tax_advisor_id', $taxAdvisorId)->get();
 
             // 各予約をFullCalendarのイベントフォーマットに変換
             foreach ($bookings as $booking) {
@@ -48,7 +76,7 @@ class BookingApiController extends Controller
             }
 
             // 予約データ取得成功をログに記録
-            Log::info('予約データ取得成功', ['count' => count($bookingEvents)]);
+            Log::info('予約データ取得成功', ['count' => count($bookingEvents), 'tax_advisor_id' => $taxAdvisorId]);
 
             // JSONエスケープオプションを指定してレスポンスを返す
             return response()->json($bookingEvents, 200, [

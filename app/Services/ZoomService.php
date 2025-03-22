@@ -17,7 +17,7 @@ class ZoomService
     /**
      * @param TaxAdvisor|null $taxAdvisor 特定の税理士のZoomアカウントを使用する場合は指定
      */
-    public function __construct(TaxAdvisor $taxAdvisor = null)
+    public function __construct(?TaxAdvisor $taxAdvisor = null)
     {
         $this->zoomApiUrl = config('services.zoom.api_base_url');
         $this->taxAdvisor = $taxAdvisor;

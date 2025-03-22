@@ -87,27 +87,28 @@
         <!-- メインコンテンツのパディング調整 -->
         <div class="relative w-full -mt-24 z-50">
             <main class="container mx-auto px-6 py-8">
-                <div class="max-w-3xl mx-auto">
+                <div class="max-w-6xl mx-auto">
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                        <div class="p-6">
-                            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Zoom連携設定</h2>
+                        <div class="p-10 text-xl">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-8">Zoom連携設定</h2>
 
                             @if (session('success'))
-                                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6"
+                                <div class="bg-green-50 border-l-4 border-green-400 text-green-900 text-xl p-4 mb-6"
                                     role="alert">
                                     {{ session('success') }}
                                 </div>
                             @endif
 
                             @if (session('error'))
-                                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
+                                <div class="bg-red-50 border-l-4 border-red-400 text-red-900 text-xl p-4 mb-6"
+                                    role="alert">
                                     {{ session('error') }}
                                 </div>
                             @endif
 
                             <div class="mb-8">
-                                <h3 class="text-lg font-medium text-gray-900 mb-2">Zoomアカウント連携</h3>
-                                <p class="text-gray-600 mb-4">
+                                <h3 class="text-2xl font-medium text-blue-700 mb-2">Zoomアカウント連携</h3>
+                                <p class="text-gray-600 mb-4 text-xl">
                                     あなたのZoomアカウントと連携することで、TaxBarの予約時にあなたのZoomアカウントでミーティングが作成されるようになります。
                                     連携前にZoom Marketplaceにて本アプリの権限を承認してください。
                                 </p>
@@ -119,11 +120,11 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
-                                        <span class="ml-2 text-blue-800 font-medium">Zoom連携のステータス</span>
+                                        <span class="ml-2 text-blue-800 font-medium text-xl">Zoom連携のステータス</span>
                                     </div>
 
                                     @if ($hasValidZoomConnection)
-                                        <div class="flex items-center text-green-700">
+                                        <div class="flex items-center text-green-700 text-xl">
                                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -131,14 +132,14 @@
                                             </svg>
                                             <span>Zoomアカウントと連携済みです</span>
                                         </div>
-                                        <p class="mt-2 text-sm text-gray-600">
+                                        <p class="mt-2 text-base text-gray-600">
                                             連携日時:
                                             {{ $taxAdvisor->zoom_token_expires_at->subHour()->format('Y年m月d日 H:i') }}
                                             <br>
                                             アカウントID: {{ Str::mask($taxAdvisor->zoom_account_id, '*', 5, 5) }}
                                         </p>
                                     @else
-                                        <div class="flex items-center text-yellow-700">
+                                        <div class="flex items-center text-yellow-700 text-xl">
                                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -147,7 +148,7 @@
                                             </svg>
                                             <span>Zoomアカウントとの連携が必要です</span>
                                         </div>
-                                        <p class="mt-2 text-sm text-gray-600">
+                                        <p class="mt-2 text-base text-gray-600">
                                             Zoomとの連携が行われていないため、現在は共有のZoomアカウントでミーティングが作成されます。
                                         </p>
                                     @endif
@@ -158,7 +159,7 @@
                                         <form method="POST" action="{{ route('tax-advisor.zoom.disconnect') }}">
                                             @csrf
                                             <button type="submit"
-                                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                                class="inline-flex items-center px-4 py-2 border border-transparent text-xl font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                                 onclick="return confirm('Zoomアカウントとの連携を解除しますか？');">
                                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
@@ -171,7 +172,7 @@
                                         </form>
                                     @else
                                         <a href="{{ route('tax-advisor.zoom.connect') }}"
-                                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                            class="inline-flex items-center px-4 py-2 border border-transparent text-xl font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -185,8 +186,8 @@
                             </div>
 
                             <div class="border-t pt-6">
-                                <h3 class="text-lg font-medium text-gray-900 mb-2">Zoom連携のメリット</h3>
-                                <ul class="list-disc pl-5 text-gray-600 space-y-2">
+                                <h3 class="text-2xl font-medium text-purple-700 mb-2">Zoom連携のメリット</h3>
+                                <ul class="list-disc pl-5 text-gray-600 space-y-2 text-xl">
                                     <li>お客様との面談が自分のZoomアカウントで行われるため、ブランディングの一貫性が保たれます</li>
                                     <li>Zoomでのすべての設定（待機室、録画など）を自由にカスタマイズできます</li>
                                     <li>Zoomのレポート機能や分析ツールを活用できます</li>
@@ -195,21 +196,22 @@
                             </div>
 
                             <div class="border-t pt-6 mt-6">
-                                <h3 class="text-lg font-medium text-gray-900 mb-2">Zoom連携のよくある質問</h3>
+                                <h3 class="text-2xl font-medium text-pink-700 mb-2">Zoom連携のよくある質問</h3>
                                 <div class="space-y-4">
                                     <div>
-                                        <h4 class="font-medium text-gray-800">Q: 連携しない場合はどうなりますか？</h4>
-                                        <p class="text-gray-600">A:
+                                        <h4 class="font-medium text-gray-800 text-xl">Q: 連携しない場合はどうなりますか？</h4>
+                                        <p class="text-gray-600 text-xl">A:
                                             TaxBarのシステムアカウントを使用してミーティングが作成されます。基本的な機能は利用できますが、カスタマイズやホスト権限は制限されます。</p>
                                     </div>
                                     <div>
-                                        <h4 class="font-medium text-gray-800">Q: 連携を解除するとどうなりますか？</h4>
-                                        <p class="text-gray-600">A:
+                                        <h4 class="font-medium text-gray-800 text-xl">Q: 連携を解除するとどうなりますか？</h4>
+                                        <p class="text-gray-600 text-xl">A:
                                             既に作成された予約のZoomリンクは有効ですが、新しい予約はTaxBarのシステムアカウントを使用します。</p>
                                     </div>
                                     <div>
-                                        <h4 class="font-medium text-gray-800">Q: 無料のZoomアカウントでも連携できますか？</h4>
-                                        <p class="text-gray-600">A: はい、連携自体は可能ですが、無料アカウントの場合40分の時間制限などがありますのでご注意ください。
+                                        <h4 class="font-medium text-gray-800 text-xl">Q: 無料のZoomアカウントでも連携できますか？</h4>
+                                        <p class="text-gray-600 text-xl">A:
+                                            はい、連携自体は可能ですが、無料アカウントの場合40分の時間制限などがありますのでご注意ください。
                                         </p>
                                     </div>
                                 </div>
@@ -217,7 +219,7 @@
 
                             <div class="border-t pt-6 mt-6 text-right">
                                 <a href="{{ route('dashboard') }}"
-                                    class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-xl font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                     ダッシュボードに戻る
                                 </a>
                             </div>
