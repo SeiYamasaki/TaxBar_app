@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         DB::table('tax_advisors')->truncate();
         DB::table('subscription_plans')->truncate();
         DB::table('users')->truncate();
+        DB::table('themes')->truncate();
 
         // 外部キー制約を再有効化
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
@@ -36,10 +37,16 @@ class DatabaseSeeder extends Seeder
 
         $this->call(FaqSeeder::class);
 
-        // ✅ 動画を20件生成（税理士が投稿する）
-        Video::factory()->count(20)->create([
-            'user_id' => 2, // 税理士ユーザーのIDを指定（UserSeederで作成したユーザーの順序に対応）
-        ]);
+        // テーマを追加
+        $this->call(ThemeSeeder::class);
+
+        // ユーザーとテーマの関連付けを追加
+        $this->call(UserThemeSeeder::class);
+
+        // // ✅ 動画を20件生成（税理士が投稿する）
+        // Video::factory()->count(20)->create([
+        //     'user_id' => 2, // 税理士ユーザーのIDを指定（UserSeederで作成したユーザーの順序に対応）
+        // ]);
 
         // ✅ `tax_advisors` テーブルにデータを追加
         // $this->call(TaxAdvisorSeeder::class); // UserSeederで税理士情報も作成するため、こちらはコメントアウト

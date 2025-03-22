@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TaxAdvisor extends Model
@@ -32,7 +33,11 @@ class TaxAdvisor extends Model
         'specialty',
         'profile_info',
         'is_tax_accountant',
-        'terms_agreed'
+        'terms_agreed',
+        'zoom_access_token',
+        'zoom_refresh_token',
+        'zoom_token_expires_at',
+        'zoom_account_id'
     ];
 
     /**
@@ -48,6 +53,7 @@ class TaxAdvisor extends Model
         'terms_agreed' => 'boolean',
         'has_confirmed_payment' => 'boolean',
         'payment_confirmed_at' => 'datetime',
+        'zoom_token_expires_at' => 'datetime',
     ];
 
     /**
@@ -64,5 +70,34 @@ class TaxAdvisor extends Model
     public function subscriptionPlan(): BelongsTo
     {
         return $this->belongsTo(SubscriptionPlan::class, 'subscription_plan_id');
+    }
+
+    /**
+     * 税理士の専門分野（テーマ）を取得
+     */
+    public function specialtyThemes(): BelongsToMany
+    {
+        return $this->belongsToMany(Theme::class, 'tax_advisor_theme')
+            ->withTimestamps();
+    }
+
+    /**
+     * Zoomアクセストークンが有効かどうかを確認
+     * 
+     * @return bool
+     */
+    public function hasValidZoomToken(): bool
+    {
+        // トークンがない場合はfalse
+        if (empty($this->zoom_access_token)) {
+            return false;
+        }
+
+        // 有効期限が過ぎている場合はfalse
+        if ($this->zoom_token_expires_at && now()->isAfter($this->zoom_token_expires_at)) {
+            return false;
+        }
+
+        return true;
     }
 }

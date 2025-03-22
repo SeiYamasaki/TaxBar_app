@@ -50,6 +50,21 @@
                                     class="inline-block bg-yellow-100 text-yellow-800 text-sm font-semibold px-3 py-1 rounded-full mr-2 mb-2">{{ $taxAdvisor->prefecture }}</span>
                             </div>
 
+                            <!-- 専門テーマ表示 -->
+                            @if ($selectedThemes->count() > 0)
+                                <div class="mb-6">
+                                    <h3 class="text-lg font-semibold mb-2">専門テーマ</h3>
+                                    <div class="flex flex-wrap gap-2">
+                                        @foreach ($selectedThemes as $theme)
+                                            <span
+                                                class="inline-block bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1 rounded-full">
+                                                {{ $theme->title }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+
                             @if ($taxAdvisor->profile_info)
                                 <div class="text-gray-700 mb-6">
                                     <h3 class="text-lg font-semibold mb-2">プロフィール</h3>

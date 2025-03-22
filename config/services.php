@@ -47,6 +47,9 @@ return [
         'client_id' => env('ZOOM_CLIENT_ID'),
         'client_secret' => env('ZOOM_CLIENT_SECRET'),
         'api_base_url' => env('ZOOM_API_BASE_URL', 'https://api.zoom.us/v2'),
+        'redirect_uri' => env('ZOOM_REDIRECT_URI', '/tax-advisor/zoom/callback'),
+        'authorization_url' => 'https://zoom.us/oauth/authorize',
+        'token_url' => 'https://zoom.us/oauth/token',
     ],
 
 ];

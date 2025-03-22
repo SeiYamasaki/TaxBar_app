@@ -7,8 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>TaxBar®️ | 予約カレンダー</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.1/index.global.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.12.3/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
         [x-cloak] {
@@ -96,7 +96,68 @@
                 <div class="bg-white rounded-lg shadow p-6 w-full max-w-[1800px] mx-auto">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-semibold text-gray-800">TaxBar®予約管理カレンダー</h2>
+                        <button id="refreshButton" type="button"
+                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
+                            <i class="fas fa-sync-alt mr-2"></i>更新
+                        </button>
                     </div>
+
+                    <!-- システムメッセージ表示エリア -->
+                    <div id="system-messages"
+                        class="mb-4 p-3 bg-blue-100 text-blue-700 border border-blue-200 rounded hidden">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9a1 1 0 00-1-1z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span id="message-content">システムメッセージ</span>
+                        </div>
+                    </div>
+
+                    <!-- エラーメッセージ表示エリア -->
+                    <div id="error-messages"
+                        class="mb-4 p-3 bg-red-100 text-red-700 border border-red-200 rounded hidden">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span id="error-content">エラーメッセージ</span>
+                        </div>
+                    </div>
+
+                    <!-- デバッグパネル (開発環境のみ) -->
+                    @if (config('app.env') === 'local' || config('app.debug'))
+                        <div id="debug-panel" class="mb-4 p-2 bg-gray-100 border border-gray-300 rounded text-sm">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-gray-700 font-bold">開発用デバッグ情報</h3>
+                                <button id="toggle-debug"
+                                    class="px-2 py-1 bg-gray-300 text-gray-700 rounded text-xs">表示</button>
+                            </div>
+                            <div id="debug-content" style="display: none;" class="mt-2">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <h4 class="font-semibold">システム情報</h4>
+                                        <ul class="mt-1">
+                                            <li>環境: {{ config('app.env') }}</li>
+                                            <li>デバッグモード: {{ config('app.debug') ? 'ON' : 'OFF' }}</li>
+                                            <li>Zoom設定:
+                                                {{ !empty(config('services.zoom.client_id')) ? '設定済み' : '未設定' }}</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold">API通信ログ</h4>
+                                        <div id="api-log"
+                                            class="mt-1 h-40 overflow-y-auto bg-gray-50 p-2 text-xs border rounded">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <!-- カレンダー表示エリア -->
                     <div id="calendar" class="w-full"></div>
                 </div>
@@ -117,7 +178,13 @@
         get themeId() { return Alpine.store('bookingModal').themeId },
         set themeId(value) { Alpine.store('bookingModal').themeId = value },
         get isSaving() { return Alpine.store('bookingModal').isSaving },
-        saveBooking() { Alpine.store('bookingModal').saveBooking() }
+        get meetingDuration() { return Alpine.store('bookingModal').meetingDuration },
+        calculateEndTime() { Alpine.store('bookingModal').calculateEndTime() },
+        saveBooking() { Alpine.store('bookingModal').saveBooking() },
+        get calendarRef() { return Alpine.store('bookingModal').calendarRef },
+        set calendarRef(value) { Alpine.store('bookingModal').calendarRef = value },
+        get title() { return Alpine.store('bookingModal').title },
+        set title(value) { Alpine.store('bookingModal').title = value }
     }" x-show="open" x-cloak class="fixed inset-0 z-[1000] overflow-y-auto"
         aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -160,13 +227,25 @@
                                     <label for="startTime"
                                         class="block text-sm font-medium text-gray-700">開始時間</label>
                                     <input type="time" name="startTime" id="startTime" x-model="startTime"
+                                        @change="calculateEndTime()"
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                                 </div>
 
                                 <div>
                                     <label for="endTime" class="block text-sm font-medium text-gray-700">終了時間</label>
-                                    <input type="time" name="endTime" id="endTime" x-model="endTime"
-                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                                    <div x-show="meetingDuration !== null">
+                                        <input type="time" name="endTime" id="endTime" x-model="endTime"
+                                            readonly
+                                            class="mt-1 block w-full border border-gray-300 bg-gray-100 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                                        <p class="mt-1 text-xs text-gray-500">終了時間はご契約のプランによって自動設定されます</p>
+                                    </div>
+                                    <div x-show="meetingDuration === null">
+                                        <div
+                                            class="mt-1 block w-full border border-gray-300 bg-gray-100 rounded-md shadow-sm py-2 px-3 sm:text-sm">
+                                            無制限
+                                        </div>
+                                        <p class="mt-1 text-xs text-gray-500">VIPプランは時間無制限でご利用いただけます</p>
+                                    </div>
                                 </div>
 
                                 <div>
@@ -175,10 +254,25 @@
                                     <select name="themeId" id="themeId" x-model="themeId"
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                                         <option value="">選択してください</option>
-                                        @foreach ($themes as $theme)
-                                            <option value="{{ $theme->id }}">{{ $theme->name }}</option>
-                                        @endforeach
+                                        @if ($themes->count() > 0)
+                                            @foreach ($themes as $theme)
+                                                <option value="{{ $theme->id }}">{{ $theme->title }}</option>
+                                            @endforeach
+                                        @else
+                                            <option value="" disabled>専門テーマが選択されていません</option>
+                                        @endif
                                     </select>
+                                    @if ($themes->count() == 0)
+                                        <p class="mt-1 text-xs text-red-500">プロフィール編集で専門テーマを選択してください</p>
+                                    @endif
+                                </div>
+
+                                <div>
+                                    <label for="title"
+                                        class="block text-sm font-medium text-gray-700">予約タイトル</label>
+                                    <input type="text" name="title" id="title" x-model="title"
+                                        value="Zoom相談予約"
+                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                                 </div>
                             </div>
                         </div>
@@ -232,6 +326,25 @@
 
     @push('scripts')
         <script>
+            // グローバルエラーハンドラーを設定
+            window.addEventListener('error', function(e) {
+                console.error('Uncaught error:', e.error);
+                // エラーをユーザーに通知（開発時のみ）
+                if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className =
+                        'fixed bottom-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg max-w-md';
+                    errorDiv.innerHTML = `<p class="font-bold">JavaScriptエラー</p>
+                                         <p>${e.error?.message || 'Unknown error'}</p>`;
+                    document.body.appendChild(errorDiv);
+
+                    // 5秒後に消える
+                    setTimeout(() => {
+                        errorDiv.remove();
+                    }, 5000);
+                }
+            });
+
             // Alpine.jsの初期化時にbookingModalストアを登録
             document.addEventListener('alpine:init', () => {
                 console.log('Alpine.js初期化中');
@@ -241,45 +354,179 @@
                     startTime: '',
                     endTime: '',
                     themeId: '',
+                    title: 'Zoom相談予約', // デフォルトタイトル
                     taxAdvisorId: {{ (auth()->user()->role === 'tax_advisor' || auth()->user()->role === 'admin') && auth()->user()->taxAdvisor ? auth()->user()->taxAdvisor->id : 'null' }},
+                    meetingDuration: {{ (auth()->user()->role === 'tax_advisor' || auth()->user()->role === 'admin') &&
+                    auth()->user()->taxAdvisor &&
+                    auth()->user()->taxAdvisor->subscriptionPlan
+                        ? (auth()->user()->taxAdvisor->subscriptionPlan->zoom_meeting_duration === null
+                            ? 'null'
+                            : auth()->user()->taxAdvisor->subscriptionPlan->zoom_meeting_duration)
+                        : 60 }},
                     isSaving: false,
+                    calendarRef: null, // カレンダー参照用の変数を追加
+                    calculateEndTime: function() {
+                        console.log('計算開始 - meetingDuration:', this.meetingDuration);
+
+                        if (this.startTime) {
+                            // VIPプランの場合は無制限
+                            if (this.meetingDuration === null) {
+                                console.log('VIPプラン検出: 終了時間を無制限に設定');
+                                this.endTime = null;
+                                return;
+                            }
+
+                            // 開始時間をDate型に変換
+                            const startDate = new Date(`2000-01-01T${this.startTime}`);
+
+                            // ミーティング時間（分）を加算
+                            startDate.setMinutes(startDate.getMinutes() + this.meetingDuration);
+
+                            // HH:MM形式に変換
+                            let hours = startDate.getHours().toString().padStart(2, '0');
+                            let minutes = startDate.getMinutes().toString().padStart(2, '0');
+
+                            this.endTime = `${hours}:${minutes}`;
+                            console.log('計算後の終了時間:', this.endTime);
+                        }
+                    },
                     saveBooking: function() {
                         console.log('予約保存開始');
                         this.isSaving = true;
 
+                        // CSRFトークンを取得
+                        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content');
+                        console.log('CSRFトークン:', csrfToken ? 'あり' : 'なし');
+
                         // 日付と時間を結合してISOフォーマットに変換
                         const startDateTime = new Date(`${this.date}T${this.startTime}`);
-                        const endDateTime = new Date(`${this.date}T${this.endTime}`);
+
+                        // VIPプランの場合、終了時間は開始時間+4時間に設定
+                        let endDateTime;
+                        if (this.meetingDuration === null) {
+                            // VIPプラン（無制限）の場合
+                            const endDate = new Date(startDateTime.getTime());
+                            endDate.setHours(endDate.getHours() + 4); // 4時間を加算
+                            endDateTime = endDate;
+                            console.log('VIPプラン：終了時間を4時間後に設定', endDateTime.toISOString());
+                        } else {
+                            // 通常プラン
+                            endDateTime = new Date(`${this.date}T${this.endTime}`);
+                        }
+
+                        // タイトルが未設定の場合はデフォルト値を設定
+                        if (!this.title || this.title.trim() === '') {
+                            this.title = 'Zoom相談予約';
+                        }
 
                         // 予約データを準備
                         const bookingData = {
                             tax_advisor_id: this.taxAdvisorId,
                             theme_id: this.themeId || null,
                             start_time: startDateTime.toISOString(),
-                            end_time: endDateTime.toISOString()
+                            end_time: endDateTime.toISOString(),
+                            title: this.title
                         };
+
+                        console.log('送信データ：', bookingData);
 
                         // APIリクエスト
                         fetch('{{ route('bookings.store') }}', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                        .getAttribute('content')
+                                    'X-CSRF-TOKEN': csrfToken,
+                                    'X-Requested-With': 'XMLHttpRequest'
                                 },
+                                credentials: 'same-origin', // セッションCookieを含める
                                 body: JSON.stringify(bookingData)
                             })
-                            .then(response => response.json())
+                            .then(response => {
+                                // ステータスコードとレスポンスタイプを記録
+                                console.log('Response status:', response.status);
+                                console.log('Response type:', response.headers.get('content-type'));
+
+                                // セッション期限切れやログアウト状態の場合はページをリロード
+                                if (response.status === 401 || response.status === 419) {
+                                    console.error('認証エラー: セッションが期限切れかログアウト状態です');
+                                    alert('セッションが期限切れです。ページをリロードします。');
+                                    window.location.reload();
+                                    return Promise.reject('認証エラー');
+                                }
+
+                                if (response.status === 422) {
+                                    return response.json().then(data => {
+                                        console.error('バリデーションエラー:', data);
+                                        let errorMessage = 'バリデーションエラー: ';
+                                        if (data.details) {
+                                            for (const [field, errors] of Object.entries(data
+                                                    .details)) {
+                                                errorMessage +=
+                                                    `${field}: ${errors.join(', ')}; `;
+                                            }
+                                        } else {
+                                            errorMessage += data.error || '不明なエラー';
+                                        }
+                                        throw new Error(errorMessage);
+                                    });
+                                }
+
+                                // エラーレスポンスの場合はエラーメッセージを取得
+                                if (!response.ok) {
+                                    if (response.headers.get('content-type')?.includes(
+                                            'application/json')) {
+                                        return response.json().then(data => {
+                                            throw new Error(data.message ||
+                                                `サーバーエラー: ${response.status}`);
+                                        });
+                                    } else {
+                                        // HTML等のレスポンスの場合はテキストとして読み込む
+                                        return response.text().then(text => {
+                                            console.error('HTMLエラーレスポンス:', text.substring(0,
+                                                200) + '...');
+                                            throw new Error(`予期しないレスポンス形式: ${response.status}`);
+                                        });
+                                    }
+                                }
+
+                                // 正常なレスポンスの場合はJSONとして解析
+                                return response.json();
+                            })
                             .then(data => {
                                 this.isSaving = false;
 
                                 if (data.success) {
-                                    // 予約成功
-                                    alert(data.message);
+                                    // 予約成功のデータをログに記録
+                                    console.log('予約成功:', data);
+                                    console.log('Zoom会議情報:', data.zoom_meeting);
+
+                                    // Zoom会議URLがある場合は表示
+                                    if (data.zoom_meeting && data.zoom_meeting.join_url) {
+                                        const meetingInfo = '予約が完了しました！\n\n' +
+                                            'Zoom会議URL: ' + data.zoom_meeting.join_url + '\n' +
+                                            (data.zoom_meeting.password ? 'パスワード: ' + data.zoom_meeting
+                                                .password : '');
+                                        alert(meetingInfo);
+                                    } else {
+                                        // 通常の成功メッセージ
+                                        alert(data.message || '予約が完了しました');
+                                    }
+
                                     this.open = false;
 
                                     // カレンダーを更新
-                                    calendar.refetchEvents();
+                                    if (window.calendarInstance) {
+                                        window.calendarInstance.refetchEvents();
+                                        console.log('カレンダーイベントを更新しました（window.calendarInstance経由）');
+                                    } else if (this.calendarRef) {
+                                        this.calendarRef.refetchEvents();
+                                        console.log('カレンダーイベントを更新しました（Alpine.js store経由）');
+                                    } else {
+                                        console.error('カレンダー参照が見つかりません');
+                                        // 強制的にページを更新
+                                        window.location.reload();
+                                    }
                                 } else {
                                     // エラーメッセージを表示
                                     alert(data.message || 'エラーが発生しました');
@@ -288,7 +535,8 @@
                             .catch(error => {
                                 this.isSaving = false;
                                 console.error('Error:', error);
-                                alert('予約に失敗しました');
+                                // エラーの詳細情報を表示
+                                alert('予約に失敗しました: ' + error.message);
                             });
                     }
                 });
@@ -319,7 +567,8 @@
                 fetch('https://holidays-jp.github.io/api/v1/date.json')
                     .then(response => response.json())
                     .then(holidays => {
-                        const calendar = new FullCalendar.Calendar(calendarEl, {
+                        // カレンダーオブジェクトをグローバル変数に保存
+                        window.calendarInstance = new FullCalendar.Calendar(calendarEl, {
                             initialView: 'dayGridMonth',
                             locale: 'ja',
                             headerToolbar: {
@@ -337,116 +586,144 @@
                             slotMinTime: '09:00:00',
                             slotMaxTime: '18:00:00',
                             height: 1000,
-                            selectable: true, // 日付選択を有効化
+                            selectable: true,
                             select: function(info) {
                                 // 過去の日付は選択できないようにする
                                 const today = new Date();
                                 today.setHours(0, 0, 0, 0);
 
                                 if (info.start < today) {
-                                    calendar.unselect();
+                                    window.calendarInstance.unselect();
                                     return;
                                 }
 
-                                // デバッグ用のコンソールログを追加
                                 console.log('日付選択:', info.startStr);
                                 console.log('ユーザーロール:', '{{ auth()->user()->role }}');
-                                console.log('税理士ロール:',
-                                    {{ auth()->user()->role === 'tax_advisor' || auth()->user()->role === 'admin' ? 'true' : 'false' }}
-                                );
 
-                                // 税理士（専門家）のみ予約フォームを表示
                                 @if (auth()->user()->role === 'tax_advisor' || auth()->user()->role === 'admin')
-                                    // Alpine.storeを使ってモーダルを表示
-                                    console.log('税理士ユーザーとして処理を開始');
                                     const bookingStore = Alpine.store('bookingModal');
                                     if (!bookingStore) {
-                                        console.error('bookingModalストアが見つかりません');
-                                        alert('システムエラーが発生しました。ページをリロードしてください。');
+                                        window.addApiLog('bookingModalストアが見つかりません', 'error');
                                         return;
                                     }
-                                    console.log('bookingModalストア:', bookingStore);
 
                                     bookingStore.date = info.startStr;
                                     bookingStore.startTime = '10:00';
-                                    bookingStore.endTime = '11:00';
+                                    bookingStore.calculateEndTime();
                                     bookingStore.themeId = '';
                                     bookingStore.open = true;
-                                    console.log('モーダルを開きました', bookingStore);
                                 @else
-                                    // 一般ユーザーには予約できないメッセージを表示
-                                    console.log('一般ユーザーとして処理');
                                     alert('予約は税理士（専門家）のみ可能です。カレンダーは閲覧のみご利用いただけます。');
-                                    calendar.unselect();
+                                    window.calendarInstance.unselect();
                                 @endif
                             },
 
-                            dayCellDidMount: function(info) {
-                                const dayNumberEl = info.el.querySelector('.fc-daygrid-day-number');
-                                if (dayNumberEl) {
-                                    const randomColor = colors[Math.floor(Math.random() * colors
-                                        .length)];
-                                    dayNumberEl.style.color = randomColor;
-                                    dayNumberEl.style.fontWeight = "bold";
-                                    dayNumberEl.style.fontSize = "1.1em";
-                                    dayNumberEl.style.display = "inline-block";
-                                    dayNumberEl.style.padding = "3px 6px";
-                                    dayNumberEl.style.borderRadius = "6px";
-                                    dayNumberEl.style.position = "relative"; // 🎯 祝日名の位置調整
-
-                                    // ✅ JST (日本時間) に変換して日付を取得
-                                    const localDate = new Date(info.date.getTime() + (9 * 60 * 60 *
-                                        1000));
-                                    const dateStr = localDate.toISOString().split("T")[
-                                        0]; // YYYY-MM-DD 形式
-
-                                    // 🌸 土日・祝日ハイライト
-                                    if (info.date.getDay() === 0) {
-                                        dayNumberEl.style.backgroundColor = "#FFB6C1"; // 日曜ピンク
-                                    } else if (info.date.getDay() === 6) {
-                                        dayNumberEl.style.backgroundColor = "#87CEFA"; // 土曜青
-                                    }
-
-                                    if (holidays[dateStr]) {
-                                        dayNumberEl.style.backgroundColor = "#FFD700"; // ゴールド
-                                        dayNumberEl.style.color = "#000";
-
-                                        // 🏷️ **祝日名を日付の真横に表示**
-                                        const holidayLabel = document.createElement("span");
-                                        holidayLabel.textContent =
-                                            ` ${holidays[dateStr]}`; // スペースで少し空ける
-                                        holidayLabel.style.fontSize = "1em";
-                                        holidayLabel.style.fontWeight = "bold";
-                                        holidayLabel.style.color = "#006400"; // 深緑
-                                        holidayLabel.style.marginLeft = "5px"; // 🎯 日付のすぐ横に配置
-                                        holidayLabel.style.verticalAlign = "middle"; // 🎯 位置を揃える
-                                        dayNumberEl.parentNode.insertBefore(holidayLabel, dayNumberEl
-                                            .nextSibling);
-                                    }
-                                }
-                            },
-
                             eventSources: [{
-                                url: '{{ route('bookings.index') }}',
+                                url: '{{ url('api/bookings') }}',
                                 method: 'GET',
-                                failure: function() {
-                                    alert('予約データの取得に失敗しました');
+                                format: 'json',
+                                failure: function(error) {
+                                    console.error('予約データの取得エラー:', error);
+                                    window.addApiLog('予約データの取得エラー: ' + error.message, 'error');
+                                    return [];
                                 }
-                            }],
-
-                            eventClick: function(info) {
-                                // Zoomミーティングへの参加リンクがある場合は開く
-                                if (info.event.url) {
-                                    window.open(info.event.url);
-                                    info.jsEvent.preventDefault(); // 通常のクリックイベントをキャンセル
-                                }
-                            }
+                            }]
                         });
 
-                        calendar.render();
+                        window.calendarInstance.render();
+
+                        if (Alpine.store('bookingModal')) {
+                            Alpine.store('bookingModal').calendarRef = window.calendarInstance;
+                            console.log('カレンダー参照がAlpineストアに保存されました');
+                        }
                     })
                     .catch(error => {
                         console.error("祝日データの取得に失敗しました:", error);
+                        // エラーが発生しても、カレンダーは表示する（祝日なしで）
+                        window.addApiLog("祝日データの取得に失敗しました: " + error.message, "error");
+
+                        // エラーメッセージを表示
+                        const errorMsgEl = document.getElementById('error-content');
+                        const errorMsgArea = document.getElementById('error-messages');
+                        if (errorMsgEl && errorMsgArea) {
+                            errorMsgEl.textContent = "祝日データの取得に失敗しました。カレンダーを更新してください。";
+                            errorMsgArea.classList.remove('hidden');
+
+                            // 5秒後にメッセージを消す
+                            setTimeout(() => {
+                                errorMsgArea.classList.add('hidden');
+                            }, 5000);
+                        }
+
+                        // カレンダーを祝日なしで初期化
+                        window.calendarInstance = new FullCalendar.Calendar(calendarEl, {
+                            initialView: 'dayGridMonth',
+                            locale: 'ja',
+                            headerToolbar: {
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                            },
+                            buttonText: {
+                                today: '今日',
+                                month: '月表示',
+                                week: '週表示',
+                                day: '日表示'
+                            },
+                            allDaySlot: false,
+                            slotMinTime: '09:00:00',
+                            slotMaxTime: '18:00:00',
+                            height: 1000,
+                            selectable: true,
+                            select: function(info) {
+                                // 過去の日付は選択できないようにする
+                                const today = new Date();
+                                today.setHours(0, 0, 0, 0);
+
+                                if (info.start < today) {
+                                    window.calendarInstance.unselect();
+                                    return;
+                                }
+
+                                console.log('日付選択:', info.startStr);
+                                console.log('ユーザーロール:', '{{ auth()->user()->role }}');
+
+                                @if (auth()->user()->role === 'tax_advisor' || auth()->user()->role === 'admin')
+                                    const bookingStore = Alpine.store('bookingModal');
+                                    if (!bookingStore) {
+                                        window.addApiLog('bookingModalストアが見つかりません', 'error');
+                                        return;
+                                    }
+
+                                    bookingStore.date = info.startStr;
+                                    bookingStore.startTime = '10:00';
+                                    bookingStore.calculateEndTime();
+                                    bookingStore.themeId = '';
+                                    bookingStore.open = true;
+                                @else
+                                    alert('予約は税理士（専門家）のみ可能です。カレンダーは閲覧のみご利用いただけます。');
+                                    window.calendarInstance.unselect();
+                                @endif
+                            },
+
+                            eventSources: [{
+                                url: '{{ url('api/bookings') }}',
+                                method: 'GET',
+                                format: 'json',
+                                failure: function(error) {
+                                    console.error('予約データの取得エラー:', error);
+                                    window.addApiLog('予約データの取得エラー: ' + error.message, 'error');
+                                    return [];
+                                }
+                            }]
+                        });
+
+                        window.calendarInstance.render();
+
+                        if (Alpine.store('bookingModal')) {
+                            Alpine.store('bookingModal').calendarRef = window.calendarInstance;
+                            console.log('カレンダー参照がAlpineストアに保存されました');
+                        }
                     });
             });
         </script>
@@ -454,6 +731,126 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     @stack('scripts')
+
+    <script>
+        // デバッグ関数をグローバルに定義（カレンダー初期化前に）
+        window.addApiLog = function(message, type = 'info') {
+            const apiLog = document.getElementById('api-log');
+            if (!apiLog) {
+                console.log(`${type}: ${message}`);
+                return;
+            }
+
+            const logEntry = document.createElement('div');
+            logEntry.classList.add('log-entry', `log-${type}`);
+
+            const timestamp = new Date().toLocaleTimeString('ja-JP');
+            logEntry.innerHTML =
+                `<span class="log-time">${timestamp}</span> <span class="log-message">${message}</span>`;
+
+            if (type === 'error') {
+                logEntry.style.color = '#dc3545';
+            } else if (type === 'success') {
+                logEntry.style.color = '#28a745';
+            } else if (type === 'warning') {
+                logEntry.style.color = '#ffc107';
+            }
+
+            apiLog.prepend(logEntry);
+
+            // 最大30件まで保持
+            const entries = apiLog.querySelectorAll('.log-entry');
+            if (entries.length > 30) {
+                for (let i = 30; i < entries.length; i++) {
+                    entries[i].remove();
+                }
+            }
+        };
+
+        // デバッグパネル機能
+        document.addEventListener('DOMContentLoaded', function() {
+            const debugPanel = document.getElementById('debug-panel');
+            const debugContent = document.getElementById('debug-content');
+            const toggleDebugBtn = document.getElementById('toggle-debug');
+            const apiLog = document.getElementById('api-log');
+            const refreshButton = document.getElementById('refreshButton');
+
+            // デバッグパネルが存在する場合のみ処理
+            if (debugPanel && toggleDebugBtn) {
+                // デバッグパネル表示切替
+                toggleDebugBtn.addEventListener('click', function() {
+                    if (debugContent.style.display === 'none') {
+                        debugContent.style.display = 'block';
+                        toggleDebugBtn.textContent = '非表示';
+                    } else {
+                        debugContent.style.display = 'none';
+                        toggleDebugBtn.textContent = '表示';
+                    }
+                });
+
+                // システム情報表示
+                window.addApiLog('デバッグモード起動中', 'info');
+                window.addApiLog('環境: {{ config('app.env') }}', 'info');
+                window.addApiLog('Zoom設定: {{ !empty(config('services.zoom.client_id')) ? '設定あり' : '未設定' }}',
+                    'info');
+            }
+
+            // 更新ボタンの機能拡張
+            if (refreshButton) {
+                refreshButton.addEventListener('click', function() {
+                    window.addApiLog('ページ更新を開始します...', 'info');
+                    // システムメッセージを表示
+                    const systemMessages = document.getElementById('system-messages');
+                    const messageContent = document.getElementById('message-content');
+                    if (systemMessages && messageContent) {
+                        messageContent.textContent = 'データを再読み込み中です...';
+                        systemMessages.classList.remove('hidden');
+                    }
+
+                    // カレンダーをリフレッシュ
+                    if (window.calendarInstance) {
+                        window.calendarInstance.refetchEvents();
+                        window.addApiLog('カレンダーデータ再読み込み完了', 'success');
+
+                        // 3秒後にメッセージを隠す
+                        setTimeout(function() {
+                            systemMessages.classList.add('hidden');
+                        }, 3000);
+                    }
+                });
+            }
+
+            // 元のAPIリクエストをラップして、ログに記録するようにする
+            const originalFetch = window.fetch;
+            window.fetch = function() {
+                // APIリクエスト開始をログに記録
+                const url = arguments[0];
+                const method = arguments[1]?.method || 'GET';
+                window.addApiLog(`${method} リクエスト: ${url}`, 'info');
+
+                return originalFetch.apply(this, arguments)
+                    .then(response => {
+                        // レスポンスステータスをログに記録
+                        const status = response.status;
+                        const statusText = response.statusText;
+
+                        if (status >= 200 && status < 300) {
+                            window.addApiLog(`成功: ${status} ${statusText}`, 'success');
+                        } else if (status >= 400) {
+                            window.addApiLog(`エラー: ${status} ${statusText}`, 'error');
+                        } else {
+                            window.addApiLog(`レスポンス: ${status} ${statusText}`, 'warning');
+                        }
+
+                        return response;
+                    })
+                    .catch(error => {
+                        window.addApiLog(`通信エラー: ${error.message}`, 'error');
+                        throw error;
+                    });
+            };
+        });
+    </script>
 </body>
 
 </html>

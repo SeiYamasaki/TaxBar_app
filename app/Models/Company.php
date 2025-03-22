@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Company extends Model
 {
@@ -39,5 +40,14 @@ class Company extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * 企業が興味を持っているテーマを取得
+     */
+    public function interestedThemes(): BelongsToMany
+    {
+        return $this->belongsToMany(Theme::class, 'company_theme')
+            ->withTimestamps();
     }
 }

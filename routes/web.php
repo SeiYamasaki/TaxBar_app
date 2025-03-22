@@ -203,4 +203,21 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/bookings/{booking}', [CalendarController::class, 'destroy'])->name('bookings.destroy');
 });
 
+// BookingApiControllerのルート（互換性のために追加）
+Route::middleware(['auth'])->group(function () {
+    Route::get('/api/bookings', [App\Http\Controllers\BookingApiController::class, 'index']);
+    Route::get('/api/bookings/list', [App\Http\Controllers\BookingApiController::class, 'list']);
+    Route::post('/api/bookings', [App\Http\Controllers\BookingApiController::class, 'store']);
+    Route::delete('/api/bookings/{id}', [App\Http\Controllers\BookingApiController::class, 'destroy']);
+});
+
+// ZoomControllerのルートを税理士のみアクセス可能なルートグループに追加
+Route::middleware(['auth', 'role:tax_advisor'])->group(function () {
+    // Zoom連携関連のルート
+    Route::get('/tax-advisor/zoom/settings', [App\Http\Controllers\ZoomController::class, 'settings'])->name('tax-advisor.zoom.settings');
+    Route::get('/tax-advisor/zoom/connect', [App\Http\Controllers\ZoomController::class, 'redirectToZoom'])->name('tax-advisor.zoom.connect');
+    Route::get('/tax-advisor/zoom/callback', [App\Http\Controllers\ZoomController::class, 'handleZoomCallback'])->name('tax-advisor.zoom.callback');
+    Route::post('/tax-advisor/zoom/disconnect', [App\Http\Controllers\ZoomController::class, 'disconnect'])->name('tax-advisor.zoom.disconnect');
+});
+
 require __DIR__ . '/auth.php';

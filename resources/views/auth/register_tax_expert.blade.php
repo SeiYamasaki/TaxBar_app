@@ -170,6 +170,34 @@
                                     name="password_confirmation" required>
                             </div>
 
+                            <!-- 専門分野 -->
+                            <div class="mb-6">
+                                <label for="specialty" class="block text-gray-700 text-sm font-bold mb-2">専門分野</label>
+                                <textarea
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    name="specialty" id="specialty" rows="3" placeholder="法人税,所得税,相続税"></textarea>
+                            </div>
+
+                            <!-- 専門テーマ選択 -->
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-bold mb-2">専門テーマ（複数選択可）</label>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-2  p-2 border border-gray-300 rounded-md">
+                                    @foreach ($themes as $theme)
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="theme_{{ $theme->id }}" name="theme_ids[]"
+                                                value="{{ $theme->id }}"
+                                                class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                                {{ in_array($theme->id, old('theme_ids', [])) ? 'checked' : '' }}>
+                                            <label for="theme_{{ $theme->id }}"
+                                                class="ml-2 text-sm text-gray-700">{{ $theme->title }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                @error('theme_ids')
+                                    <p class="text-red-500 text-xs mt-1"><strong>{{ $message }}</strong></p>
+                                @enderror
+                            </div>
+
                             <!-- 禁止事項確認 -->
                             <div class="mb-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
                                 <h3 class="text-lg font-semibold text-gray-800 mb-3">利用規約及び禁止事項</h3>
