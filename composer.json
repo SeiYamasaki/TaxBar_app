@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "doctrine/dbal": "^4.2",
+        "firebase/php-jwt": "*",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
@@ -68,7 +69,10 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "composer/installers": true,
+            "oomphinc/composer-installers-extender": true,
+            "robloach/component-installer": true
         }
     },
     "minimum-stability": "stable",

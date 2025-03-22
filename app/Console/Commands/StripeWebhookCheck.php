@@ -57,6 +57,11 @@ class StripeWebhookCheck extends Command
 
         // Stripeインスタンスの設定
         try {
+            // Stripeインスタンスの設定
+            if (empty($stripeSecret)) {
+                $this->error('STRIPE_SECRETが有効ではありません');
+                return 1;
+            }
             Stripe::setApiKey($stripeSecret);
             $this->info('Stripeクライアントの初期化に成功しました');
 

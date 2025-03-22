@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Company extends Model
+class Booking extends Model
 {
     use HasFactory;
 
@@ -18,11 +17,12 @@ class Company extends Model
      */
     protected $fillable = [
         'user_id',
-        'company_name',
-        'registration_number',
-        'address',
-        'contact_info',
-        'terms_agreed',
+        'tax_advisor_id',
+        'theme_id',
+        'start_time',
+        'end_time',
+        'zoom_meeting_url',
+        'status',
     ];
 
     /**
@@ -31,11 +31,12 @@ class Company extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'terms_agreed' => 'boolean',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     /**
-     * 関連するユーザーを取得
+     * 予約を行ったユーザー
      */
     public function user(): BelongsTo
     {
@@ -43,11 +44,18 @@ class Company extends Model
     }
 
     /**
-     * 企業が興味を持っているテーマを取得
+     * 予約された税理士
      */
-    public function interestedThemes(): BelongsToMany
+    public function taxAdvisor(): BelongsTo
     {
-        return $this->belongsToMany(Theme::class, 'company_theme')
-            ->withTimestamps();
+        return $this->belongsTo(TaxAdvisor::class);
+    }
+
+    /**
+     * 予約テーマ
+     */
+    public function theme(): BelongsTo
+    {
+        return $this->belongsTo(Theme::class);
     }
 }

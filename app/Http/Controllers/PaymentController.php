@@ -44,7 +44,12 @@ class PaymentController extends Controller
         }
 
         // Stripeの設定
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        $stripeSecret = config('services.stripe.secret') ?: env('STRIPE_SECRET');
+        if (empty($stripeSecret)) {
+            Log::error('Stripe APIキーが設定されていません');
+            return redirect()->route('pricing.index')->with('error', '決済システムの設定エラーが発生しました。管理者にお問い合わせください。');
+        }
+        Stripe::setApiKey($stripeSecret);
 
         // サブスクリプションプランの情報を取得または作成
         $plan = SubscriptionPlan::firstOrCreate(
@@ -157,8 +162,13 @@ class PaymentController extends Controller
 
             if ($taxAdvisor && $request->session_id) {
                 try {
-                    // Stripeの設定
-                    Stripe::setApiKey(env('STRIPE_SECRET'));
+                    // Stripeから最新の顧客情報とサブスクリプション情報を取得
+                    $stripeSecret = config('services.stripe.secret') ?: env('STRIPE_SECRET');
+                    if (empty($stripeSecret)) {
+                        Log::error('Stripe APIキーが設定されていません');
+                        throw new \Exception('Stripe API設定が見つかりません');
+                    }
+                    Stripe::setApiKey($stripeSecret);
 
                     // セッションを取得（expand項目を追加して詳細情報を取得）
                     $session = Session::retrieve([
@@ -319,8 +329,17 @@ class PaymentController extends Controller
 
         try {
             // Stripeの設定
-            Stripe::setApiKey(env('STRIPE_SECRET'));
-            $endpoint_secret = env('STRIPE_WEBHOOK_SECRET');
+            $stripeSecret = config('services.stripe.secret') ?: env('STRIPE_SECRET');
+            if (empty($stripeSecret)) {
+                Log::error('Stripe APIキーが設定されていません');
+                throw new \Exception('Stripe API設定が見つかりません');
+            }
+            Stripe::setApiKey($stripeSecret);
+            $endpoint_secret = config('services.stripe.webhook_secret') ?: env('STRIPE_WEBHOOK_SECRET');
+            if (empty($endpoint_secret)) {
+                Log::error('Stripe Webhookシークレットキーが設定されていません');
+                throw new \Exception('Stripe Webhook設定が見つかりません');
+            }
 
             // より直接的なペイロード取得 - 複数の方法を試す
             $payload = null;
@@ -468,7 +487,12 @@ class PaymentController extends Controller
                         if ($taxAdvisor && $plan) {
                             try {
                                 // Stripeから最新の顧客情報とサブスクリプション情報を取得
-                                \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+                                $stripeSecret = config('services.stripe.secret') ?: env('STRIPE_SECRET');
+                                if (empty($stripeSecret)) {
+                                    Log::error('Stripe APIキーが設定されていません');
+                                    throw new \Exception('Stripe API設定が見つかりません');
+                                }
+                                Stripe::setApiKey($stripeSecret);
 
                                 // 顧客IDとサブスクリプションIDを直接取得
                                 $customerId = $session->customer;

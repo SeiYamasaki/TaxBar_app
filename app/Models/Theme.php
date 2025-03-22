@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -42,6 +43,25 @@ class Theme extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * テーマに興味を持っているユーザーを取得
+     */
+    public function interestedUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_theme')
+            ->withTimestamps();
+    }
+
+    /**
+     * テーマに興味を持っている専門家（税理士）を取得
+     */
+    public function interestedExperts(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_theme')
+            ->where('is_tax_accountant', true)
+            ->withTimestamps();
     }
 
     /**

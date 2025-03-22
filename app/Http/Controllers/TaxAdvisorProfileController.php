@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\TaxAdvisor;
 use App\Models\User;
 use App\Models\TaxMinutesVideo;
+use App\Models\Theme;
 
 class TaxAdvisorProfileController extends Controller
 {
@@ -30,7 +31,10 @@ class TaxAdvisorProfileController extends Controller
             ->take(6)
             ->get();
 
-        return view('tax_advisor.profile.show', compact('user', 'taxAdvisor', 'videos'));
+        // 選択されたテーマを取得
+        $selectedThemes = $taxAdvisor->specialtyThemes;
+
+        return view('tax_advisor.profile.show', compact('user', 'taxAdvisor', 'videos', 'selectedThemes'));
     }
 
     /**
@@ -47,7 +51,13 @@ class TaxAdvisorProfileController extends Controller
 
         $taxAdvisor = $user->taxAdvisor;
 
-        return view('tax_advisor.profile.edit', compact('user', 'taxAdvisor'));
+        // 全テーマを取得
+        $themes = Theme::where('is_active', true)->orderBy('title')->get();
+
+        // 現在選択されているテーマのIDを取得
+        $selectedThemeIds = $taxAdvisor->specialtyThemes->pluck('id')->toArray();
+
+        return view('tax_advisor.profile.edit', compact('user', 'taxAdvisor', 'themes', 'selectedThemeIds'));
     }
 
     /**
@@ -73,6 +83,8 @@ class TaxAdvisorProfileController extends Controller
             'office_phone' => 'required|string|max:20',
             'mobile_phone' => 'nullable|string|max:20',
             'specialty' => 'nullable|string|max:255',
+            'theme_ids' => 'nullable|array',
+            'theme_ids.*' => 'exists:themes,id',
             'profile_info' => 'nullable|string',
             'tax_accountant_photo' => 'nullable|image|max:5120', // 5MB
             'tax_minutes_icon' => 'nullable|image|max:5120', // 5MB
@@ -111,6 +123,13 @@ class TaxAdvisorProfileController extends Controller
         }
 
         $taxAdvisor->save();
+
+        // テーマの関連付けを更新
+        if ($request->has('theme_ids')) {
+            $taxAdvisor->specialtyThemes()->sync($request->theme_ids);
+        } else {
+            $taxAdvisor->specialtyThemes()->detach();
+        }
 
         return redirect()->route('dashboard')->with('success', 'プロフィールが更新されました');
     }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Individual extends Model
 {
@@ -47,5 +48,14 @@ class Individual extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * 個人が興味を持っているテーマを取得
+     */
+    public function interestedThemes(): BelongsToMany
+    {
+        return $this->belongsToMany(Theme::class, 'individual_theme')
+            ->withTimestamps();
     }
 }

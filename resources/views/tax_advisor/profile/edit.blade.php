@@ -217,6 +217,27 @@
                                     @enderror
                                 </div>
 
+                                <!-- 専門テーマ -->
+                                <div>
+                                    <label class="block text-2xl font-medium text-teal-700">専門テーマ（複数選択可）</label>
+                                    <div
+                                        class="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 border border-gray-300 rounded-md">
+                                        @foreach ($themes as $theme)
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="theme_{{ $theme->id }}"
+                                                    name="theme_ids[]" value="{{ $theme->id }}"
+                                                    class="w-6 h-6 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                                    {{ in_array($theme->id, old('theme_ids', $selectedThemeIds ?? [])) ? 'checked' : '' }}>
+                                                <label for="theme_{{ $theme->id }}"
+                                                    class="ml-2 text-xl text-gray-700">{{ $theme->title }}</label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @error('theme_ids')
+                                        <p class="mt-1 text-base text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
                                 <!-- 税理士写真 -->
                                 <div>
                                     <label for="tax_accountant_photo"

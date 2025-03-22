@@ -73,9 +73,6 @@ Route::post('/register/individual', [RegisterController::class, 'registerIndivid
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified', \App\Http\Middleware\CheckSubscription::class])->name('dashboard');
 
-// カレンダールートを認証ミドルウェアの外に移動
-Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -196,5 +193,38 @@ Route::get('/property-valuation', function () {
 Route::get('/tax-payment', function () {
     return view('tax_payment');
 })->name('tax-payment');
+
+// 予約関連のルート
+Route::middleware(['auth'])->group(function () {
+    Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
+    Route::get('/bookings', [CalendarController::class, 'getBookings'])->name('bookings.index');
+    Route::post('/bookings', [CalendarController::class, 'store'])->name('bookings.store');
+    Route::put('/bookings/{booking}', [CalendarController::class, 'update'])->name('bookings.update');
+    Route::delete('/bookings/{booking}', [CalendarController::class, 'destroy'])->name('bookings.destroy');
+
+    // 追加：フロントエンド用削除ルート
+    Route::delete('/bookings/{id}', [App\Http\Controllers\BookingApiController::class, 'destroy']);
+
+    // 追加：予約編集画面表示用ルート（絶対パスで指定）
+    Route::get('/bookings/{id}/edit', [App\Http\Controllers\BookingApiController::class, 'edit']);
+    Route::post('/bookings/{id}/update', [App\Http\Controllers\BookingApiController::class, 'update']);
+});
+
+// BookingApiControllerのルート（互換性のために追加）
+Route::middleware(['auth'])->group(function () {
+    Route::get('/api/bookings', [App\Http\Controllers\BookingApiController::class, 'index']);
+    Route::get('/api/bookings/list', [App\Http\Controllers\BookingApiController::class, 'list']);
+    Route::post('/api/bookings', [App\Http\Controllers\BookingApiController::class, 'store']);
+    Route::delete('/api/bookings/{id}', [App\Http\Controllers\BookingApiController::class, 'destroy']);
+});
+
+// ZoomControllerのルートを税理士のみアクセス可能なルートグループに追加
+Route::middleware(['auth'])->group(function () {
+    // Zoom連携関連のルート
+    Route::get('/tax-advisor/zoom/settings', [App\Http\Controllers\ZoomController::class, 'settings'])->name('tax-advisor.zoom.settings');
+    Route::get('/tax-advisor/zoom/connect', [App\Http\Controllers\ZoomController::class, 'redirectToZoom'])->name('tax-advisor.zoom.connect');
+    Route::get('/tax-advisor/zoom/callback', [App\Http\Controllers\ZoomController::class, 'handleZoomCallback'])->name('tax-advisor.zoom.callback');
+    Route::post('/tax-advisor/zoom/disconnect', [App\Http\Controllers\ZoomController::class, 'disconnect'])->name('tax-advisor.zoom.disconnect');
+});
 
 require __DIR__ . '/auth.php';

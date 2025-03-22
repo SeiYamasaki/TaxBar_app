@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -28,6 +29,15 @@ class User extends Authenticatable
     public function taxMinutesVideos()
     {
         return $this->hasMany(TaxMinutesVideo::class);
+    }
+
+    /**
+     * ユーザーが興味を持っているテーマを取得
+     */
+    public function interestedThemes(): BelongsToMany
+    {
+        return $this->belongsToMany(Theme::class, 'user_theme')
+            ->withTimestamps();
     }
 
     /**
