@@ -627,7 +627,29 @@
                                     window.addApiLog('予約データの取得エラー: ' + error.message, 'error');
                                     return [];
                                 }
-                            }]
+                            }],
+
+                            // 予約イベントをクリックした時のイベントハンドラ
+                            eventClick: function(info) {
+                                // Zoom URLかどうかを確認
+                                const isZoomUrl = info.event.extendedProps?.isZoomUrl || false;
+
+                                // Zoom URLの場合は確認ダイアログを表示
+                                if (isZoomUrl) {
+                                    if (confirm('この予約のZoom会議に参加しますか？')) {
+                                        // デフォルトの処理を続行（URLにリダイレクト）
+                                        return true;
+                                    } else {
+                                        // キャンセルした場合は編集画面に移動
+                                        window.location.href = '{{ url('/bookings') }}/' + info.event
+                                            .id + '/edit';
+                                        return false;
+                                    }
+                                } else {
+                                    // 既に編集画面へのURLが設定されているのでデフォルトのリダイレクトを許可
+                                    return true;
+                                }
+                            },
                         });
 
                         window.calendarInstance.render();
@@ -715,7 +737,29 @@
                                     window.addApiLog('予約データの取得エラー: ' + error.message, 'error');
                                     return [];
                                 }
-                            }]
+                            }],
+
+                            // 予約イベントをクリックした時のイベントハンドラ
+                            eventClick: function(info) {
+                                // Zoom URLかどうかを確認
+                                const isZoomUrl = info.event.extendedProps?.isZoomUrl || false;
+
+                                // Zoom URLの場合は確認ダイアログを表示
+                                if (isZoomUrl) {
+                                    if (confirm('この予約のZoom会議に参加しますか？')) {
+                                        // デフォルトの処理を続行（URLにリダイレクト）
+                                        return true;
+                                    } else {
+                                        // キャンセルした場合は編集画面に移動
+                                        window.location.href = '{{ url('/bookings') }}/' + info.event
+                                            .id + '/edit';
+                                        return false;
+                                    }
+                                } else {
+                                    // 既に編集画面へのURLが設定されているのでデフォルトのリダイレクトを許可
+                                    return true;
+                                }
+                            },
                         });
 
                         window.calendarInstance.render();

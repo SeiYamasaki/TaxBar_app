@@ -201,6 +201,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/bookings', [CalendarController::class, 'store'])->name('bookings.store');
     Route::put('/bookings/{booking}', [CalendarController::class, 'update'])->name('bookings.update');
     Route::delete('/bookings/{booking}', [CalendarController::class, 'destroy'])->name('bookings.destroy');
+
+    // 追加：フロントエンド用削除ルート
+    Route::delete('/bookings/{id}', [App\Http\Controllers\BookingApiController::class, 'destroy']);
+
+    // 追加：予約編集画面表示用ルート（絶対パスで指定）
+    Route::get('/bookings/{id}/edit', [App\Http\Controllers\BookingApiController::class, 'edit']);
+    Route::post('/bookings/{id}/update', [App\Http\Controllers\BookingApiController::class, 'update']);
 });
 
 // BookingApiControllerのルート（互換性のために追加）

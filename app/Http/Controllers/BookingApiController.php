@@ -10,10 +10,21 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Services\ZoomService;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Theme;
 
 class BookingApiController extends Controller
 {
     protected $zoomService;
+
+    // 予約ステータス値の定義
+    public static $bookingStatus = [
+        'リクエスト中',
+        '承認済み',
+        '予約確定',
+        '完了',
+        '拒否',
+        'キャンセル'
+    ];
 
     public function __construct(ZoomService $zoomService)
     {
@@ -67,10 +78,11 @@ class BookingApiController extends Controller
                     'title' => Carbon::parse($booking->start_time)->format('H:i') . ' - ' . Carbon::parse($booking->end_time)->format('H:i') . ' 予約',
                     'start' => $booking->start_time->format('Y-m-d\TH:i:s'),
                     'end' => $booking->end_time->format('Y-m-d\TH:i:s'),
-                    'url' => $booking->zoom_meeting_url,
+                    'url' => $booking->zoom_meeting_url ?: url("/bookings/{$booking->id}/edit"),
                     'extendedProps' => [
                         'status' => $booking->status ?? '予約済み',
-                        'hasZoomUrl' => !empty($booking->zoom_meeting_url)
+                        'hasZoomUrl' => !empty($booking->zoom_meeting_url),
+                        'isZoomUrl' => !empty($booking->zoom_meeting_url)
                     ]
                 ];
             }
@@ -374,6 +386,133 @@ class BookingApiController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
             return null;
+        }
+    }
+
+    /**
+     * 予約編集画面表示
+     */
+    public function edit($id)
+    {
+        try {
+            $booking = Booking::findOrFail($id);
+
+            // 権限チェック
+            $user = Auth::user();
+            if (
+                !$user ||
+                ($user->role !== 'admin' &&
+                    (!$user->taxAdvisor || $user->taxAdvisor->id !== $booking->tax_advisor_id))
+            ) {
+                Log::warning('予約編集の権限がありません', [
+                    'user_id' => $user ? $user->id : null,
+                    'booking_id' => $id
+                ]);
+                return redirect()->route('calendar.index')->with('error', '予約編集の権限がありません');
+            }
+
+            // テーマ一覧を取得
+            // Theme::all() でエラーがある場合に備えて try-catch
+            try {
+                $themes = Theme::all();
+            } catch (\Exception $e) {
+                Log::warning('テーマの取得に失敗しました', [
+                    'error' => $e->getMessage()
+                ]);
+                $themes = collect([]); // 空のコレクションを用意
+            }
+
+            return view('calendar.booking_edit', [
+                'booking' => $booking,
+                'themes' => $themes
+            ]);
+        } catch (\Exception $e) {
+            Log::error('予約編集データ取得エラー:', [
+                'id' => $id,
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()->route('calendar.index')->with('error', '予約データの取得に失敗しました: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * 予約更新処理
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+            Log::info('予約更新リクエスト受信:', $request->all());
+
+            $booking = Booking::findOrFail($id);
+
+            // 権限チェック
+            $user = Auth::user();
+            if (
+                !$user ||
+                ($user->role !== 'admin' &&
+                    (!$user->taxAdvisor || $user->taxAdvisor->id !== $booking->tax_advisor_id))
+            ) {
+                Log::warning('予約更新の権限がありません', [
+                    'user_id' => $user ? $user->id : null,
+                    'booking_id' => $id
+                ]);
+                return response()->json([
+                    'success' => false,
+                    'message' => '予約更新の権限がありません'
+                ], 403);
+            }
+
+            // バリデーション
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'theme_id' => 'nullable|exists:themes,id',
+                'start_time' => 'required|date',
+                'end_time' => 'required|date|after:start_time',
+                'status' => 'nullable|string'
+            ]);
+
+            // データの更新
+            $booking->title = $validated['title'];
+            $booking->theme_id = $validated['theme_id'];
+            $booking->start_time = Carbon::parse($validated['start_time']);
+            $booking->end_time = Carbon::parse($validated['end_time']);
+
+            if (isset($validated['status'])) {
+                $booking->status = $validated['status'];
+            }
+
+            $booking->save();
+
+            Log::info('予約更新成功:', [
+                'id' => $booking->id
+            ]);
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => '予約が更新されました',
+                    'booking' => $booking
+                ]);
+            }
+
+            return redirect()->route('calendar.index')->with('success', '予約が更新されました');
+        } catch (\Exception $e) {
+            Log::error('予約更新エラー:', [
+                'id' => $id,
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => '予約更新に失敗しました: ' . $e->getMessage()
+                ], 500);
+            }
+
+            return redirect()->back()->withInput()->with('error', '予約更新に失敗しました: ' . $e->getMessage());
         }
     }
 }
